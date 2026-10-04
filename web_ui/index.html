@@ -5,43 +5,88 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HridyaVayu - Connected Asthma Decision Support System</title>
   
-  <!-- Fonts -->
+    <!-- Fonts: Outfit (headings), Plus Jakarta Sans (body), JetBrains Mono (telemetry) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
-  <style>
+    <style>
+    /* ========================================================
+       NOVA ASTRO DESIGN SYSTEM TOKENS & FOUNDATIONS
+       Warm Ivory Canvas (#fffdf9), Obsidian Dark (#161616),
+       Sand Bronze Accent (#b98b6e), Forest Emerald (#2f6b4f)
+       ======================================================== */
     :root {
-      --primary: #0284c7;
-      --primary-dark: #0369a1;
-      --primary-light: #e0f2fe;
-      --primary-subtle: #f0f9ff;
-      --accent: #0f172a;
-      --bg-main: #f8fafc;
+      /* Nova Canvas & Surfaces */
+      --color-surface: #fffdf9;
+      --color-surface-dim: #f4f0e9;
+      --color-surface-bright: #ffffff;
+      --color-surface-low: #f7f3ed;
+      --color-surface-container: #eee8df;
+      --color-surface-container-high: #ddd4c9;
+      --color-surface-container-highest: #b9aea2;
+      --color-on-surface: #161616;
+      --color-on-surface-variant: #68635d;
+      --color-outline: #b9aea2;
+      --color-outline-variant: #ddd4c9;
+
+      /* Nova Brand Accents */
+      --color-brand-primary: #161616;
+      --color-brand-accent: #b98b6e;
+      --color-brand-accent-hover: #a6775a;
+      --color-brand-dark: #161616;
+      --color-brand-light: #fffdf9;
+      --color-brand-cream: #f4f0e9;
+
+      /* Calibrated Semantic Medical Palette (Non-harsh, editorial) */
+      --color-success: #2f6b4f;
+      --color-success-bg: #dcefe4;
+      --color-success-border: #a8d5be;
+      --color-warning: #9a621b;
+      --color-warning-bg: #f8e7c8;
+      --color-warning-border: #ebd09c;
+      --color-error: #b42318;
+      --color-error-bg: #fddbd7;
+      --color-error-border: #f8b4ad;
+      --color-info: #285b77;
+      --color-info-bg: #dcecf4;
+      --color-info-border: #aed1e3;
+
+      /* Framework Aliases mapped to Nova Tokens */
+      --primary: var(--color-brand-primary);
+      --primary-dark: #000000;
+      --primary-light: #f4f0e9;
+      --primary-subtle: #fbf9f5;
+      --accent: var(--color-brand-primary);
+      --bg-main: var(--color-surface);
       --bg-card: #ffffff;
-      --bg-card-subtle: #f1f5f9;
-      --border: #e2e8f0;
-      --border-focus: #0284c7;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --text-light: #94a3b8;
-      --danger: #dc2626;
-      --danger-light: #fef2f2;
-      --warning: #d97706;
-      --warning-light: #fffbeb;
-      --success: #059669;
-      --success-light: #ecfdf5;
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
-      --radius: 12px;
-      --radius-lg: 16px;
+      --bg-card-subtle: var(--color-surface-low);
+      --border: var(--color-outline-variant);
+      --border-focus: var(--color-brand-accent);
+      --text-main: var(--color-on-surface);
+      --text-muted: var(--color-on-surface-variant);
+      --text-light: #8e8881;
+      --danger: var(--color-error);
+      --danger-light: var(--color-error-bg);
+      --warning: var(--color-warning);
+      --warning-light: var(--color-warning-bg);
+      --success: var(--color-success);
+      --success-light: var(--color-success-bg);
+
+      /* Nova Radii & Elevations */
+      --radius-sm: 0.5rem;
+      --radius: 0.875rem;
+      --radius-lg: 1.25rem;
+      --radius-xl: 1.75rem;
+      --radius-full: 9999px;
+      --shadow-sm: 0 2px 8px -2px rgba(22, 22, 22, 0.05);
+      --shadow-md: 0 14px 40px -24px rgba(22, 22, 22, 0.10);
+      --shadow-lg: 0 28px 80px -32px rgba(22, 22, 22, 0.22);
     }
 
     * {
@@ -51,182 +96,728 @@
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--bg-main);
-      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--color-surface);
+      color: var(--color-on-surface);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      line-height: 1.5;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Top App Navigation Header */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Outfit', sans-serif;
+      color: var(--color-on-surface);
+      letter-spacing: -0.035em;
+    }
+
+    /* ========================================================
+       NOVA FLOATING FROSTED GLASS APP HEADER
+       ======================================================== */
     header.app-header {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: #ffffff;
-      border-bottom: 1px solid var(--border);
-      padding: 0.85rem 2.5rem;
+      background: rgba(255, 253, 249, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--color-outline-variant);
+      padding: 0.85rem clamp(1.25rem, 4vw, 3rem);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: all 0.25s ease;
     }
 
     .brand-logo {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.85rem;
       text-decoration: none;
       cursor: pointer;
     }
 
     .brand-icon-box {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: var(--primary);
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--color-brand-primary);
+      border: 1px solid var(--color-outline-variant);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-size: 1.15rem;
+      color: var(--color-brand-accent);
+      font-size: 1.25rem;
+      box-shadow: 0 4px 12px rgba(22, 22, 22, 0.15);
+      transition: transform 0.2s ease;
+    }
+
+    .brand-logo:hover .brand-icon-box {
+      transform: scale(1.05);
     }
 
     .brand-text h1 {
-      font-family: 'Outfit', sans-serif;
       font-size: 1.35rem;
       font-weight: 800;
-      color: var(--accent);
-      letter-spacing: -0.3px;
+      color: var(--color-brand-dark);
+      letter-spacing: -0.04em;
       line-height: 1.1;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
     }
 
     .brand-text p {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 600;
-      color: var(--text-muted);
-      letter-spacing: 0.5px;
+      color: var(--color-brand-accent);
+      letter-spacing: 0.14em;
       text-transform: uppercase;
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.75rem;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
       gap: 0.4rem;
-      margin-right: 1rem;
-      border-right: 1px solid var(--border);
+      margin-right: 0.75rem;
+      border-right: 1px solid var(--color-outline-variant);
       padding-right: 1rem;
     }
 
+    /* Nova Capsule Nav Pill Buttons */
     .nav-btn {
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
+      padding: 0.5rem 1.15rem;
+      border-radius: 9999px;
+      font-family: 'Outfit', sans-serif;
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
-      transition: all 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       text-decoration: none;
       border: 1px solid transparent;
       background: transparent;
-      color: var(--text-muted);
+      color: var(--color-on-surface-variant);
     }
 
     .nav-btn:hover {
-      background: var(--bg-card-subtle);
-      color: var(--text-main);
+      background: var(--color-surface-dim);
+      color: var(--color-brand-primary);
     }
 
     .nav-btn.active {
-      background: var(--primary-light);
-      color: var(--primary-dark);
-      border-color: #bae6fd;
+      background: var(--color-brand-primary) !important;
+      color: var(--color-brand-light) !important;
+      box-shadow: 0 4px 14px rgba(22, 22, 22, 0.18);
     }
 
     .nav-btn-primary {
-      background: var(--primary) !important;
-      color: white !important;
+      background: var(--color-brand-primary) !important;
+      color: var(--color-brand-light) !important;
+      border-radius: 9999px !important;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      padding: 0.55rem 1.35rem;
+      box-shadow: 0 4px 14px rgba(22, 22, 22, 0.15);
+      border: 1px solid transparent !important;
     }
 
     .nav-btn-primary:hover {
-      background: var(--primary-dark) !important;
+      background: #282828 !important;
+      transform: translateY(-1px);
     }
 
     .nav-btn-secondary {
-      background: white !important;
-      border: 1px solid var(--border) !important;
-      color: var(--text-main) !important;
+      background: var(--color-surface) !important;
+      border: 1.5px solid var(--color-outline-variant) !important;
+      color: var(--color-brand-primary) !important;
+      border-radius: 9999px !important;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      padding: 0.55rem 1.35rem;
     }
 
     .nav-btn-secondary:hover {
-      background: var(--bg-card-subtle) !important;
-      border-color: #cbd5e1 !important;
+      background: var(--color-surface-dim) !important;
+      border-color: var(--color-brand-primary) !important;
+      transform: translateY(-1px);
     }
 
     .demo-pill {
       font-size: 0.75rem;
-      padding: 0.4rem 0.75rem;
-      border-radius: 6px;
+      padding: 0.45rem 0.9rem;
+      border-radius: 9999px;
+      font-family: 'Outfit', sans-serif;
       font-weight: 600;
       cursor: pointer;
-      border: 1px solid var(--border);
-      background: var(--bg-card-subtle);
-      color: var(--text-main);
+      border: 1px solid var(--color-outline-variant);
+      background: var(--color-surface-dim);
+      color: var(--color-brand-dark);
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
-      transition: all 0.15s ease;
+      gap: 0.4rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .demo-pill:hover {
-      background: #e2e8f0;
+      background: var(--color-surface-container);
+      border-color: var(--color-outline);
+      transform: translateY(-1px);
+    }
+
+    /* Regulatory Safety Disclaimer Banner */
+    .clinical-disclaimer-banner {
+      background: var(--color-surface-low) !important;
+      border-bottom: 1px solid var(--color-outline-variant) !important;
+      color: var(--color-on-surface-variant) !important;
+      padding: 0.6rem 1.5rem;
+      font-size: 0.78rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      z-index: 999;
+      position: relative;
+    }
+
+    .clinical-disclaimer-banner i {
+      color: var(--color-brand-accent) !important;
+      font-size: 0.95rem;
     }
 
     /* Container & Layout */
     .container {
-      max-width: 1480px;
-      width: 95%;
+      max-width: 1440px;
+      width: 94%;
       margin: 0 auto;
-      padding: 2rem 1.5rem;
+      padding: 2.25rem 1.5rem;
       flex: 1;
     }
 
-    /* Calming Hospital Wellness Hero Atmosphere */
-    .landing-hero-backdrop {
-      position: relative;
-      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f0f9ff 100%);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 3rem 3.5rem;
-      margin-bottom: 3.5rem;
-      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+    .view-section {
+      display: none;
     }
 
-    /* India's Growing Asthma & Urban Air Crisis Showcase */
+    .view-section.active {
+      display: block;
+      animation: novaFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes novaFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========================================================
+       NOVA CARD CONTRACT: .ui-card-interactive
+       Smooth 250ms cubic-bezier lift, soft obsidian shadow
+       ======================================================== */
+    .ui-card-interactive,
+    .why-card,
+    .pillar-card,
+    .portal-card,
+    .hero-device-card,
+    .diagram-full-card,
+    .india-crisis-card,
+    .stat-card,
+    .data-table-wrapper,
+    .inhaler-tracker-card,
+    .models-breakdown-card,
+    .clinical-rec-card,
+    .agent-chat-container,
+    .approval-queue-banner,
+    .safest-window-banner,
+    .timeline-hour-card {
+      transition: transform 250ms cubic-bezier(0.33, 1, 0.68, 1),
+                  box-shadow 250ms cubic-bezier(0.33, 1, 0.68, 1),
+                  border-color 250ms cubic-bezier(0.33, 1, 0.68, 1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ui-card-interactive, .why-card, .pillar-card, .portal-card, .hero-device-card {
+        transition: none !important;
+      }
+    }
+
+    /* ========================================================
+       1. OVERVIEW & LANDING HERO ATMOSPHERE
+       Nova Warm Ivory Paper + Editorial Architecture
+       ======================================================== */
+    .landing-hero-backdrop {
+      position: relative;
+      background: radial-gradient(circle at 10% 20%, rgba(185, 139, 110, 0.07) 0%, transparent 45%),
+                  linear-gradient(180deg, #fffdf9 0%, #f7f3ed 100%);
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius-xl);
+      padding: clamp(2rem, 5vw, 4rem);
+      margin-bottom: 3.5rem;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .hero-split {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .hero-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--color-surface-dim);
+      border: 1px solid var(--color-outline-variant);
+      border-radius: 9999px;
+      padding: 0.4rem 1rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--color-brand-accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 4.2vw, 3.85rem);
+      font-weight: 800;
+      line-height: 1.05;
+      color: var(--color-brand-dark);
+      letter-spacing: -0.055em;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title span,
+    .text-brand-accent {
+      color: var(--color-brand-accent) !important;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 1.25vw, 1.15rem);
+      color: var(--color-on-surface-variant);
+      line-height: 1.65;
+      margin-bottom: 2rem;
+      max-width: 38rem;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    /* Nova Signature Capsule CTAs */
+    .btn-hero-primary {
+      background: var(--color-brand-primary) !important;
+      color: var(--color-brand-light) !important;
+      padding: 0.85rem 1.85rem;
+      border-radius: 9999px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      box-shadow: 0 8px 24px -6px rgba(22, 22, 22, 0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-hero-primary:hover {
+      background: #282828 !important;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px -8px rgba(22, 22, 22, 0.45);
+    }
+
+    .btn-hero-secondary {
+      background: var(--color-surface) !important;
+      color: var(--color-brand-dark) !important;
+      padding: 0.85rem 1.85rem;
+      border-radius: 9999px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: 1.5px solid var(--color-outline-variant);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-hero-secondary:hover {
+      background: var(--color-surface-dim) !important;
+      border-color: var(--color-brand-dark);
+      transform: translateY(-2px);
+    }
+
+    /* Trust & Standards Bar */
+    .trust-bar-pills {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      padding-top: 0.5rem;
+    }
+
+    .trust-pill {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-on-surface-variant);
+      background: var(--color-surface);
+      border: 1px solid var(--color-outline-variant);
+      border-radius: 9999px;
+      padding: 0.35rem 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .trust-pill i {
+      color: var(--color-brand-accent);
+    }
+
+    /* 4-Pillar Grid */
+    .feature-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .pillar-card {
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.95rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--color-brand-accent);
+      box-shadow: var(--shadow-md);
+    }
+
+    .pillar-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--color-surface-dim);
+      border: 1px solid var(--color-outline-variant);
+      color: var(--color-brand-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .pillar-content strong {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--color-brand-dark);
+      margin-bottom: 3px;
+    }
+
+    .pillar-content p {
+      font-size: 0.78rem;
+      color: var(--color-on-surface-variant);
+      line-height: 1.45;
+    }
+
+    /* Right Column: Hero Companion Hardware Card */
+    .hero-device-card {
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .device-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--color-outline-variant);
+    }
+
+    .device-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--color-brand-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .device-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--color-success);
+      background: var(--color-success-bg);
+      border: 1px solid var(--color-success-border);
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+    }
+
+    .device-img-wrapper-large {
+      background: linear-gradient(180deg, #fffdf9 0%, #f4f0e9 100%);
+      border: 1px solid var(--color-outline-variant);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .device-img-wrapper-large img {
+      max-height: 380px;
+      width: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 28px rgba(22, 22, 22, 0.12));
+      transition: transform 0.3s ease;
+    }
+
+    .device-img-wrapper-large:hover img {
+      transform: scale(1.02);
+    }
+
+    .device-caption-box {
+      background: var(--color-surface-dim);
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius);
+      padding: 1rem 1.15rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .caption-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+
+    .caption-title strong {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      color: var(--color-brand-dark);
+      font-weight: 700;
+    }
+
+    .caption-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--color-brand-accent);
+      background: var(--color-surface);
+      border: 1px solid var(--color-outline-variant);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .device-caption-box p {
+      font-size: 0.8rem;
+      color: var(--color-on-surface-variant);
+      line-height: 1.5;
+    }
+
+    .device-quick-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .quick-action-btn {
+      flex: 1;
+      padding: 0.7rem 0.95rem;
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-outline-variant);
+      border-radius: 9999px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--color-brand-dark);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .quick-action-btn:hover {
+      background: var(--color-surface-dim);
+      border-color: var(--color-brand-dark);
+      transform: translateY(-1px);
+    }
+
+    /* ========================================================
+       NOVA SIGNATURE DARK STATS STRIP
+       Ported from NovaHeroResponsiveBlock.astro
+       ======================================================== */
+    .hero-stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: var(--color-brand-dark);
+      border-radius: var(--radius-lg);
+      padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1.5rem, 4vw, 3rem);
+      color: var(--color-brand-light);
+      margin-top: 2.5rem;
+      gap: 1.5rem;
+      border: 1px solid rgba(255, 253, 249, 0.08);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .hero-stat-item {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      border-right: 1px solid rgba(255, 253, 249, 0.12);
+      padding: 0.25rem 0.75rem;
+    }
+
+    .hero-stat-item:last-child {
+      border-right: none;
+    }
+
+    .hero-stat-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.35rem);
+      font-weight: 800;
+      color: var(--color-brand-accent);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-stat-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 253, 249, 0.78);
+    }
+
+    /* ========================================================
+       WHY HRIDYAVAYU: EDITORIAL 3-CARD GRID
+       ======================================================== */
+    .why-section-container {
+      margin-top: 2rem;
+      margin-bottom: 3.5rem;
+      border-top: 1px solid var(--color-outline-variant);
+      padding-top: 3.5rem;
+    }
+
+    .section-title-center {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .section-heading {
+      font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+      font-weight: 800;
+      color: var(--color-brand-dark);
+      letter-spacing: -0.04em;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-subheading {
+      font-size: 1rem;
+      color: var(--color-on-surface-variant);
+      line-height: 1.6;
+    }
+
+    .why-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+    }
+
+    .why-card {
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .why-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-brand-accent);
+    }
+
+    .why-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--color-outline-variant);
+    }
+
+    .why-card h4 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--color-brand-dark);
+      margin-bottom: 0.75rem;
+    }
+
+    .why-card p {
+      font-size: 0.88rem;
+      color: var(--color-on-surface-variant);
+      line-height: 1.65;
+    }
+
+    /* ========================================================
+       INDIA CRISIS SHOWCASE & EPIDEMIOLOGICAL DIAGRAM
+       ======================================================== */
     .india-crisis-card {
-      background: white;
-      border: 1px solid var(--border);
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
       border-radius: var(--radius-lg);
       overflow: hidden;
       margin-bottom: 3rem;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-md);
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
       align-items: center;
     }
 
     .india-img-box {
-      height: 380px;
+      height: 390px;
       position: relative;
       overflow: hidden;
     }
@@ -235,31 +826,30 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.4s ease;
+      transition: transform 0.5s ease;
     }
 
-    .india-img-box:hover img {
-      transform: scale(1.02);
+    .india-crisis-card:hover .india-img-box img {
+      transform: scale(1.03);
     }
 
     .india-crisis-content {
-      padding: 2.5rem;
+      padding: clamp(1.75rem, 3.5vw, 2.75rem);
     }
 
     .india-crisis-content h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.65rem;
+      font-size: clamp(1.4rem, 2.2vw, 1.85rem);
       font-weight: 800;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
+      color: var(--color-brand-dark);
+      margin-bottom: 0.85rem;
       line-height: 1.25;
     }
 
     .india-crisis-content p {
-      font-size: 0.86rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
+      font-size: 0.88rem;
+      color: var(--color-on-surface-variant);
+      line-height: 1.65;
+      margin-bottom: 1.75rem;
     }
 
     .india-metrics-grid {
@@ -269,10 +859,10 @@
     }
 
     .india-metric-pill {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.75rem 0.5rem;
+      background: var(--color-surface-dim);
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius);
+      padding: 0.85rem 0.5rem;
       text-align: center;
     }
 
@@ -280,28 +870,28 @@
       display: block;
       font-family: 'Outfit', sans-serif;
       font-size: 1.35rem;
-      color: #dc2626;
+      color: var(--color-error);
       font-weight: 800;
       line-height: 1.1;
     }
 
     .india-metric-pill span {
       font-size: 0.68rem;
-      color: var(--text-muted);
+      color: var(--color-on-surface-variant);
       font-weight: 600;
       text-transform: uppercase;
-      line-height: 1.2;
+      line-height: 1.25;
       display: block;
-      margin-top: 3px;
+      margin-top: 4px;
     }
 
-    /* Analytics Diagram Card styling */
+    /* Diagram Card */
     .diagram-full-card {
-      background: white;
-      border: 1px solid var(--border);
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
       border-radius: var(--radius-lg);
       padding: 1.75rem;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
       box-shadow: var(--shadow-sm);
     }
 
@@ -311,22 +901,21 @@
       align-items: center;
       margin-bottom: 1.25rem;
       padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--color-outline-variant);
     }
 
     .diagram-header h4 {
-      font-family: 'Outfit', sans-serif;
       font-size: 1.15rem;
       font-weight: 700;
-      color: var(--accent);
+      color: var(--color-brand-dark);
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
     .diagram-img-box {
-      background: #f8fafc;
-      border: 1px solid var(--border);
+      background: var(--color-surface-dim);
+      border: 1px solid var(--color-outline-variant);
       border-radius: 12px;
       padding: 1rem;
       text-align: center;
@@ -340,1147 +929,73 @@
       object-fit: contain;
       border-radius: 8px;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .diagram-img-box img:hover {
       transform: scale(1.005);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 16px rgba(22, 22, 22, 0.08);
     }
 
-    .view-section {
-      display: none;
-    }
-
-    .view-section.active {
-      display: block;
-      animation: fadeIn 0.2s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ===================================================
-       1. LANDING PAGE HERO & WHY HRIDYAVAYU SECTION
-       =================================================== */
-    .hero-split {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 3.5rem;
-      align-items: center;
-      margin-bottom: 4rem;
-      padding-top: 1rem;
-    }
-
-    .hero-device-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      box-shadow: var(--shadow-md);
-    }
-
-    .device-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .device-title {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .device-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--success);
-      background: var(--success-light);
-      padding: 0.2rem 0.65rem;
-      border-radius: 9999px;
-    }
-
-    .device-img-wrapper-large {
-      background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.5rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 1.25rem;
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.03);
-    }
-
-    .device-img-wrapper-large img {
-      max-height: 380px;
-      width: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 14px 28px rgba(15, 23, 42, 0.12));
-      transition: transform 0.3s ease;
-    }
-
-    .device-img-wrapper-large:hover img {
-      transform: scale(1.02);
-    }
-
-    .device-caption-box {
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1rem 1.15rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .caption-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.35rem;
-    }
-
-    .caption-title strong {
-      font-size: 0.85rem;
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .caption-badge {
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: var(--primary-dark);
-      background: var(--primary-light);
-      padding: 2px 8px;
-      border-radius: 9999px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .device-caption-box p {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.45;
-    }
-
-    .device-quick-actions {
-      display: flex;
-      gap: 0.75rem;
-    }
-
-    .quick-action-btn {
-      flex: 1;
-      padding: 0.65rem 0.85rem;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-main);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.45rem;
-      transition: all 0.15s ease;
-    }
-
-    .quick-action-btn:hover {
-      background: var(--bg-card-subtle);
-      border-color: #cbd5e1;
-    }
-
-    /* Why HridyaVayu 3-Card Section */
-    .why-section-container {
-      margin-top: 1.5rem;
-      margin-bottom: 3.5rem;
-      border-top: 1px solid var(--border);
-      padding-top: 3.5rem;
-    }
-
-    .section-title-center {
-      text-align: center;
-      max-width: 720px;
-      margin: 0 auto 2.5rem;
-    }
-
-    .section-heading {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2.15rem;
-      font-weight: 800;
-      color: var(--accent);
-      letter-spacing: -0.02em;
-      margin-bottom: 0.75rem;
-    }
-
-    .section-subheading {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .why-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-
-    .why-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .why-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .why-card-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .why-card h4 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 0.65rem;
-    }
-
-    .why-card p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .hero-badge-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: #f0f9ff;
-      border: 1px solid #bae6fd;
-      border-radius: 9999px;
-      padding: 0.35rem 0.9rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--primary-dark);
-      margin-bottom: 1.25rem;
-    }
-
-    .hero-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2.85rem;
-      font-weight: 800;
-      line-height: 1.15;
-      color: var(--accent);
-      letter-spacing: -0.02em;
-      margin-bottom: 1.25rem;
-    }
-
-    .hero-title span {
-      color: var(--primary);
-    }
-
-    .hero-subtitle {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 2rem;
-    }
-
-    .hero-ctas {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .btn-hero-primary {
-      background: var(--primary);
-      color: white;
-      padding: 0.85rem 1.65rem;
-      border-radius: 9px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.2);
-      transition: all 0.15s ease;
-    }
-
-    .btn-hero-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-
-    .btn-hero-secondary {
-      background: white;
-      color: var(--text-main);
-      padding: 0.85rem 1.65rem;
-      border-radius: 9px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      transition: all 0.15s ease;
-    }
-
-    .btn-hero-secondary:hover {
-      background: var(--bg-card-subtle);
-      border-color: #cbd5e1;
-    }
-
-    /* Right Showcase: Why HridyaVayu & Clinical Need */
-    .why-hridyavayu-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .why-card-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.85rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .why-card-head h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .clinical-case-box {
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1rem 1.15rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .clinical-case-box strong {
-      display: block;
-      font-size: 0.82rem;
-      color: var(--accent);
-      margin-bottom: 0.35rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .clinical-case-box p {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .benefits-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .benefit-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-    }
-
-    .benefit-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      background: var(--primary-subtle);
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.82rem;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .benefit-text strong {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--text-main);
-      font-weight: 600;
-    }
-
-    .benefit-text p {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .device-inline-banner {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.85rem 1rem;
-    }
-
-    .device-inline-banner img {
-      width: 54px;
-      height: 54px;
-      object-fit: contain;
-      border-radius: 6px;
-      background: white;
-      border: 1px solid var(--border);
-    }
-
-    .device-inline-banner div {
-      flex: 1;
-    }
-
-    .device-inline-banner strong {
-      font-size: 0.82rem;
-      display: block;
-      color: var(--accent);
-    }
-
-    .device-inline-banner span {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      display: block;
-    }
-
-    /* 4-Pillar Grid */
-    .feature-pillars-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-
-    .pillar-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.15rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.85rem;
-    }
-
-    .pillar-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: var(--primary-subtle);
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      flex-shrink: 0;
-    }
-
-    .pillar-content strong {
-      display: block;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 2px;
-    }
-
-    .pillar-content p {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    /* ===================================================
-       2. USER / PATIENT PORTAL
-       =================================================== */
-    .stepper-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 0.75rem 1.5rem;
-      margin-bottom: 2rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .stepper-item {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      cursor: pointer;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .stepper-item.active {
-      color: var(--primary);
-    }
-
-    .stepper-item.completed {
-      color: var(--success);
-    }
-
-    .stepper-number {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-
-    .stepper-item.active .stepper-number {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
-
-    .stepper-item.completed .stepper-number {
-      background: var(--success);
-      color: white;
-      border-color: var(--success);
-    }
-
-    .portal-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 2rem;
-    }
-
-    .portal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1.75rem;
-      padding-bottom: 1.25rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .portal-header h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .portal-header p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    /* Forms */
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.25rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .form-label {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--text-main);
-    }
-
-    .form-input, .form-select {
-      width: 100%;
-      padding: 0.65rem 0.85rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.88rem;
-      font-family: inherit;
-      color: var(--text-main);
-      background: white;
-      transition: border-color 0.15s ease;
-    }
-
-    .form-input:focus, .form-select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
-    }
-
-    /* Telemetry Dials Grid */
-    .env-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .env-dial-card {
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.15rem 1rem;
-      text-align: center;
-    }
-
-    .dial-name {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 0.4rem;
-    }
-
-    .dial-val {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.45rem;
-      font-weight: 700;
-      color: var(--accent);
-      line-height: 1.1;
-      margin-bottom: 0.2rem;
-    }
-
-    .dial-unit {
-      font-size: 0.7rem;
-      color: var(--text-light);
-    }
-
-    /* Step 3 Results */
-    .results-layout {
-      display: grid;
-      grid-template-columns: 1fr 1.25fr;
-      gap: 1.75rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .risk-score-card {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.75rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .risk-badge-large {
-      padding: 0.4rem 1.25rem;
-      border-radius: 9999px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 1rem;
-    }
-
-    .risk-score-display {
-      font-family: 'Outfit', sans-serif;
-      font-size: 3.5rem;
-      font-weight: 800;
-      line-height: 1;
-      margin-bottom: 0.5rem;
-      color: var(--accent);
-    }
-
-    .risk-meta-row {
-      display: flex;
-      gap: 1.25rem;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 0.5rem;
-    }
-
-    .models-breakdown-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-    }
-
-    .model-row {
-      margin-bottom: 1rem;
-    }
-
-    .model-row:last-child {
-      margin-bottom: 0;
-    }
-
-    .model-row-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.82rem;
-      margin-bottom: 0.35rem;
-    }
-
-    .model-progress-bg {
-      height: 8px;
-      background: #e2e8f0;
-      border-radius: 9999px;
-      overflow: hidden;
-    }
-
-    .model-progress-fill {
-      height: 100%;
-      border-radius: 9999px;
-      background: var(--primary);
-      transition: width 0.6s ease;
-    }
-
-    /* Human-Centric Clinical Recommendations Cards */
-    .recs-container {
-      margin-bottom: 1.75rem;
-    }
-
-    .recs-container-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .clinical-recs-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-    }
-
-    .clinical-rec-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--primary);
-      border-radius: 8px;
-      padding: 0.85rem 1.15rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.85rem;
-    }
-
-    .clinical-rec-card.severe {
-      border-left-color: var(--danger);
-      background: #fffdfd;
-    }
-
-    .rec-card-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      background: var(--primary-subtle);
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.88rem;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .clinical-rec-card.severe .rec-card-icon {
-      background: var(--danger-light);
-      color: var(--danger);
-    }
-
-    .rec-card-body strong {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--text-main);
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-
-    .rec-card-body p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    /* Inhaler & SOS Tracker */
-    .inhaler-tracker-card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      background: white;
-    }
-
-    .tracker-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.75rem;
-    }
-
-    .tracker-meter-bg {
-      height: 10px;
-      background: #e2e8f0;
-      border-radius: 9999px;
-      overflow: hidden;
-      margin-bottom: 0.65rem;
-    }
-
-    .tracker-meter-fill {
-      height: 100%;
-      border-radius: 9999px;
-      background: var(--primary);
-      transition: width 0.4s ease;
-    }
-
-    .tracker-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    /* Admin / Tables */
-    .admin-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-    }
-
-    .stat-card-title {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 0.4rem;
-    }
-
-    .stat-card-val {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.85rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .data-table-wrapper {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-bottom: 2rem;
-    }
-
-    .table-title-bar {
-      padding: 1rem 1.25rem;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    table.data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-      text-align: left;
-    }
-
-    table.data-table th {
-      background: var(--bg-card-subtle);
-      color: var(--text-muted);
-      font-weight: 600;
-      padding: 0.75rem 1.25rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    table.data-table td {
-      padding: 0.75rem 1.25rem;
-      border-bottom: 1px solid var(--border);
-      color: var(--text-main);
-    }
-
-    /* Modal */
-    .modal-backdrop {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15, 23, 42, 0.45);
-      backdrop-filter: blur(4px);
-      z-index: 2000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-content {
-      background: white;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      width: 100%;
-      max-width: 440px;
-      padding: 2rem;
-      box-shadow: var(--shadow-lg);
-    }
-
-    footer.app-footer {
-      border-top: 1px solid var(--border);
-      background: white;
-      padding: 1.5rem 2rem;
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: auto;
-    }
-
-    @media (max-width: 960px) {
-      .hero-split { grid-template-columns: 1fr; gap: 2rem; }
-      .feature-pillars-grid { grid-template-columns: 1fr; }
-      .form-grid { grid-template-columns: 1fr; }
-      .env-grid { grid-template-columns: repeat(2, 1fr); }
-      .results-layout { grid-template-columns: 1fr; }
-    /* Enhanced User Profile Header Badge */
-    .user-profile-widget {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      background: #ffffff;
-      border: 1.5px solid var(--border);
-      padding: 0.35rem 0.65rem 0.35rem 0.45rem;
-      border-radius: 9999px;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
-      transition: all 0.2s ease;
-    }
-
-    .user-profile-widget:hover {
-      border-color: #cbd5e1;
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.09);
-    }
-
-    .user-avatar-badge {
-      position: relative;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.15rem;
-      flex-shrink: 0;
-    }
-
-    .avatar-patient {
-      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-      color: #0284c7;
-      border: 1.5px solid #7dd3fc;
-    }
-
-    .avatar-doctor {
-      background: linear-gradient(135deg, #ecfdf5 0%, #a7f3d0 100%);
-      color: #059669;
-      border: 1.5px solid #6ee7b7;
-    }
-
-    .online-indicator {
-      position: absolute;
-      bottom: 0px;
-      right: 0px;
-      width: 11px;
-      height: 11px;
-      background: #10b981;
-      border: 2px solid #ffffff;
-      border-radius: 50%;
-    }
-
-    .user-details-box {
-      display: flex;
-      flex-direction: column;
-      text-align: left;
-      line-height: 1.25;
-    }
-
-    .user-display-name {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #0f172a;
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-    }
-
-    .user-role-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: 0.68rem;
-      font-weight: 600;
-      padding: 0.08rem 0.4rem;
-      border-radius: 6px;
-      margin-top: 2px;
-      width: fit-content;
-      white-space: nowrap;
-    }
-
-    .role-patient {
-      background: #f0fdf4;
-      color: #15803d;
-      border: 1px solid #bbf7d0;
-    }
-
-    .role-doctor {
-      background: #eff6ff;
-      color: #1d4ed8;
-      border: 1px solid #bfdbfe;
-    }
-
-    .logout-action-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      background: #fef2f2;
-      color: #dc2626;
-      border: 1px solid #fee2e2;
-      padding: 0.4rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      margin-left: 0.25rem;
-    }
-
-    .logout-action-btn:hover {
-      background: #fee2e2;
-      color: #b91c1c;
-      border-color: #fca5a5;
-      transform: translateY(-1px);
-    }
-
-    @media (max-width: 640px) {
-      .user-profile-widget {
-        gap: 0.5rem;
-        padding: 0.25rem 0.5rem;
-      }
-      .user-avatar-badge {
-        width: 34px;
-        height: 34px;
-        font-size: 1rem;
-      }
-      .user-display-name {
-        font-size: 0.85rem;
-      }
-      .logout-action-btn span {
-        display: none;
-      }
     /* ========================================================
-       AIRGUARD AGENT SYSTEM STYLES
+       2. AIRGUARD AGENT VIEW
+       Obsidian Luxury Header + Bilingual Controls
        ======================================================== */
     .agent-header-card {
-      background: linear-gradient(135deg, #0284c7 0%, #075985 100%);
-      color: white;
+      background: var(--color-brand-dark);
+      color: var(--color-brand-light);
       border-radius: var(--radius-lg);
-      padding: 1.75rem 2rem;
-      margin-bottom: 1.75rem;
-      box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.25);
+      padding: 2rem 2.25rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255, 253, 249, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 1.25rem;
+      gap: 1.5rem;
     }
 
     .agent-header-info h2 {
-      font-family: 'Outfit', sans-serif;
       font-size: 1.85rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
+      color: var(--color-brand-light);
+      letter-spacing: -0.03em;
       display: flex;
       align-items: center;
       gap: 0.65rem;
     }
 
     .agent-header-info p {
-      font-size: 0.9rem;
-      opacity: 0.9;
-      margin-top: 0.25rem;
+      font-size: 0.92rem;
+      color: rgba(255, 253, 249, 0.78);
+      margin-top: 0.35rem;
+      max-width: 44rem;
+      line-height: 1.55;
     }
 
     .agent-header-controls {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
+      gap: 0.75rem;
       flex-wrap: wrap;
     }
 
     .lang-toggle-box {
       display: inline-flex;
-      background: rgba(255, 255, 255, 0.18);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 253, 249, 0.12);
+      border: 1px solid rgba(255, 253, 249, 0.2);
       border-radius: 9999px;
       padding: 3px;
     }
 
     .lang-toggle-btn {
-      padding: 0.35rem 0.85rem;
+      padding: 0.4rem 0.95rem;
       border-radius: 9999px;
+      font-family: 'Outfit', sans-serif;
       font-size: 0.78rem;
       font-weight: 700;
-      color: white;
+      color: rgba(255, 253, 249, 0.85);
       background: transparent;
       border: none;
       cursor: pointer;
@@ -1488,39 +1003,39 @@
     }
 
     .lang-toggle-btn.active {
-      background: white;
-      color: #0369a1;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      background: var(--color-brand-light);
+      color: var(--color-brand-dark);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
     }
 
     .agent-action-pill {
-      background: rgba(255, 255, 255, 0.95);
-      color: #0369a1;
-      border: 1px solid white;
-      padding: 0.5rem 1rem;
+      background: var(--color-surface);
+      color: var(--color-brand-dark);
+      border: 1px solid var(--color-outline-variant);
+      padding: 0.55rem 1.15rem;
       border-radius: 9999px;
+      font-family: 'Outfit', sans-serif;
       font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      transition: all 0.15s ease;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .agent-action-pill:hover {
-      background: white;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+      background: var(--color-surface-dim);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-    /* Approval Queue Banner */
+    /* Human-in-the-Loop Approval Queue */
     .approval-queue-banner {
-      background: #fffbeb;
-      border: 1px solid #fde68a;
-      border-left: 5px solid #d97706;
-      border-radius: 12px;
+      background: var(--color-warning-bg);
+      border: 1px solid var(--color-warning-border);
+      border-left: 5px solid var(--color-warning);
+      border-radius: var(--radius);
       padding: 1.25rem 1.5rem;
       margin-bottom: 1.75rem;
       box-shadow: var(--shadow-sm);
@@ -1536,216 +1051,188 @@
     .approval-header h4 {
       font-size: 1rem;
       font-weight: 700;
-      color: #92400e;
+      color: var(--color-warning);
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
     .approval-card-item {
-      background: white;
-      border: 1px solid #fef08a;
-      border-radius: 10px;
-      padding: 1rem 1.25rem;
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius);
+      padding: 1.15rem 1.35rem;
       margin-top: 0.75rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .approval-card-body {
-      flex: 1;
-      min-width: 260px;
+      box-shadow: var(--shadow-sm);
     }
 
     .approval-type-tag {
-      display: inline-block;
-      font-size: 0.68rem;
+      font-size: 0.7rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      background: #fef3c7;
-      color: #b45309;
-      padding: 2px 8px;
+      padding: 3px 8px;
       border-radius: 9999px;
-      margin-bottom: 0.35rem;
-    }
-
-    .approval-payload-preview {
-      font-size: 0.85rem;
-      color: var(--text-main);
-      background: #f8fafc;
-      padding: 0.5rem 0.75rem;
-      border-radius: 6px;
-      border-left: 3px solid var(--primary);
-      margin: 0.4rem 0;
-      font-style: italic;
+      background: var(--color-warning-bg);
+      color: var(--color-warning);
+      border: 1px solid var(--color-warning-border);
     }
 
     .approval-reason-text {
-      font-size: 0.75rem;
-      color: var(--text-muted);
+      font-size: 0.85rem;
+      color: var(--color-on-surface);
+      margin: 0.6rem 0;
+      line-height: 1.5;
+    }
+
+    .approval-payload-preview {
+      background: var(--color-surface-dim);
+      border: 1px solid var(--color-outline-variant);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      color: var(--color-on-surface-variant);
+      margin-bottom: 0.75rem;
     }
 
     .approval-actions-btn-group {
       display: flex;
-      gap: 0.5rem;
-    }
-
-    .btn-approve-action {
-      background: #059669;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: background 0.15s ease;
-    }
-
-    .btn-approve-action:hover {
-      background: #047857;
-    }
-
-    .btn-reject-action {
-      background: #f1f5f9;
-      color: #64748b;
-      border: 1px solid var(--border);
-      padding: 0.5rem 0.85rem;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .btn-reject-action:hover {
-      background: #fee2e2;
-      color: #dc2626;
-      border-color: #fca5a5;
-    }
-
-    /* Safest Window & Proactive Plan Layout */
-    .agent-grid-2col {
-      display: grid;
-      grid-template-columns: 1.25fr 1fr;
-      gap: 1.5rem;
-      margin-bottom: 1.75rem;
-    }
-
-    @media (max-width: 900px) {
-      .agent-grid-2col {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .safest-window-banner {
-      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-      border: 1px solid #a7f3d0;
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.25rem;
-      flex-wrap: wrap;
       gap: 0.75rem;
     }
 
-    .safest-window-badge {
-      font-size: 1.45rem;
-      font-weight: 800;
-      color: #065f46;
-      font-family: 'JetBrains Mono', monospace;
+    .btn-approve-action {
+      background: var(--color-success);
+      color: white;
+      border: none;
+      padding: 0.45rem 1.15rem;
+      border-radius: 9999px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    /* 24-Hour Interactive Timeline Scroll */
+    .btn-approve-action:hover {
+      background: #24553e;
+      transform: translateY(-1px);
+    }
+
+    .btn-reject-action {
+      background: var(--color-surface-dim);
+      color: var(--color-error);
+      border: 1px solid var(--color-outline-variant);
+      padding: 0.45rem 1.15rem;
+      border-radius: 9999px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-reject-action:hover {
+      background: var(--color-error-bg);
+    }
+
+    /* Safest Window Banner */
+    .safest-window-banner {
+      background: var(--color-surface-dim);
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+    }
+
+    .safest-window-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--color-success);
+      line-height: 1.1;
+      margin-top: 4px;
+    }
+
+    /* 24-Hour Timeline Strip */
     .timeline-scroll-strip {
       display: flex;
-      gap: 0.65rem;
+      gap: 0.85rem;
       overflow-x: auto;
-      padding: 0.75rem 0.25rem 1rem;
+      padding: 0.75rem 0.25rem 1.25rem;
       scroll-behavior: smooth;
     }
 
-    .timeline-scroll-strip::-webkit-scrollbar {
-      height: 6px;
-    }
-
-    .timeline-scroll-strip::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 3px;
-    }
-
     .timeline-hour-card {
-      flex: 0 0 88px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.75rem 0.5rem;
+      min-width: 110px;
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius);
+      padding: 1rem 0.85rem;
       text-align: center;
-      transition: all 0.2s ease;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
     }
 
     .timeline-hour-card:hover {
       transform: translateY(-2px);
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-brand-accent);
     }
 
     .hour-time-label {
-      font-size: 0.78rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem;
       font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 0.35rem;
-    }
-
-    .hour-badge-status {
-      font-size: 0.62rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      padding: 2px 6px;
-      border-radius: 9999px;
-      display: inline-block;
+      color: var(--color-brand-dark);
       margin-bottom: 0.45rem;
     }
 
-    .status-safe { background: #dcfce7; color: #15803d; }
-    .status-caution { background: #fef3c7; color: #b45309; }
-    .status-avoid { background: #fee2e2; color: #b91c1c; }
+    .hour-badge-status {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    .status-safe { background: var(--color-success-bg); color: var(--color-success); border: 1px solid var(--color-success-border); }
+    .status-caution { background: var(--color-warning-bg); color: var(--color-warning); border: 1px solid var(--color-warning-border); }
+    .status-avoid { background: var(--color-error-bg); color: var(--color-error); border: 1px solid var(--color-error-border); }
 
     .hour-aqi-value {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--accent);
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--color-brand-dark);
       font-family: 'JetBrains Mono', monospace;
     }
 
     .hour-pm25-sub {
-      font-size: 0.65rem;
-      color: var(--text-muted);
+      font-size: 0.68rem;
+      color: var(--color-on-surface-variant);
+      margin-top: 2px;
     }
 
     /* Preventive Actions List */
     .preventive-list-box {
       list-style: none;
-      margin-top: 1rem;
+      margin-top: 0.75rem;
     }
 
     .preventive-list-item {
       display: flex;
       align-items: flex-start;
-      gap: 0.65rem;
-      padding: 0.6rem 0;
-      border-bottom: 1px dashed var(--border);
-      font-size: 0.85rem;
-      color: var(--text-main);
-      line-height: 1.45;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--color-outline-variant);
+      font-size: 0.88rem;
+      color: var(--color-on-surface);
+      line-height: 1.5;
     }
 
     .preventive-list-item:last-child {
@@ -1753,35 +1240,44 @@
     }
 
     .preventive-icon {
-      color: var(--primary);
-      font-size: 0.9rem;
-      margin-top: 2px;
+      color: var(--color-success);
+      font-size: 0.95rem;
+      margin-top: 3px;
     }
 
-    /* Agent Interactive Chat Widget */
+    /* Agent Workspace Grid */
+    .agent-grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Interactive Agent Chat */
     .agent-chat-container {
       display: flex;
       flex-direction: column;
-      height: 480px;
-      background: white;
-      border: 1px solid var(--border);
+      height: 520px;
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
       border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
     }
 
     .chat-header-bar {
-      padding: 0.85rem 1.25rem;
-      background: #f8fafc;
-      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.35rem;
+      background: var(--color-surface-dim);
+      border-bottom: 1px solid var(--color-outline-variant);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .chat-header-bar strong {
-      font-size: 0.88rem;
-      color: var(--accent);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.92rem;
+      color: var(--color-brand-dark);
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -1794,61 +1290,92 @@
       display: flex;
       flex-direction: column;
       gap: 0.85rem;
-      background: #fbfcfe;
+      background: var(--color-surface);
     }
 
     .chat-msg {
-      max-width: 84%;
-      padding: 0.75rem 1rem;
-      border-radius: 12px;
-      font-size: 0.85rem;
-      line-height: 1.5;
+      max-width: 82%;
+      padding: 0.85rem 1.15rem;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      line-height: 1.55;
     }
 
     .chat-msg-agent {
       align-self: flex-start;
-      background: white;
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
+      color: var(--color-on-surface);
+      box-shadow: 0 2px 6px rgba(22, 22, 22, 0.04);
     }
 
     .chat-msg-user {
       align-self: flex-end;
-      background: var(--primary);
+      background: var(--color-brand-primary);
+      color: var(--color-brand-light);
+    }
+
+    .quick-chips-row {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.5rem 1.25rem 0.5rem;
+      background: var(--color-surface-dim);
+      border-top: 1px solid var(--color-outline-variant);
+    }
+
+    .quick-chip {
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #ffffff;
+      color: var(--color-brand-dark);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      cursor: pointer;
+      white-space: nowrap;
+      border: 1px solid var(--color-outline-variant);
+      transition: all 0.2s;
+    }
+
+    .quick-chip:hover {
+      background: var(--color-brand-accent);
       color: white;
+      border-color: var(--color-brand-accent);
     }
 
     .chat-input-bar {
-      padding: 0.75rem 1rem;
-      border-top: 1px solid var(--border);
-      background: white;
+      padding: 0.85rem 1.25rem;
+      border-top: 1px solid var(--color-outline-variant);
+      background: #ffffff;
       display: flex;
-      gap: 0.5rem;
+      gap: 0.65rem;
       align-items: center;
     }
 
     .chat-text-input {
       flex: 1;
-      padding: 0.65rem 0.85rem;
-      border: 1px solid var(--border);
+      padding: 0.75rem 1.15rem;
+      border: 1.5px solid var(--color-outline-variant);
       border-radius: 9999px;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       font-family: inherit;
+      background: var(--color-surface);
+      color: var(--color-on-surface);
+      transition: border-color 0.2s;
     }
 
     .chat-text-input:focus {
       outline: none;
-      border-color: var(--primary);
+      border-color: var(--color-brand-accent);
     }
 
     .voice-mic-btn {
-      width: 38px;
-      height: 38px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
-      border: 1px solid var(--border);
-      background: #f8fafc;
-      color: var(--text-muted);
+      border: 1.5px solid var(--color-outline-variant);
+      background: var(--color-surface);
+      color: var(--color-on-surface-variant);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -1857,64 +1384,743 @@
     }
 
     .voice-mic-btn:hover {
-      background: #e0f2fe;
-      color: var(--primary);
+      background: var(--color-surface-dim);
+      color: var(--color-brand-dark);
     }
 
     .voice-mic-btn.recording {
-      background: #ef4444;
+      background: var(--color-error);
       color: white;
-      border-color: #dc2626;
-      animation: pulseMic 1.2s infinite;
-    }
-
-    @keyframes pulseMic {
-      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+      border-color: var(--color-error);
     }
 
     .chat-send-btn {
-      width: 38px;
-      height: 38px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       border: none;
-      background: var(--primary);
-      color: white;
+      background: var(--color-brand-primary);
+      color: var(--color-brand-light);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.15s ease;
+      transition: all 0.2s ease;
     }
 
     .chat-send-btn:hover {
-      background: var(--primary-dark);
+      background: var(--color-brand-accent);
+      transform: scale(1.05);
     }
 
-    .quick-chips-row {
+    /* ========================================================
+       3. PATIENT PORTAL & CLINICAL ASSESSMENT
+       ======================================================== */
+    .stepper-nav {
       display: flex;
-      gap: 0.4rem;
-      overflow-x: auto;
-      padding: 0.4rem 1rem 0;
-      background: white;
-      border-top: 1px solid #f1f5f9;
-    }
-
-    .quick-chip {
-      font-size: 0.72rem;
-      background: #f1f5f9;
-      color: var(--text-muted);
-      padding: 3px 8px;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
       border-radius: 9999px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s;
+      padding: 0.65rem 1.75rem;
+      margin-bottom: 2.25rem;
+      box-shadow: var(--shadow-sm);
     }
 
-    .quick-chip:hover {
-      background: #e2e8f0;
-      color: var(--text-main);
+    .stepper-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      color: var(--color-on-surface-variant);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .stepper-item.active {
+      color: var(--color-brand-dark);
+    }
+
+    .stepper-item.completed {
+      color: var(--color-success);
+    }
+
+    .stepper-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--color-surface-dim);
+      border: 1px solid var(--color-outline-variant);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .stepper-item.active .stepper-number {
+      background: var(--color-brand-primary);
+      color: var(--color-brand-light);
+      border-color: var(--color-brand-primary);
+    }
+
+    .stepper-item.completed .stepper-number {
+      background: var(--color-success);
+      color: white;
+      border-color: var(--color-success);
+    }
+
+    .portal-card {
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 2rem;
+    }
+
+    .portal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--color-outline-variant);
+    }
+
+    .portal-header h3 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--color-brand-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .portal-header p {
+      font-size: 0.88rem;
+      color: var(--color-on-surface-variant);
+      margin-top: 4px;
+    }
+
+    /* Forms */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .form-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-brand-dark);
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--color-outline-variant);
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--color-on-surface);
+      background: var(--color-surface);
+      transition: all 0.2s;
+    }
+
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--color-brand-accent);
+      box-shadow: 0 0 0 3px rgba(185, 139, 110, 0.15);
+      background: #ffffff;
+    }
+
+    /* Telemetry Dials Grid */
+    .env-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.15rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .env-dial-card {
+      background: var(--color-surface-dim);
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius);
+      padding: 1.25rem 1rem;
+      text-align: center;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .env-dial-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--color-brand-accent);
+    }
+
+    .dial-name {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--color-on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.45rem;
+    }
+
+    .dial-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--color-brand-dark);
+      line-height: 1.1;
+      margin-bottom: 0.25rem;
+    }
+
+    .dial-unit {
+      font-size: 0.72rem;
+      color: var(--text-light);
+    }
+
+    /* Results Layout */
+    .results-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .risk-score-card {
+      background: var(--color-surface-dim);
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .risk-badge-large {
+      padding: 0.45rem 1.4rem;
+      border-radius: 9999px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.25rem;
+    }
+
+    .risk-score-display {
+      font-family: 'Outfit', sans-serif;
+      font-size: 4rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 0.65rem;
+      color: var(--color-brand-dark);
+      letter-spacing: -0.04em;
+    }
+
+    .risk-meta-row {
+      display: flex;
+      gap: 1.25rem;
+      font-size: 0.78rem;
+      color: var(--color-on-surface-variant);
+      margin-top: 0.75rem;
+    }
+
+    .models-breakdown-card {
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+    }
+
+    .model-row {
+      margin-bottom: 1.15rem;
+    }
+
+    .model-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .model-row-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .model-progress-bg {
+      height: 8px;
+      background: var(--color-surface-container);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .model-progress-fill {
+      height: 100%;
+      border-radius: 9999px;
+      background: var(--color-brand-primary);
+      transition: width 0.6s ease;
+    }
+
+    /* Clinical Recs Grid */
+    .recs-container {
+      margin-bottom: 2rem;
+    }
+
+    .recs-container-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-brand-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .clinical-recs-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .clinical-rec-card {
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
+      border-left: 4px solid var(--color-brand-accent);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.95rem;
+    }
+
+    .clinical-rec-card.severe {
+      border-left-color: var(--color-error);
+      background: #fffdfd;
+    }
+
+    .rec-card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--color-surface-dim);
+      color: var(--color-brand-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .clinical-rec-card.severe .rec-card-icon {
+      background: var(--color-error-bg);
+      color: var(--color-error);
+    }
+
+    .rec-card-body strong {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--color-brand-dark);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .rec-card-body p {
+      font-size: 0.82rem;
+      color: var(--color-on-surface-variant);
+      line-height: 1.45;
+    }
+
+    /* Inhaler & SOS Tracker */
+    .inhaler-tracker-card {
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.75rem;
+      background: #ffffff;
+    }
+
+    .tracker-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.85rem;
+    }
+
+    .tracker-meter-bg {
+      height: 12px;
+      background: var(--color-surface-container);
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+    }
+
+    .tracker-meter-fill {
+      height: 100%;
+      border-radius: 9999px;
+      background: var(--color-brand-accent);
+      transition: width 0.4s ease;
+    }
+
+    .tracker-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--color-on-surface-variant);
+    }
+
+    /* ========================================================
+       4. PHYSICIAN CONSOLE (ADMIN) & TABLES
+       ======================================================== */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.15rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius-lg);
+      padding: 1.35rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-card-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--color-on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.45rem;
+    }
+
+    .stat-card-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--color-brand-dark);
+      line-height: 1.1;
+    }
+
+    .data-table-wrapper {
+      background: #ffffff;
+      border: 1px solid var(--color-outline-variant);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .table-title-bar {
+      padding: 1.15rem 1.5rem;
+      border-bottom: 1px solid var(--color-outline-variant);
+      background: var(--color-surface-dim);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+
+    table.data-table th {
+      background: var(--color-surface-dim);
+      color: var(--color-brand-dark);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      padding: 0.85rem 1.35rem;
+      border-bottom: 1px solid var(--color-outline-variant);
+    }
+
+    table.data-table td {
+      padding: 0.85rem 1.35rem;
+      border-bottom: 1px solid var(--color-outline-variant);
+      color: var(--color-on-surface);
+    }
+
+    table.data-table tr:hover {
+      background: var(--color-surface-low);
+    }
+
+    /* User Profile Header Widget */
+    .user-profile-widget {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #ffffff;
+      border: 1.5px solid var(--color-outline-variant);
+      padding: 0.35rem 0.75rem 0.35rem 0.5rem;
+      border-radius: 9999px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+
+    .user-avatar-badge {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .avatar-patient {
+      background: var(--color-surface-dim);
+      color: var(--color-brand-accent);
+      border: 1.5px solid var(--color-outline-variant);
+    }
+
+    .avatar-doctor {
+      background: var(--color-success-bg);
+      color: var(--color-success);
+      border: 1.5px solid var(--color-success-border);
+    }
+
+    .online-indicator {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      width: 10px;
+      height: 10px;
+      background: var(--color-success);
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+    }
+
+    .user-details-box {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      line-height: 1.2;
+    }
+
+    .user-display-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--color-brand-dark);
+    }
+
+    .user-role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.1rem 0.45rem;
+      border-radius: 9999px;
+      margin-top: 2px;
+      width: fit-content;
+      text-transform: uppercase;
+    }
+
+    .role-patient {
+      background: var(--color-surface-dim);
+      color: var(--color-brand-dark);
+      border: 1px solid var(--color-outline-variant);
+    }
+
+    .role-doctor {
+      background: var(--color-success-bg);
+      color: var(--color-success);
+      border: 1px solid var(--color-success-border);
+    }
+
+    .logout-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--color-error-bg);
+      color: var(--color-error);
+      border: 1px solid var(--color-error-border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .logout-action-btn:hover {
+      background: var(--color-error);
+      color: white;
+    }
+
+    /* Modal Backdrop & Dialog */
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(22, 22, 22, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: #ffffff;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--color-outline-variant);
+      width: 100%;
+      max-width: 480px;
+      padding: 2.25rem;
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* ========================================================
+       NOVA EDITORIAL LUXURY APP FOOTER
+       ======================================================== */
+    footer.app-footer {
+      border-top: 1px solid var(--color-outline-variant);
+      background: var(--color-brand-dark);
+      color: var(--color-brand-light);
+      padding: 3rem 2rem 2rem;
+      margin-top: auto;
+    }
+
+    .footer-top-accent {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-accent-line {
+      height: 1px;
+      width: 40px;
+      background: rgba(185, 139, 110, 0.7);
+    }
+
+    .footer-accent-tag {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--color-brand-accent);
+    }
+
+    .footer-content-wrap {
+      max-width: 1200px;
+      margin: 0 auto 2.5rem;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 3rem;
+      text-align: left;
+    }
+
+    .footer-brand-col h3 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--color-brand-light);
+      letter-spacing: -0.03em;
+      margin-bottom: 0.65rem;
+    }
+
+    .footer-brand-col h3 span {
+      color: var(--color-brand-accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: rgba(185, 139, 110, 0.15);
+      border: 1px solid rgba(185, 139, 110, 0.3);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      margin-left: 0.35rem;
+    }
+
+    .footer-brand-col p {
+      font-size: 0.85rem;
+      color: rgba(255, 253, 249, 0.7);
+      line-height: 1.6;
+      max-width: 32rem;
+    }
+
+    .footer-links-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .footer-links-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-links-group strong {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-brand-accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .footer-links-group a,
+    .footer-links-group span {
+      font-size: 0.82rem;
+      color: rgba(255, 253, 249, 0.75);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links-group a:hover {
+      color: var(--color-brand-accent);
+    }
+
+    .footer-bottom-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      border-top: 1px solid rgba(255, 253, 249, 0.1);
+      padding-top: 1.5rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: rgba(255, 253, 249, 0.6);
+      line-height: 1.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero-split { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-stats-strip { grid-template-columns: repeat(2, 1fr); }
+      .why-cards-grid { grid-template-columns: 1fr; }
+      .india-crisis-card { grid-template-columns: 1fr; }
+      .india-img-box { height: 260px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .env-grid { grid-template-columns: repeat(2, 1fr); }
+      .results-layout { grid-template-columns: 1fr; }
+      .agent-grid-2col { grid-template-columns: 1fr; }
+      .admin-stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-content-wrap { grid-template-columns: 1fr; gap: 2rem; }
     }
   </style>
 </head>
@@ -1959,6 +2165,7 @@
           Sign Up
         </button>
       </div>
+    </div>
   </header>
 
   <!-- Regulatory Safety Disclaimer Banner -->
@@ -2000,6 +2207,14 @@
             <button class="btn-hero-secondary" onclick="handleProtectedPortalAccess('admin')">
               <i class="fa-solid fa-chart-line"></i> Physician Dashboard
             </button>
+          </div>
+
+          <!-- Nova Trust Bar & Clinical Standards -->
+          <div class="trust-bar-pills">
+            <span class="trust-pill"><i class="fa-solid fa-notes-medical"></i> GINA 2024 Guidelines</span>
+            <span class="trust-pill"><i class="fa-solid fa-satellite-dish"></i> Open-Meteo Satellite Sync</span>
+            <span class="trust-pill"><i class="fa-solid fa-brain"></i> Multimodal ML Ensemble</span>
+            <span class="trust-pill"><i class="fa-solid fa-user-doctor"></i> Physician Audited</span>
           </div>
 
           <!-- 4 Feature Pillars -->
@@ -2076,6 +2291,26 @@
               </button>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Nova Signature Dark Stats Strip -->
+      <div class="hero-stats-strip">
+        <div class="hero-stat-item">
+          <span class="hero-stat-value">~83%</span>
+          <span class="hero-stat-label">High-Risk Sensitivity</span>
+        </div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-value">42.4%</span>
+          <span class="hero-stat-label">Global Deaths in India</span>
+        </div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-value">100%</span>
+          <span class="hero-stat-label">GINA Safety Guardrails</span>
+        </div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-value">24-Hour</span>
+          <span class="hero-stat-label">Proactive Telemetry Horizon</span>
         </div>
       </div>
 
@@ -3175,15 +3410,38 @@
     </div>
   </div>
 
-  <!-- App Footer -->
+  <!-- Nova Editorial Luxury Footer -->
   <footer class="app-footer">
-    <strong>AirGuard Agent (HridyaVayu) — Assistive AI Respiratory Decision Support</strong>
-    <p style="margin-top: 4px; font-size: 0.76rem; color: var(--text-muted);">
-      WCC Launchpad 30 Hackathon Prototype • Pure ML Ensemble & Deterministic Clinical Safety Rails.
-    </p>
-    <p style="margin-top: 6px; font-size: 0.72rem; color: #94a3b8;">
-      ⚠️ Disclaimer: Not a cleared medical device. For informational and lifestyle planning purposes only. In an emergency, dial 112 / 108.
-    </p>
+    <div class="footer-top-accent">
+      <span class="footer-accent-line"></span>
+      <span class="footer-accent-tag">Autonomous Respiratory Decision Support</span>
+      <span class="footer-accent-line"></span>
+    </div>
+    <div class="footer-content-wrap">
+      <div class="footer-brand-col">
+        <h3>AirGuard <span>AGENT</span></h3>
+        <p>Connected asthma exacerbation prediction and autonomous environmental exposure planning powered by multimodal machine learning and deterministic clinical safety guardrails.</p>
+      </div>
+      <div class="footer-links-col">
+        <div class="footer-links-group">
+          <strong>Portals</strong>
+          <a href="javascript:void(0)" onclick="handleProtectedPortalAccess('user')">Patient Assessment</a>
+          <a href="javascript:void(0)" onclick="handleProtectedPortalAccess('admin')">Physician Console</a>
+          <a href="javascript:void(0)" onclick="handleProtectedPortalAccess('agent')">AirGuard Agent</a>
+          <a href="javascript:void(0)" onclick="switchView('eda')">Analytics & Models</a>
+        </div>
+        <div class="footer-links-group">
+          <strong>Clinical Standards</strong>
+          <span>GINA 2024 Criteria</span>
+          <span>WHO Ambient Air Guidelines</span>
+          <span>Open-Meteo Satellite Sync</span>
+          <span>Dual-Model Architecture</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom-bar">
+      <p>&copy; 2026 AirGuard (HridyaVayu) &bull; Built during WCC Launchpad 30 &bull; ⚠️ Disclaimer: Not a cleared medical device. For informational and lifestyle planning purposes only. In an emergency, dial 112 / 108.</p>
+    </div>
   </footer>
 
   <!-- Script Logic -->
