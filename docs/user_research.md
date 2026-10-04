@@ -1,98 +1,111 @@
-# AirGuard Agent — User Research & Clinical Personas
+# AirGuard Agent — User Research & Persona Framework
 
 ## Executive Summary
-Asthma affects over **262 million people globally** (WHO 2023) and accounts for over **455,000 deaths annually**, with India bearing disproportionately high mortality despite modern pharmacotherapy. In high-particulate urban centers like Delhi NCR, Mumbai, and Lucknow, respiratory patients face daily swings between baseline stability and severe acute exacerbations triggered by air pollution (PM2.5, NO2, ozone), temperature inversions, and exercise.
+Asthma affects over **262 million people globally** (WHO 2023) and causes over **455,000 deaths annually**, with severe mortality in high-particulate urban centers. AirGuard is designed as a preventive asthma management agent that shifts patients from reactive symptom response to proactive schedule planning.
 
-Existing solutions fail because they are **passive and disconnected**:
-1. **Weather and AQI apps** provide ambient numbers (e.g. "AQI 220") without actionable personal meaning or schedule adaptation.
-2. **Generic AI chatbots** hallucinate ungrounded advice, dangerously suggest dosage increases, or fail to recognize medical red flags.
-3. **Doctors during 10-minute clinic visits** suffer from patient recall bias ("I felt fine most days, maybe wheezed a little") without objective peak flow or reliever usage data.
-
-**AirGuard Agent** transforms asthma risk from a passive statistic into **proactive daily protection**, grounded in clinical guidelines (GINA 2023) and protected by deterministic safety boundaries.
+To maintain strict research integrity, this document separates empirical field evidence collection from hypothetical design frameworks.
 
 ---
 
-## The 5 Clinical Personas
+## Real Evidence (Field Data Collection Framework)
+
+> [!IMPORTANT]
+> **Status: Awaiting Empirical Field Deployment**  
+> In accordance with scientific and clinical integrity standards, **no survey numbers, percentages, or interview quotes have been fabricated or pre-populated**. The fields below are structured data collection slots awaiting verified deployment data.
+
+### 1. Quantitative Survey Data
+* **Target Cohort**: Diagnosed asthma patients and primary caregivers in high-AQI urban corridors (e.g., Delhi NCR, Indo-Gangetic Plain).
+* **Survey Sample Size ($n$)**: `[Pending formal deployment — n = ______]`
+* **Data Collection Dates**: `[DD/MM/YYYY to DD/MM/YYYY]`
+
+#### Key Survey Statistics:
+* **Metric 1: AQI Checking Behavior**
+  * *Question*: Do you check AQI proactively before leaving home or only reactively after noticing respiratory symptoms?
+  * *Result*: `[______% reactive (n = ___ / ___)]`
+* **Metric 2: Inhaler Forgetting Frequency**
+  * *Question*: How often do you leave rescue/reliever medication at home during winter or high-smog periods?
+  * *Result*: `[______% at least once per week (n = ___ / ___)]`
+* **Metric 3: Actionability of Current Weather / AQI Apps**
+  * *Question*: Do general weather apps provide concrete action plans or scheduling guidance for asthma?
+  * *Result*: `[______% find static AQI numbers non-actionable (n = ___ / ___)]`
+* **Metric 4: Human-in-the-Loop Agent Trust**
+  * *Question*: Would you trust an AI agent that automatically executes actions without asking your permission first?
+  * *Result*: `[______% insist on mandatory user confirmation before action dispatch (n = ___ / ___)]`
+* **Metric 5: Physician Consultation Recall**
+  * *Question*: Can you accurately recall reliever inhaler puff frequency and symptom dates during doctor appointments?
+  * *Result*: `[______% struggle with accurate monthly recall (n = ___ / ___)]`
+
+### 2. Qualitative In-Depth Interview Evidence
+
+#### Interview 1: Patient Experience
+* **Participant Profile**: `[Patient ID, Age, City, Asthma Classification — Pending recruitment]`
+* **Key Context**: `[Daily commute duration, transit type, occupational exposure]`
+* **Interview Quote**:
+  > *"[Awaiting verified participant transcript quote — uncollected field]"`
+* **Design Takeaway**:
+  - `[To be derived from verified interview transcript]`
+
+#### Interview 2: Caregiver Experience
+* **Participant Profile**: `[Caregiver ID, Relationship to Patient, Setting — Pending recruitment]`
+* **Interview Quote**:
+  > *"[Awaiting verified participant transcript quote — uncollected field]"`
+* **Design Takeaway**:
+  - `[To be derived from verified interview transcript]`
+
+#### Interview 3: Clinician / Pulmonologist Perspective
+* **Participant Profile**: `[Clinician ID, Specialty (Pulmonology/Respiratory Medicine), Practice Setting — Pending recruitment]`
+* **Interview Quote**:
+  > *"[Awaiting verified clinician transcript quote — uncollected field]"`
+* **Clinical Takeaways for Agent Boundaries**:
+  - `[To be derived from verified clinician interview]`
+
+---
+
+## Hypothetical Design Personas (not collected data)
+
+> [!NOTE]
+> The following 5 profiles are **Hypothetical design personas (not collected data)**. They are engineering archetypes created to stress-test UX accessibility, voice interaction, notification boundaries, and deterministic clinical guardrails under edge-case conditions.
 
 ### Persona 1: Rohan Sharma — The Urban University Student
-* **Demographics**: 21 years old, Undergraduate Engineering Student, Delhi NCR.
-* **Clinical Profile**: Moderate Persistent Asthma, diagnosed at age 10. Exercise-induced bronchospasm.
-* **Prescription**: Formoterol / Budesonide 2 puffs daily morning; Salbutamol inhaler as needed.
-* **Environment**: High exposure to rush-hour particulate smog during a 45-minute bus and walking commute.
-* **Pain Points**:
-  - Forgets his reliever inhaler at home because morning air seems clear.
-  - Tries to jog in the evening after classes, triggering severe bronchospasms during winter temperature inversions.
-  - Doesn't know when outdoor air is clean enough for physical exercise.
-* **How AirGuard Solves It**:
-  - **24-Hour Predictive Planning**: Pinpoints the cleanest daylight air window (06:30 - 08:30 AM) and highlights the high-risk evening spike.
-  - **Proactive Commute Alert**: Sends a morning prompt reminding him to pack his rescue inhaler based on projected PM2.5 levels > 140 µg/m³.
-  - **Schedule Shift Proposal**: Proactively offers to shift his calendar workout to the morning safe window, pending his 1-click approval.
+* **Classification**: Hypothetical design persona (not collected data)
+* **Archetype**: 21, University Student, Delhi NCR. Moderate persistent asthma, exercise-induced bronchospasm.
+* **Prescription**: Formoterol + Budesonide maintenance; Salbutamol rescue inhaler.
+* **Environment**: Daily metro/auto-rickshaw commute, outdoor collegiate sports.
+* **UX Test Case & Boundary Validation**:
+  - *Proactive Planning*: Can the agent identify a clean-air window (06:30–08:30 AM) and propose shifting an outdoor workout before morning smog peaks?
+  - *Adherence Reminder*: Triggers morning commute inhaler verification before high-traffic exposure.
 
----
+### Persona 2: Kavita Mehra — The School Teacher & Mother
+* **Classification**: Hypothetical design persona (not collected data)
+* **Archetype**: 54, High School Teacher, Lucknow. Moderate allergic asthma with seasonal exacerbations.
+* **Prescription**: Fluticasone daily inhaler, Levocetirizine for acute allergic flare-ups.
+* **Environment**: Daily chalk dust and open-air classroom exposure; autumn stubble-burning smoke.
+* **UX Test Case & Boundary Validation**:
+  - *Approval Queue Safety*: When a Yellow Zone peak flow drop (<80%) is logged, does the agent queue a caregiver notification in the Human-in-the-Loop queue rather than dispatching it without consent?
+  - *Action Consent*: Verifies user explicitly clicks "Approve" before external communication.
 
-### Persona 2: Kavita Mehra — The High School Teacher & Mother
-* **Demographics**: 54 years old, High School Biology Teacher, Lucknow, Uttar Pradesh.
-* **Clinical Profile**: Moderate-to-Severe Allergic Asthma; seasonal exacerbations during harvest stubble burning (Oct–Dec).
-* **Prescription**: Beclomethasone inhaler twice daily; Montelukast tablet at night; Levalbuterol reliever.
-* **Environment**: Outdoors daily during school morning assemblies and sports supervision.
-* **Pain Points**:
-  - Dismisses early tightness until it becomes a full-blown attack requiring hospitalization.
-  - Her adult daughter lives in another city and constantly worries without knowing her daily health status.
-  - Struggles with complex technology interfaces when experiencing shortness of breath.
-* **How AirGuard Solves It**:
-  - **Symptom Diary & Early Warning**: Tracks peak flow (PEF) drops below 80% baseline before clinical attacks manifest.
-  - **Human-Approved Caregiver Alert**: When a Yellow Zone episode occurs, AirGuard queues an automated SMS to her daughter (`Dr. / Caregiver Alert`), requiring only a single tap to approve and dispatch.
-  - **Bilingual Interface**: Seamlessly toggles to Hindi with large high-contrast visual indicators.
+### Persona 3: David Chen — The Data-Driven Professional
+* **Classification**: Hypothetical design persona (not collected data)
+* **Archetype**: 34, Software Architect, Bengaluru. Mild intermittent asthma, adult onset.
+* **Prescription**: As-needed Salbutamol reliever.
+* **Environment**: Air-conditioned office environment, weekend urban cycling.
+* **UX Test Case & Boundary Validation**:
+  - *Feature Driver Attribution*: Does the UI clearly communicate risk drivers (PM2.5, Humidity, NO2, Temperature) rather than presenting a black-box score?
+  - *Data Ownership*: Does the privacy interface provide 1-click JSON export and complete data erasure controls?
 
----
-
-### Persona 3: David Chen — The Tech Lead & Distance Runner
-* **Demographics**: 34 years old, Software Architect & Marathoner, Urban Tech Hub.
-* **Clinical Profile**: Mild Intermittent Asthma, cold-air and exertion triggered.
-* **Prescription**: Albuterol 2 puffs 15 minutes before vigorous aerobic exercise.
-* **Environment**: Highly active outdoors; monitors weather widgets obsessively.
-* **Pain Points**:
-  - Standard weather apps report average citywide AQI, not hourly hyper-local forecasts.
-  - Wants transparent AI: demands to know *why* a particular hour is safe or dangerous rather than black-box recommendations.
-  - Concerned about data privacy and health data ownership.
-* **How AirGuard Solves It**:
-  - **Transparent Feature Driver Attribution**: Clearly displays model confidence and attribution gauges (PM2.5, Humidity, NO2, Temperature).
-  - **48-Hour Open-Meteo Integration**: Hourly curve mapping particulate concentration throughout the weekend.
-  - **GDPR / India DPDP Act Compliance**: 1-click full JSON data archive download and permanent account erasure guarantee.
-
----
-
-### Persona 4: Sunita Devi — Elderly Patient with Asthma-COPD Overlap (ACOS)
-* **Demographics**: 68 years old, Homemaker, Patna, Bihar.
-* **Clinical Profile**: Asthma-COPD Overlap Syndrome, chronic cough, limited mobility.
+### Persona 4: Sunita Devi — Elderly Patient with Limited English Literacy
+* **Classification**: Hypothetical design persona (not collected data)
+* **Archetype**: 68, Homemaker, Patna. Asthma-COPD Overlap Syndrome (ACOS).
 * **Prescription**: Tiotropium + Formoterol inhaler; Budesonide nebulization as needed.
-* **Environment**: High exposure to indoor biomass smoke (chulha/agarbatti) and outdoor winter dust.
-* **Pain Points**:
-  - Illiterate in English; unable to navigate text-heavy apps or typing-based interfaces.
-  - Difficulty recognizing life-threatening distress versus routine daily phlegm.
-  - Vulnerable to dangerous non-medical home remedies and misleading online advice.
-* **How AirGuard Solves It**:
-  - **Multilingual Voice Querying**: Speaks directly in Hindi ("सांस लेने में तकलीफ़ हो रही है").
-  - **GINA Emergency Red-Flag Interceptor**: Instant, LLM-bypassing detection of critical phrases ("नीले होंठ", "सांस नहीं आ रही", "बोल नहीं पा रहे").
-  - **Emergency Protocol SOS**: Immediately triggers flashing red alert with direct one-tap calling for national ambulance services (112 / 108) and emergency contact.
+* **Environment**: High exposure to indoor biomass smoke / agarbatti and outdoor winter dust.
+* **UX Test Case & Boundary Validation**:
+  - *Multilingual Voice Interface*: Does speech recognition accept vernacular Hindi queries (*"सांस लेने में तकलीफ़ हो रही है"* / *"सीने में जकड़न"* )?
+  - *Emergency Guardrail Interceptor*: Does the regex guardrail instantly catch life-threatening phrases (*"नीले होंठ"*, *"सांस नहीं आ रही"*) and trigger the red SOS screen with 112/108 calling, completely bypassing the LLM?
 
----
-
-### Persona 5: Dr. Vikram Sethi, MD, DNB — Senior Pulmonologist
-* **Demographics**: 46 years old, Consultant Pulmonologist, Fortis Hospital & Private Clinic.
-* **Clinical Profile**: Clinician reviewing 30+ asthma and allergy patients daily in 10-minute slots.
-* **Pain Points**:
-  - Patients cannot accurately recall how many times they used their reliever inhaler over the past month.
-  - Cannot tell if exacerbations were caused by medication non-adherence or unavoidable environmental pollution spikes.
-  - Fears generative AI giving patients dangerous dosage alterations or claiming asthma is "cured".
-* **How AirGuard Solves It**:
-  - **30-Day Objective Doctor Summary**: Generates a standardized clinical report with symptom counts, reliever frequency, and PEF variance.
-  - **Deterministic Safety Rails**: Output guardrails strictly prohibit dosage modification, diagnosis, or anti-medical claims, always deferring to physician authority.
-  - **Non-Diagnostic Clarity**: Prominent visual banners confirm AirGuard is an assistive adherence agent, never replacing clinical judgment.
-
----
-
-## Key Clinical & Behavioral Takeaways
-1. **Action Beats Information**: Showing an AQI number does not change health outcomes; proposing a concrete schedule shift with 1-click approval creates real-world preventive behavior.
-2. **Safety Must Be Deterministic**: Red flags cannot depend on LLM prompt obedience. Keyword/regex pattern interceptors must execute before any generative model is called.
-3. **Doctors Need Summaries, Not Raw Data**: Aggregating 30 days of telemetry into GINA symptom steps empowers physicians to make informed prescription adjustments.
+### Persona 5: Dr. Vikram Sethi — Senior Pulmonologist
+* **Classification**: Hypothetical design persona (not collected data)
+* **Archetype**: 46, Consultant Pulmonologist, Outpatient Clinic.
+* **Clinical Setting**: Evaluates 30+ asthma and allergy patients daily in rapid 10-minute consultation slots.
+* **UX Test Case & Boundary Validation**:
+  - *Consultation Summary*: Does the 30-day physician export summarize objective GINA metrics (reliever puff frequency, nocturnal awakenings, PEF baseline variance) in under 1 page?
+  - *Non-Diagnostic Rails*: Are outputs explicitly framed as assistive telemetry, completely barring AI-driven dosage adjustments or diagnostic claims?
