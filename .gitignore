@@ -34,4 +34,6 @@ desktop.ini
 
 # Templates / scratch
 nova-astro*/
+.tmp_clone_test/
+
 
