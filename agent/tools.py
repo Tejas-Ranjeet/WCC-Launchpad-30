@@ -502,6 +502,7 @@ class AirGuardTools:
                 res = requests.post(webhook_url, json={
                     "action_id": action.id,
                     "user_id": action.user_id,
+                    "status": action.status,
                     "recipient": action.recipient,
                     "channel": action.channel,
                     "message": action.proposed_payload,
