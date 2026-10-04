@@ -94,6 +94,16 @@ We evaluated our pre-existing multimodal stacking ensemble on held-out test data
 
 ---
 
+## 7. Limitations & Clinical Boundaries (Slide 7)
+
+* **Synthetic Data Foundation**: Model trained and evaluated on parameterized synthetic distributions; real-world clinical edge cases, multi-morbidities, and pediatric variations are not fully represented.
+* **Not Clinically Validated**: No human randomized clinical trials (RCTs) have been completed; algorithm outputs are experimental heuristics.
+* **Not a Cleared Medical Device**: Not approved by US FDA, Indian CDSCO, or CE. AirGuard provides non-diagnostic decision support and lifestyle planning only; never replaces doctor consultations or emergency response (112 / 108).
+* **Environmental Resolution Limits**: Ambient Open-Meteo feeds represent macro air basins; indoor particulate spikes (cooking, biomass, incense) are not sensed without manual logging.
+* **Calibrated Alarm Trade-off**: The hybrid system trades accuracy (73.0% -> 63.67%) for higher high-risk sensitivity (~83%) by design, deliberately accepting more false alarms to miss fewer respiratory emergencies.
+
+---
+
 ## Hackathon Verification Checklist
 - **Demo Patient**: Alex Rivera (Age 29, Moderate Persistent Asthma, Delhi — clearly badged as a seeded demo profile).
 - **Test Suite**: 29/29 Passing Unit Tests (`python -m pytest tests/ -v`).
