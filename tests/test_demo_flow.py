@@ -9,7 +9,7 @@ Simulates the exact judge / user interaction flow:
 5. Approve the action and verify execution status
 6. Verify safety rail on malicious injection prompt
 7. Generate clinical doctor consultation summary
-8. Export full GDPR/HIPAA patient archive
+8. Export full patient data archive (aligned with GDPR/DPDP portability principles)
 """
 
 import sys

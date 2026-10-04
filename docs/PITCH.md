@@ -7,15 +7,15 @@
 
 ## 1. User Insight (15 Points)
 
-### The Problem: The Passive Healthcare Trap
-Over **262 million people live with asthma**, yet 80% of asthma deaths occur in low-to-middle income countries where air pollution surges are common.
-Existing digital health tools fail because:
-- **Weather apps are passive**: Knowing "AQI is 210" does not help a college student or commuter decide when it is safe to exercise, transit, or ventilate their room.
-- **Patients react too late**: Reliever inhalers are taken *during* acute attacks, rather than proactively managing exposure.
-- **Doctor visits are hurried**: In 10-minute consultations, doctors lack objective data on how many times a patient suffered symptoms or used their inhaler over the past 30 days.
+### The Real Problem: Chronic Respiratory Vulnerability & Clinical Triage Realities
+Over **262 million people live with asthma** (WHO), yet 80% of deaths occur in low-and-middle-income countries where seasonal smog spikes and particulate volatility are acute. AirGuard addresses critical behavioral and clinical gaps identified across chronic respiratory literature:
 
-### The Clinical Insight (GINA 2023 Guidelines)
-Asthma attacks are not random; they follow predictable atmospheric and physiological precursors. By combining **predictive 48-hour atmospheric forecasts** with **individual patient history**, an autonomous agent can prevent exacerbations before they begin.
+1. **The Passive Trap**: Patients typically only check AQI *after* coughing, wheezing, or chest tightness begins. Passive weather widgets fail because they report conditions without changing proactive behavior.
+2. **Deceptive Clear Mornings**: Patients frequently leave rescue inhalers at home on mornings when the air looks deceptively clear, only to suffer an acute attack during evening rush-hour smog inversions.
+3. **The Autonomy Boundary**: Patients and caregivers consistently insist on retaining final control over their care. Autonomous agents that send alerts or reschedule commitments without explicit permission erode user trust.
+4. **The Doctor Recall Void**: Under Global Initiative for Asthma (GINA) guidelines, using a reliever inhaler >2 times per week indicates uncontrolled asthma requiring therapy escalation. Yet patients routinely struggle to recall exact 30-day symptom and puff counts during brief consultations.
+
+*(Note: Real evidence collection framework and hypothetical design personas are documented in [`docs/user_research.md`](docs/user_research.md)).*
 
 ---
 
@@ -29,13 +29,13 @@ AirGuard is not a passive dashboard and not a chat wrapper. It is an **autonomou
     └──────────┘     └──────────┘     └────┬─────┘
                                            │
     ┌──────────┐     ┌──────────┐          ▼
-    │   LOG    │◄────┤   ACT    │◄──── PROPOSE ◄─── [Human Approval Gate]
+    │   LOG    │◄────┤   ACT    │◄──── PROPOSE ◄─── [Zero-Trust Human Gate]
     └──────────┘     └──────────┘
 ```
 
-1. **SENSE**: Ingests real-time 48-hour hourly air quality (PM2.5, PM10, NO2, SO2, O3) and weather telemetry from Open-Meteo, cross-referenced with user symptom diaries and peak flow readings.
+1. **SENSE**: Ingests 48-hour live hourly air quality (PM2.5, PM10, NO2, SO2, O3) and weather from Open-Meteo (with an automatic offline diurnal fallback), cross-referenced with the patient's symptom diary and peak flow readings.
 2. **REASON**: Evaluates exposure risk using our multimodal ensemble model and clinical heuristic rules.
-3. **PLAN**: Synthesizes a proactive 24-hour daily timeline, pinpointing the **Safest Clean Air Window** (e.g. 06:30–08:30 AM) and flagging high-risk particulate surges.
+3. **PLAN**: Synthesizes a proactive 24-hour daily timeline, pinpointing the **Safest Clean Air Window** (e.g. 06:30–08:30 AM) and highlighting dangerous evening smog inversions.
 4. **PROPOSE**: Queues actionable recommendations (e.g. reschedule outdoor cardio, carry rescue inhaler, alert caregiver) into a **Human-in-the-Loop Approval Queue**.
 5. **ACT**: Executes actions **only after explicit human consent** (SMS/WhatsApp dispatch via n8n, calendar schedule adjustment).
 6. **LOG**: Records every decision, LLM prompt, and safety verification into a tamper-evident clinical audit trail.
@@ -44,14 +44,20 @@ AirGuard is not a passive dashboard and not a chat wrapper. It is an **autonomou
 
 ## 3. Technical Depth & Reliability (24 Points)
 
-### Dual-Layer Intelligence Architecture
-* **Pre-existing Multimodal ML Foundation**: Evaluated transparently on held-out test data (Ensemble: 73.0% Accuracy, 0.7234 F1; Hybrid: 63.7% Accuracy with 82.95% High-Risk Sensitivity). Documented honestly in `LIMITATIONS.md` and calibrated via probability isotonic regression.
-* **48-Hour Atmospheric API with Diurnal Fallback**: Live Open-Meteo integration with in-memory TTL caching and a sinusoidal atmospheric inversion fallback ensuring 100% offline availability.
-* **Provider-Agnostic LLM Engine**: Native support for Google Gemini, Anthropic Claude, OpenAI, and a zero-dependency deterministic `MOCK` clinical engine that runs anywhere without API keys.
-* **Deterministic Safety Rails (The Zero-Trust Barrier)**:
-  - **Input Interceptor**: Bypasses the LLM completely upon detecting life-threatening GINA distress phrases in English and Hindi ("can't speak in full sentences", "blue lips", "silent chest", "सांस नहीं आ रही").
+### Honest ML Science & The Clinical Safety Trade-off
+We evaluated our pre-existing multimodal stacking ensemble on held-out test data ($N=300$ samples, evaluated via `research/evaluate.py`):
+- **Pure ML Ensemble**: **73.0% Accuracy**, **0.7234 Macro F1**, **0.8496 Multiclass AUC**, with **68.18% High-Risk Sensitivity**.
+- **Hybrid Clinical Rule Override**: **63.67% Accuracy**, with High-Risk Sensitivity surging to **82.95%**.
+- **The Deliberate Trade-Off**: It trades accuracy (73.0% -> 63.67%) for higher high-risk sensitivity (~83%) by design. In healthcare triage:
+  > *"A false alarm causes minor schedule inconvenience. A false negative lands the patient in the ICU. We accept more false alarms to miss fewer emergencies."*
+
+### Resilient Architecture
+- **Live Atmospheric API with Offline Fallback**: Live Open-Meteo connection with 10-minute TTL caching and an automatic diurnal simulation fallback. (The UI visibly badges whether data is live or simulated fallback).
+- **Provider-Agnostic LLM Engine**: Supports Google Gemini, Anthropic Claude, OpenAI, and an offline deterministic `MOCK` clinical engine that runs anywhere without API keys.
+- **Deterministic Safety Rails (The Zero-Trust Barrier)**:
+  - **Input Interceptor**: Bypasses the LLM completely upon detecting life-threatening GINA distress phrases in English and Hindi (*"can't speak in full sentences"*, *"blue lips"*, *"silent chest"*, *"सांस नहीं आ रही"*, *"होंठ नीले"*).
   - **Output Sanitizer**: Enforces regex-based post-generation filters that block dosage tampering, diagnostic assertions, and anti-medical claims.
-* **Tested Reliability**: 29 automated unit tests verifying every guardrail, multilingual phrase, and approval constraint, plus end-to-end integration tests.
+- **Automated Test Suite**: 29 automated unit tests verifying every guardrail, multilingual phrase, and approval constraint, plus end-to-end integration tests.
 
 ---
 
@@ -81,15 +87,14 @@ AirGuard is not a passive dashboard and not a chat wrapper. It is an **autonomou
 
 * **Prominent Non-Diagnostic Disclaimers**: Displayed prominently across the header, plans, doctor reports, and chat responses. AirGuard assists adherence; it never diagnoses.
 * **GINA Red Zone Emergency Bypass**: Automatically brings up the emergency SOS modal with direct calling buttons for **112 / 108 Ambulance** and emergency contacts.
-* **GDPR & India DPDP Act 2023 Compliance**:
-  - Full data portability (`/api/user/export-data/<id>`) allowing patients to download their complete clinical and telemetry history in JSON format.
-  - Right to Erasure (`/api/user/delete-account/<id>`) enabling complete and irreversible account and data deletion.
-* **No Dark Patterns**: Clear transparency on AI model confidence, risk driver attribution, and reasoning rationale for every single action.
+* **Privacy by Design (India DPDP & GDPR Principles)**:
+  - Supports full patient data portability (`/api/user/export-data/<id>`) allowing patients to download their complete clinical and telemetry history in JSON format.
+  - Supports Right to Erasure (`/api/user/delete-account/<id>`) enabling complete and permanent data deletion.
+* **Transparent Attribution & Data Provenance**: Clear badges in the UI indicating whether environmental data is from live Open-Meteo stations or simulated fallback, and clearly labeling synthetic demo patient profiles.
 
 ---
 
-## The Hackathon Demo Script & Metrics Summary
-- **Live Demo User**: Alex Rivera (29, Moderate Persistent Asthma, Delhi)
-- **Pre-seeded Dataset**: 30 days of realistic peak flow records, symptom logs, past executed actions, and 1 fresh pending approval ready for live judging interaction.
+## Hackathon Verification Checklist
+- **Demo Patient**: Alex Rivera (Age 29, Moderate Persistent Asthma, Delhi — clearly badged as a seeded demo profile).
 - **Test Suite**: 29/29 Passing Unit Tests (`python -m pytest tests/ -v`).
-- **One-Command Launch**: `python app.py` running on port 7860.
+- **Live Local Run**: `python app.py` running on port 7860.

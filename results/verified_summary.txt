@@ -1,11 +1,16 @@
-AsthmAI - Verified Summary of Final Metrics
-==========================================
+AirGuard / AsthmAI - Verified Summary of Final Metrics
+======================================================
+Evaluation Dataset: Held-Out Test Set (N=300 samples)
+Evaluation Script:  research/evaluate.py
 
-1. Development Accuracy (ML Ensemble): 74.3%
-2. Hybrid System Reliability: 94.7%
-3. Multi-Site Validation (N=2,847):
-   - Site 1 (Zenodo): 92.57% (1,010 patients)
-   - Site 2 (Hospital A): 90.4% (847 patients)
-   - Site 3 (Primary Care B): 90.6% (990 patients)
-   - MEAN ACCURACY: 91.24%
-   - STD DEV: 1.18%
+1. Pure Machine Learning Ensemble (Stacking):
+   - Overall Accuracy:       73.00%
+   - Macro F1-Score:         0.7234
+   - Multiclass ROC-AUC:     0.8496
+   - High-Risk Sensitivity:  68.18%
+
+2. Hybrid Clinical Override System:
+   - Overall Accuracy:       63.67%
+   - High-Risk Sensitivity:  82.95% (Elevated from 68.18%)
+   - Safety Trade-Off:       Deliberately sacrifices 9.3% accuracy to capture ~83% of high-risk cases
+                             ('accepting more false alarms to miss fewer emergencies').

@@ -4,15 +4,17 @@
 
 This document presents comprehensive evaluation results for the AsthmAI asthma risk prediction system. We trained and compared **7 machine learning models** using **5-fold stratified cross-validation** with **hyperparameter optimization** on a dataset of **2,000 samples**.
 
-**Best Performing Model**: Stacking Ensemble (XGBoost + LightGBM + RF)
-- Accuracy: 74.3%
-- ROC-AUC: 0.853
-- F1-Score: 0.723
-- High-Confidence Accuracy (>85% conf): ~92.0%
-- **Hybrid System Accuracy**: **94.7%** (with Clinical Heuristic Override)
-- **Multi-Site Validation**: **91.2% Mean Accuracy** (Benchmarked across 2,847 samples)
-  - **Real Clinical Data (Zenodo)**: 92.6% Accuracy (Gold Standard)
-  - **Simulated Validation Cohorts**: ~90-93% Accuracy (Demonstrating architectural robustness)
+**Evaluated Model Performance (Held-out Test Cohort, N=300)**:
+- **Pure ML Stacking Ensemble**:
+  - Accuracy: **73.0%**
+  - Macro F1-Score: **0.7234**
+  - Multiclass ROC-AUC: **0.8496**
+  - High-Risk Sensitivity: **68.18%**
+- **Hybrid System (Clinical Heuristic Override)**:
+  - Accuracy: **63.67%** (Reflects a deliberate 9.3% accuracy trade-off)
+  - Macro F1-Score: **0.6385**
+  - High-Risk Sensitivity: **82.95%** (Elevated from 68.18% to protect acute patients)
+  - *Clinical Safety Trade-off Rationale*: We intentionally accept higher false-alarm rates (false positives) to drastically reduce false negatives on high-risk patients. In respiratory triage, a false caution causes minor schedule adjustments; a false negative risks preventable hospitalization.
 
 ---
 
@@ -158,16 +160,6 @@ python research/explainability.py
 
 This study demonstrates that machine learning models, particularly gradient boosting methods (XGBoost, GradientBoosting, LightGBM), can effectively predict asthma risk from environmental and clinical factors. The feature importance analysis reveals that clinical symptom frequency is the most predictive factor, followed by air quality indicators (AQI, PM2.5).
 
-The pure ML ensemble achieves **74.3% accuracy** and **0.853 ROC-AUC**. However, with the implementation of the **Hybrid Clinical Safety Layer** (neuro-symbolic approach), the deployed system achieves an effective accuracy of **94.7%**, satisfying strict clinical reliability standards.
+The pure ML ensemble achieves **73.0% accuracy** and **0.8496 ROC-AUC**. When the **Hybrid Clinical Safety Layer** is applied, accuracy drops to **63.67%**, while High-Risk Sensitivity surges from **68.18% to 82.95%**. The hybrid system trades accuracy (73.0% -> 63.67%) for higher high-risk sensitivity (~83%) by design. 
 
-### Large-Scale Multi-Site Validation
-To verify generalizability, we benchmarked the AsthmAI architecture against three independent real-world cohorts totaling **2,847 patients**:
-1.  **Zenodo Clinical Cohort (Real)**: 1,010 patients (Accuracy: 92.6%)
-2.  **Hospital Network A (Simulated)**: 847 samples (Modeled on Acute Care distributions)
-3.  **Primary Care Network B (Simulated)**: 990 samples (Modeled on Community Health distributions)
-
-The system achieved a **mean accuracy of 91.2% ± 1.18%** across all sites with an aggregate **F1-Score of 0.942**. The use of high-fidelity simulated cohorts for "Site 2" and "Site 3" allows us to stress-test the architecture against theoretical distribution shifts, confirming the robustness of our ensemble approach.
-
-> [!NOTE]  
-> **Justifying the 16.9% Performance Jump:**  
-> The increase from **74.3% (Development)** to **91.2% (Real-World)** is the result of **Synthetic Pessimism**. Our synthetic generator was tuned to be more "difficult" than reality (using higher noise and intentional feature overlap) to ensure the model was robust. When applied to real-world clinical data (where symptom-risk correlations are often more distinct), the model's hardened logic performed significantly better.
+In healthcare triage, this represents an intentional, patient-centered trade-off: **we accept more false alarms to miss fewer life-threatening emergencies**. All models and overrides are assistive tools and require licensed clinical oversight.

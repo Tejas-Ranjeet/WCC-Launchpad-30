@@ -2024,7 +2024,7 @@
               <div class="pillar-icon"><i class="fa-solid fa-shield-virus"></i></div>
               <div class="pillar-content">
                 <strong>GINA Safety Guardrails</strong>
-                <p>Deterministic clinical heuristics guarantee emergency escalation for severe nocturnal symptoms.</p>
+                <p>Deterministic clinical heuristics prioritize emergency escalation for severe nocturnal symptoms.</p>
               </div>
             </div>
 
@@ -2189,6 +2189,9 @@
           <h2>
             <i class="fa-solid fa-robot"></i>
             <span data-i18n="agentTitle">AirGuard Proactive Agent</span>
+            <span style="font-size: 0.7rem; font-weight: 700; background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 6px; border: 1px solid #cbd5e1; margin-left: 6px; vertical-align: middle;">
+              Demo Patient Profile (Seeded)
+            </span>
           </h2>
           <p data-i18n="agentSubtitle">
             Turns asthma risk into action — plans your day around air quality, asks for approval before acting, and stays inside deterministic clinical safety rails.
@@ -2241,9 +2244,14 @@
         <!-- Safest Window & Live Status Banner -->
         <div class="safest-window-banner">
           <div>
-            <span style="font-size: 0.75rem; font-weight: 700; color: #047857; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="safestWindowLabel">
-              🌟 Safest Outdoor Activity Window Today
-            </span>
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 4px;">
+              <span style="font-size: 0.75rem; font-weight: 700; color: #047857; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="safestWindowLabel">
+                🌟 Safest Outdoor Activity Window Today
+              </span>
+              <span id="agent-datasource-badge" style="font-size: 0.7rem; font-weight: 700; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 9999px; border: 1px solid #bae6fd;">
+                <i class="fa-solid fa-satellite-dish"></i> Live Open-Meteo Data
+              </span>
+            </div>
             <div class="safest-window-badge" id="agent-safest-window">
               06:30 - 08:30
             </div>
@@ -2316,9 +2324,14 @@
                 <i class="fa-solid fa-comments" style="color: var(--primary);"></i>
                 <span data-i18n="chatHeader">AirGuard Voice & Text Assistant</span>
               </strong>
-              <span id="voice-status-pill" style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">
-                <i class="fa-solid fa-shield-halved" style="color: #059669;"></i> Deterministic Rails Active
-              </span>
+              <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <span id="chat-engine-pill" style="font-size: 0.72rem; padding: 2px 8px; border-radius: 9999px; background: #f1f5f9; color: #475569; font-weight: 700; border: 1px solid #cbd5e1;">
+                  <i class="fa-solid fa-microchip"></i> Engine: MOCK
+                </span>
+                <span id="voice-status-pill" style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">
+                  <i class="fa-solid fa-shield-halved" style="color: #059669;"></i> Deterministic Rails Active
+                </span>
+              </div>
             </div>
 
             <!-- Quick Inquiry Chips -->
@@ -2487,13 +2500,13 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
           <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 0.5rem;">
             <i class="fa-solid fa-user-shield" style="color: #059669;"></i>
-            Patient Data Privacy & Rights
+            Patient Data Privacy & Controls
           </h4>
           <button type="button" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted);" onclick="closePrivacyModal()">&times;</button>
         </div>
 
         <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem;">
-          AirGuard complies strictly with the <strong>Indian Digital Personal Data Protection (DPDP) Act 2023</strong> and <strong>GDPR</strong>. Your symptom diary and telemetry are stored securely in local SQLite databases and are never sold or shared without explicit consent.
+          Supports full patient data export and account deletion, designed with <strong>India DPDP Act 2023</strong> and <strong>GDPR privacy principles</strong> in mind. Your symptom diary and telemetry are stored securely in local databases and are never sold or shared without explicit consent.
         </p>
 
         <div style="display: flex; flex-direction: column; gap: 0.85rem;">
@@ -4139,7 +4152,35 @@
 
         if (forecastRes && forecastRes.hourly) {
           renderTimelineStrip(forecastRes.hourly);
+          const dsBadge = document.getElementById('agent-datasource-badge');
+          if (dsBadge) {
+            if (forecastRes.is_simulated) {
+              dsBadge.innerHTML = '<i class="fa-solid fa-cloud-sun"></i> Simulated Diurnal (Offline Fallback)';
+              dsBadge.style.background = '#fef3c7';
+              dsBadge.style.color = '#92400e';
+              dsBadge.style.borderColor = '#fde68a';
+            } else {
+              dsBadge.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Live Open-Meteo Weather Station';
+              dsBadge.style.background = '#e0f2fe';
+              dsBadge.style.color = '#0369a1';
+              dsBadge.style.borderColor = '#bae6fd';
+            }
+          }
         }
+
+        // Fetch engine provider from health check
+        fetch('/health').then(r => r.json()).then(h => {
+          const provider = h.llm_provider || 'MOCK';
+          const engBadge = document.getElementById('agent-engine-mode-badge');
+          const chatPill = document.getElementById('chat-engine-pill');
+          if (engBadge) {
+            engBadge.innerText = provider.toUpperCase() === 'MOCK' ? 'MOCK (Clinical Heuristic)' : provider.toUpperCase();
+            engBadge.style.color = provider.toUpperCase() === 'MOCK' ? '#64748b' : '#7c3aed';
+          }
+          if (chatPill) {
+            chatPill.innerHTML = `<i class="fa-solid fa-microchip"></i> Engine: ${provider.toUpperCase() === 'MOCK' ? 'MOCK' : provider.toUpperCase()}`;
+          }
+        }).catch(() => {});
       } catch (err) {
         console.error("Error loading agent plan/forecast:", err);
       }
@@ -4506,7 +4547,7 @@
 
     async function confirmDeleteAccount() {
       const userId = currentUser ? currentUser.id : 1;
-      const confirmed = confirm("Are you sure you want to permanently delete your account and all associated symptom diaries? This action complies with GDPR Right to Erasure and cannot be undone.");
+      const confirmed = confirm("Are you sure you want to permanently delete your account and all associated symptom diaries? This action exercises Right to Erasure privacy principles and cannot be undone.");
       if (confirmed) {
         try {
           const res = await fetch(`/api/user/delete-account/${userId}`, { method: 'DELETE' });

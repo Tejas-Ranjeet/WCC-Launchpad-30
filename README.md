@@ -77,7 +77,7 @@ TIER  Med Risk       4          119          25           TIER  Med Risk       3
       High Risk      0           36          93                 High Risk      0           22         107
 ```
 
-> **Responsible AI Insight:** The pure ML ensemble achieves **73.00%** overall accuracy and **72.09%** high-risk sensitivity. The GINA Step-5 safety rails intentionally escalate patients with daily symptoms or frequent nocturnal dyspnea to High Risk, elevating sensitivity to **82.95%** (107/129 acute cases detected). This increases false alarms (reducing nominal accuracy to **63.67%**), but intentionally reflects clinical triage priorities where missed severe attacks carry significantly greater clinical risk.
+> **Responsible AI Insight:** The pure ML ensemble achieves **73.00%** overall accuracy and **72.09%** high-risk sensitivity. The GINA Step-5 safety rails intentionally escalate patients with daily symptoms or frequent nocturnal dyspnea to High Risk, elevating sensitivity to **82.95%** (107/129 acute cases detected). The hybrid system trades accuracy (73.0% -> 63.67%) for higher high-risk sensitivity (~83%) by design. In respiratory triage, an abundance of caution (higher false alarms) is clinically preferred over silent false negatives that risk preventable hospitalization.
 
 👉 *To regenerate all metrics and confusion matrices locally:*
 ```bash

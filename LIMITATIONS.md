@@ -40,7 +40,7 @@ To ensure scientific honesty, evaluation metrics are reported separately for the
 ### Key Takeaways
 1. **The statistical model alone achieves 72.09% High-Risk sensitivity.** It is not infallible and produces misclassifications in borderline cases.
 2. **The GINA Step-5 override is NOT machine learning.** It is a deterministic safety heuristic (`if Daily symptoms or Frequent nocturnal dyspnea -> force High Risk`).
-3. **The Clinical Safety Trade-Off:** The safety rails boost High-Risk Sensitivity from 72.09% to 82.95% (detecting 107 of 129 acute cases). However, this deliberate bias lowers overall statistical accuracy from 73.00% to 63.67% by intentionally over-warning moderate patients. In respiratory triage, an abundance of caution (higher false alarms) is clinically preferred over silent false negatives.
+3. **The Clinical Safety Trade-Off:** The safety rails boost High-Risk Sensitivity from 72.09% to 82.95% (detecting 107 of 129 acute cases). The hybrid system trades accuracy (73.0% -> 63.67%) for higher high-risk sensitivity (~83%) by design. In respiratory triage, an abundance of caution (higher false alarms) is clinically preferred over silent false negatives.
 4. **"Zero False Negatives" is impossible:** No statistical model or simple heuristic rule can guarantee zero false negatives in medicine. Unusual clinical presentations (e.g., sudden exertion-induced bronchospasm in clean air) may not trigger heuristic rules.
 
 ---

@@ -1140,7 +1140,8 @@ def health_check():
             "deterministic_guardrails": True,
             "human_in_the_loop_approval": True,
             "bilingual_support": True,
-            "gdpr_dpdp_compliance": True
+            "privacy_controls_supported": True,
+            "gdpr_dpdp_aligned": True
         }
     })
 
@@ -1370,7 +1371,7 @@ def export_user_data(user_id):
                 "generated_at": datetime.utcnow().isoformat(),
                 "service": "AirGuard Healthcare Agent",
                 "format": "JSON Portable Format",
-                "compliance": "GDPR Art. 20 / India DPDP Act 2023"
+                "design_alignment": "GDPR Art. 20 / India DPDP Act 2023 portability principles"
             },
             "user_profile": user.to_dict(),
             "sensor_readings": sensors,
