@@ -25,6 +25,44 @@ REVIEW1_MODEL_PATH = "results/review1_ensemble.pkl"
 FALLBACK_MODEL_PATH = "results/best_ensemble_model.pkl"
 DB_PATH = "asthmai.db"
 
+# ==================== NUMPY BITGENERATOR COMPATIBILITY ====================
+# Resolves cross-version unpickling differences between NumPy 1.x and 2.x MT19937 BitGenerators
+try:
+    import numpy.random._pickle as _np_pickle
+    from numpy.random._mt19937 import MT19937 as _OrigMT19937
+    from numpy.random.mtrand import RandomState
+
+    class _CompatibleMT19937(_OrigMT19937):
+        def __setstate__(self, state):
+            if isinstance(state, tuple):
+                state = state[0]
+            super().__setstate__(state)
+
+    _CompatibleMT19937.__name__ = 'MT19937'
+    _CompatibleMT19937.__qualname__ = 'MT19937'
+
+    def _compat_bit_generator_ctor(name="MT19937"):
+        if isinstance(name, _OrigMT19937):
+            return name
+        return _CompatibleMT19937()
+
+    def _compat_randomstate_ctor(bit_generator_name="MT19937", bit_generator_ctor=None):
+        if isinstance(bit_generator_name, _OrigMT19937):
+            bg = bit_generator_name
+        elif isinstance(bit_generator_name, type) and issubclass(bit_generator_name, _OrigMT19937):
+            bg = _CompatibleMT19937()
+        else:
+            bg = _compat_bit_generator_ctor(bit_generator_name)
+        return RandomState(bg)
+
+    _np_pickle.__bit_generator_ctor = _compat_bit_generator_ctor
+    _np_pickle.__randomstate_ctor = _compat_randomstate_ctor
+    _np_pickle.BitGenerators['MT19937'] = _CompatibleMT19937
+    _np_pickle.BitGenerators[_OrigMT19937] = _CompatibleMT19937
+    _np_pickle.BitGenerators[_CompatibleMT19937] = _CompatibleMT19937
+except Exception as _np_compat_err:
+    print(f"NumPy compat warning: {_np_compat_err}")
+
 # ==================== MODEL LOADING ====================
 
 print("Loading HridyaVayu Multimodal Ensemble Models...")
@@ -35,11 +73,13 @@ try:
             review1_package = pickle.load(f)
         print("✓ HridyaVayu Multimodal Collaborative Ensemble Loaded Successfully!")
         model_name = "HridyaVayu Multimodal Ensemble (Baseline LR + Random Forest + Gradient Boosting)"
-    else:
+    elif os.path.exists(FALLBACK_MODEL_PATH):
         with open(FALLBACK_MODEL_PATH, "rb") as f:
             fallback = pickle.load(f)
         print("✓ Fallback Ensemble Loaded Successfully!")
         model_name = "Ensemble Fallback"
+    else:
+        model_name = "Baseline Heuristics"
 except Exception as e:
     print(f"Error loading models: {e}")
     model_name = "Baseline Heuristics"

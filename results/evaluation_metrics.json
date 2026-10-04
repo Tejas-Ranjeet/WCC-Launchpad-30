@@ -1,0 +1,126 @@
+{
+  "evaluation_dataset": {
+    "path": "data/test.csv",
+    "nature": "Synthetic multimodal atmospheric & GINA telemetry",
+    "total_samples": 300,
+    "class_distribution": {
+      "Low": 23,
+      "Medium": 148,
+      "High": 129
+    }
+  },
+  "models": {
+    "baseline_logistic_regression": {
+      "accuracy": 0.7133,
+      "macro_f1": 0.6338,
+      "weighted_f1": 0.7117,
+      "high_risk_sensitivity": 0.7364
+    },
+    "random_forest": {
+      "accuracy": 0.7233,
+      "macro_f1": 0.5736,
+      "weighted_f1": 0.7058,
+      "high_risk_sensitivity": 0.6977
+    },
+    "gradient_boosting": {
+      "accuracy": 0.6967,
+      "macro_f1": 0.5969,
+      "weighted_f1": 0.6942,
+      "high_risk_sensitivity": 0.7132
+    },
+    "ml_collaborative_ensemble": {
+      "description": "Pure learned statistical soft-voting ensemble (1*LR + 2*RF + 2*GB) without heuristic overrides",
+      "accuracy": 0.73,
+      "macro_precision": 0.7068,
+      "macro_recall": 0.6098,
+      "macro_f1": 0.637,
+      "weighted_f1": 0.7234,
+      "high_risk_sensitivity": 0.7209,
+      "per_class": {
+        "Low": {
+          "precision": 0.6364,
+          "recall": 0.3043,
+          "f1_score": 0.4118,
+          "support": 23
+        },
+        "Medium": {
+          "precision": 0.6959,
+          "recall": 0.8041,
+          "f1_score": 0.7461,
+          "support": 148
+        },
+        "High": {
+          "precision": 0.7881,
+          "recall": 0.7209,
+          "f1_score": 0.753,
+          "support": 129
+        }
+      },
+      "confusion_matrix": [
+        [
+          7,
+          16,
+          0
+        ],
+        [
+          4,
+          119,
+          25
+        ],
+        [
+          0,
+          36,
+          93
+        ]
+      ],
+      "high_risk_brier_score": 0.1393
+    },
+    "hybrid_neuro_symbolic": {
+      "description": "Learned ensemble coupled with deterministic GINA Step-5 safety rails (clinical heuristics)",
+      "overrides_triggered": 59,
+      "accuracy": 0.6367,
+      "macro_precision": 0.662,
+      "macro_recall": 0.5514,
+      "macro_f1": 0.5712,
+      "weighted_f1": 0.6243,
+      "high_risk_sensitivity": 0.8295,
+      "per_class": {
+        "Low": {
+          "precision": 0.7,
+          "recall": 0.3043,
+          "f1_score": 0.4242,
+          "support": 23
+        },
+        "Medium": {
+          "precision": 0.6814,
+          "recall": 0.5203,
+          "f1_score": 0.59,
+          "support": 148
+        },
+        "High": {
+          "precision": 0.6045,
+          "recall": 0.8295,
+          "f1_score": 0.6993,
+          "support": 129
+        }
+      },
+      "confusion_matrix": [
+        [
+          7,
+          14,
+          2
+        ],
+        [
+          3,
+          77,
+          68
+        ],
+        [
+          0,
+          22,
+          107
+        ]
+      ]
+    }
+  }
+}

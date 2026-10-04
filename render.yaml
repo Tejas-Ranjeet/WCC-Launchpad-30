@@ -3,7 +3,7 @@ services:
     name: ML_model_aasthma
     env: python
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
-    startCommand: gunicorn --bind 0.0.0.0: --workers 2 --threads 4 app:app
+    startCommand: gunicorn --bind 0.0.0.0:${PORT:-7860} --workers 2 --threads 4 app:app
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9

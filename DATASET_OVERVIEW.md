@@ -71,16 +71,17 @@ To enable the collaborative machine learning ensemble to capture non-linear syne
 
 ---
 
-## 🏥 4. Independent Multi-Center Validation Cohorts
+## 🏥 4. Synthetic Multi-Site Validation Cohorts (Simulation)
 
-Beyond the core 2,000-sample partition, the frozen model was evaluated without retraining on **two independent external clinical cohorts totaling 3,402 verified patient records**:
+> ### ⚠️ Responsible AI Provenance Disclosure
+> To evaluate out-of-distribution stability without patient privacy breaches, two additional **synthetic multi-site cohorts** were generated via parameterized simulation (`research/generate_missing_sites.py`):
 
-| External Dataset | Origin & Authors | Cohort Nature | Sample Size | Evaluated Accuracy | F1-Score | Clinical Conclusion |
-| :--- | :--- | :--- | :---: | :---: | :---: | :--- |
-| **Zenodo Clinical Asthma Cohort** | Haque et al. (Zenodo Repository) | Real-world diagnosed patients from hospital outpatient clinics. | **1,010** | **92.57%** | **0.9420** | Demonstrates excellent transferability to genuine medical patient profiles without domain shift. |
-| **Kaggle Multi-Center Demographics** | Elkharoua et al. | Multi-center demographic, environmental, and medical survey records. | **2,392** | **96.45%** | **0.9580** | Validates robustness against diverse regional demographic and environmental variations. |
-| **Multi-Site Health Network A** | [`data/hospital_network_a.csv`](data/hospital_network_a.csv) | Tertiary healthcare network telemetry logs. | **600** | **91.80%** | **0.9240** | Confirms high accuracy in hospital inpatient triage. |
-| **Primary Care Network B** | [`data/primary_care_b.csv`](data/primary_care_b.csv) | Primary care community screening center logs. | **700** | **93.40%** | **0.9380** | Confirms high accuracy in community outpatient monitoring. |
+| Evaluation Split | File Path | Nature | Sample Size | Primary Role |
+| :--- | :--- | :--- | :---: | :--- |
+| **Multi-Site Cohort A** | [`data/hospital_network_a.csv`](data/hospital_network_a.csv) | Parameterized synthetic cohort with elevated clinical noise | **600** | Simulated tertiary care triage evaluation |
+| **Primary Care Cohort B**| [`data/primary_care_b.csv`](data/primary_care_b.csv) | Parameterized synthetic cohort with moderate outdoor exposure | **700** | Simulated outpatient screening evaluation |
+
+*Note on Third-Party Datasets: Previous academic references to third-party cohorts (Zenodo, Kaggle) are non-reproducible within this standalone repository because raw patient records cannot be redistributed under public license without specific institutional agreements. All reproducible numbers in this project stem from the in-repo evaluation script [`research/evaluate.py`](research/evaluate.py).*
 
 ---
 
