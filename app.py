@@ -1182,10 +1182,12 @@ def agent_pending_actions(user_id):
     """Retrieves all pending human-approval actions for a user."""
     try:
         actions = AgentAction.query.filter_by(user_id=user_id, status="PENDING").order_by(AgentAction.id.desc()).all()
+        action_list = [a.to_dict() for a in actions]
         return jsonify({
             "success": True,
             "count": len(actions),
-            "pending_actions": [a.to_dict() for a in actions]
+            "actions": action_list,
+            "pending_actions": action_list
         })
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
@@ -1207,6 +1209,7 @@ def agent_approve_action(action_id):
         return jsonify({
             "success": True,
             "message": "Action approved by user and dispatched",
+            "action": action.to_dict(),
             "dispatch": dispatch_result
         })
     except Exception as e:
@@ -1311,7 +1314,7 @@ def agent_chat():
     try:
         data = request.get_json(force=True) or {}
         user_id = int(data.get("user_id") or 1)
-        query = data.get("query", "").strip()
+        query = (data.get("query") or data.get("message") or "").strip()
         language = data.get("language") or "en"
 
         user = User.query.get(user_id)
@@ -1324,9 +1327,12 @@ def agent_chat():
             user_query=query
         )
 
+        agent_text = cycle_res.get("agent_response") or cycle_res.get("response") or ""
+
         return jsonify({
             "success": True,
-            "response": cycle_res.get("agent_response") or cycle_res.get("response"),
+            "response": agent_text,
+            "reply": agent_text,
             "emergency": cycle_res.get("emergency", False),
             "risk_tier": cycle_res.get("risk_tier"),
             "safest_window": cycle_res.get("safest_window"),
@@ -1359,7 +1365,7 @@ def export_user_data(user_id):
         logs = [l.to_dict() for l in AgentLog.query.filter_by(user_id=user_id).all()]
         alerts = [al.to_dict() for al in Alert.query.filter_by(user_id=user_id).all()]
 
-        return jsonify({
+        payload = {
             "export_metadata": {
                 "generated_at": datetime.utcnow().isoformat(),
                 "service": "AirGuard Healthcare Agent",
@@ -1372,6 +1378,11 @@ def export_user_data(user_id):
             "agent_actions": actions,
             "agent_audit_logs": logs,
             "alerts": alerts
+        }
+        return jsonify({
+            "success": True,
+            **payload,
+            "data": payload
         })
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500

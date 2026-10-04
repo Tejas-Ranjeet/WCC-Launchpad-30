@@ -12,7 +12,7 @@ import requests
 import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Tuple
 
 from models import db, User, SensorData, Alert, QuizResponse, SymptomDiary, AgentAction, AgentLog, DailyPlan
 
@@ -24,12 +24,23 @@ class AirGuardTools:
     Core toolset for AirGuard autonomous agent.
     """
 
+    _forecast_cache: Dict[str, Tuple[datetime, Dict[str, Any]]] = {}
+    _CACHE_TTL_MINUTES: int = 10
+
     @staticmethod
     def get_air_quality_forecast(lat: float = 28.6139, lon: float = 77.2090, hours: int = 48) -> Dict[str, Any]:
         """
         Retrieves 48-hour hourly air quality and weather forecast from Open-Meteo API.
         Falls back to authentic simulated diurnal cycle if network is unavailable.
+        Uses a 10-minute in-memory cache to prevent upstream rate-limiting.
         """
+        cache_key = f"{round(lat, 3)}_{round(lon, 3)}_{hours}"
+        now = datetime.utcnow()
+        if cache_key in AirGuardTools._forecast_cache:
+            cache_time, cached_res = AirGuardTools._forecast_cache[cache_key]
+            if (now - cache_time).total_seconds() < AirGuardTools._CACHE_TTL_MINUTES * 60:
+                return cached_res
+
         try:
             aq_params = {
                 "latitude": lat,
@@ -87,7 +98,7 @@ class AirGuardTools:
 
                 safest_window = AirGuardTools._compute_safest_window(hourly_data[:24])
 
-                return {
+                res = {
                     "success": True,
                     "is_simulated": False,
                     "location": {"lat": lat, "lon": lon},
@@ -95,6 +106,8 @@ class AirGuardTools:
                     "safest_window": safest_window,
                     "hourly": hourly_data
                 }
+                AirGuardTools._forecast_cache[cache_key] = (now, res)
+                return res
         except Exception as e:
             # Safe simulated fallback
             pass
@@ -127,7 +140,7 @@ class AirGuardTools:
 
         safest_window = AirGuardTools._compute_safest_window(simulated_data[:24])
 
-        return {
+        fallback_res = {
             "success": True,
             "is_simulated": True,
             "location": {"lat": lat, "lon": lon},
@@ -135,6 +148,8 @@ class AirGuardTools:
             "safest_window": safest_window,
             "hourly": simulated_data
         }
+        AirGuardTools._forecast_cache[cache_key] = (now, fallback_res)
+        return fallback_res
 
     @staticmethod
     def _compute_safest_window(hourly_24: List[Dict[str, Any]]) -> str:
@@ -591,5 +606,6 @@ class AirGuardTools:
             "avg_daily_puffs": avg_daily_puffs,
             "pef_stats": {"min": pef_min, "max": pef_max},
             "emergency_alert_count": len(alerts),
-            "formatted_report": report_text
+            "formatted_report": report_text,
+            "doctor_summary": report_text
         }
