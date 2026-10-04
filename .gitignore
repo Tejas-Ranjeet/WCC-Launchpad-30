@@ -10,6 +10,12 @@ env/
 
 # Environment variables & secrets
 .env
+*.env.local
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
 
 # Binary executables & tools
 *.exe
