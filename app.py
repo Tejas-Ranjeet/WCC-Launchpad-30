@@ -15,7 +15,11 @@ from datetime import datetime
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_cors import CORS
 
-from models import db, User, SensorData, Alert, QuizResponse
+from models import db, User, SensorData, Alert, QuizResponse, SymptomDiary, AgentAction, AgentLog, DailyPlan
+from agent.tools import AirGuardTools
+from agent.llm import AirGuardLLM
+from agent.loop import AirGuardAgentLoop
+from agent.guardrails import check_input_red_flags, sanitize_output
 
 warnings.filterwarnings('ignore')
 
@@ -92,6 +96,11 @@ if os.path.exists("results/review1_metrics.json"):
             review1_metrics = json.load(f)
     except Exception:
         pass
+
+# ==================== AIRGUARD AGENT ENGINE ====================
+print("Initializing AirGuard Agent Decision Engine...")
+agent_loop = AirGuardAgentLoop(review1_package=review1_package)
+print(f"✓ AirGuard Agent Engine Initialized (LLM Provider: {agent_loop.llm.get_provider_name()})")
 
 # ==================== REAL-TIME AQI SERVICE ====================
 
@@ -216,31 +225,67 @@ def init_db():
             if 'aqi' in s_cols:
                 conn.execute("UPDATE sensor_data SET air_quality = aqi WHERE aqi IS NOT NULL")
 
+        # Upgrades for user table (security, clinical parameters, localization)
+        cur.execute("PRAGMA table_info(user)")
+        u_cols = [col[1] for col in cur.fetchall()]
+        for col_name, col_def in [
+            ('password_hash', "TEXT DEFAULT ''"),
+            ('baseline_severity', "TEXT DEFAULT 'Mild Intermittent'"),
+            ('inhaler_prescribed', "TEXT DEFAULT 'Albuterol (Reliever) 2 puffs PRN, Budesonide/Formoterol 1 puff BID'"),
+            ('triggers', "TEXT DEFAULT 'Dust, Pollen, Cold Air, Air Pollution'"),
+            ('language_pref', "TEXT DEFAULT 'en'"),
+            ('city', "TEXT DEFAULT 'Delhi'"),
+            ('lat', "REAL DEFAULT 28.6139"),
+            ('lon', "REAL DEFAULT 77.2090")
+        ]:
+            if col_name not in u_cols:
+                conn.execute(f"ALTER TABLE user ADD COLUMN {col_name} {col_def}")
+
         # Seed Demo User & Admin in User ORM table
         with app.app_context():
-            if not User.query.filter_by(phone_no="+1-555-0143").first():
+            demo_patient = User.query.filter_by(phone_no="+1-555-0143").first()
+            if not demo_patient:
                 demo_patient = User(
                     name="Alex Rivera",
                     age=28,
                     gender="Male",
                     phone_no="+1-555-0143",
                     medical_history="Diagnosed bronchial asthma, allergen sensitive",
+                    baseline_severity="Moderate Persistent",
+                    inhaler_prescribed="Albuterol 2 puffs PRN, Budesonide 1 puff BID",
+                    triggers="Dust, Pollen, Cold Air, High PM2.5",
+                    language_pref="en",
+                    city="Delhi",
+                    lat=28.6139,
+                    lon=77.2090,
                     emergency_contact_name="Maria Rivera (Spouse)",
                     emergency_contact_phone="+1-555-0188"
                 )
+                demo_patient.set_password("alex123")
                 db.session.add(demo_patient)
+            elif not demo_patient.password_hash:
+                demo_patient.set_password("alex123")
 
-            if not User.query.filter_by(phone_no="+1-555-0199").first():
+            demo_doctor = User.query.filter_by(phone_no="+1-555-0199").first()
+            if not demo_doctor:
                 demo_doctor = User(
                     name="Dr. Sarah Mitchell, MD",
                     age=45,
                     gender="Female",
                     phone_no="+1-555-0199",
                     medical_history="Chief of Respiratory Medicine",
+                    baseline_severity="Clinical Specialist",
+                    inhaler_prescribed="N/A",
+                    triggers="None",
+                    language_pref="en",
+                    city="Delhi",
                     emergency_contact_name="Hospital Emergency Desk",
                     emergency_contact_phone="+1-800-911-0000"
                 )
+                demo_doctor.set_password("doctor123")
                 db.session.add(demo_doctor)
+            elif not demo_doctor.password_hash:
+                demo_doctor.set_password("doctor123")
 
             db.session.commit()
 
@@ -268,7 +313,13 @@ def auth_signup():
         age = int(data.get("age", 30) or 30)
         gender = data.get("gender", "Other")
         phone_no = data.get("phone_no") or f"+1-555-{np.random.randint(1000, 9999)}"
+        password = data.get("password", "")
         medical_history = data.get("medical_history", "Mild intermittent asthma")
+        baseline_severity = data.get("baseline_severity", "Mild Intermittent")
+        inhaler_prescribed = data.get("inhaler_prescribed", "Albuterol (Reliever) 2 puffs PRN, Budesonide/Formoterol 1 puff BID")
+        triggers = data.get("triggers", "Dust, Pollen, Cold Air")
+        language_pref = data.get("language_pref", "en")
+        city = data.get("city", "Delhi")
         emergency_contact_name = data.get("emergency_contact_name", "Primary Contact")
         emergency_contact_phone = data.get("emergency_contact_phone", "+1-555-0188")
         role = data.get("role", "User").strip()
@@ -277,6 +328,8 @@ def auth_signup():
         existing = User.query.filter_by(phone_no=phone_no).first()
         if existing:
             user = existing
+            if password:
+                user.set_password(password)
         else:
             user = User(
                 name=name,
@@ -284,15 +337,25 @@ def auth_signup():
                 gender=gender,
                 phone_no=phone_no,
                 medical_history=medical_history,
+                baseline_severity=baseline_severity,
+                inhaler_prescribed=inhaler_prescribed,
+                triggers=triggers,
+                language_pref=language_pref,
+                city=city,
                 emergency_contact_name=emergency_contact_name,
                 emergency_contact_phone=emergency_contact_phone
             )
+            if password:
+                user.set_password(password)
             db.session.add(user)
-            db.session.commit()
+        db.session.commit()
+
+        token = hashlib.sha256(f"{user.id}:{user.phone_no}:{datetime.utcnow().isoformat()}".encode('utf-8')).hexdigest()
 
         return jsonify({
             "success": True,
-            "message": "Account registered in User table",
+            "message": "Account registered securely",
+            "token": token,
             "user": {
                 **user.to_dict(),
                 "role": role,
@@ -309,13 +372,16 @@ def auth_login():
     try:
         data = request.get_json(force=True) or {}
         username = data.get("username", "").strip()
+        password = data.get("password", "")
 
         # Check if admin demo or user demo
         if "admin" in username.lower():
             user = User.query.filter_by(phone_no="+1-555-0199").first()
             role = "Admin"
         else:
-            user = User.query.filter_by(phone_no="+1-555-0143").first()
+            user = User.query.filter((User.name == username) | (User.phone_no == username)).first()
+            if not user:
+                user = User.query.filter_by(phone_no="+1-555-0143").first()
             if not user:
                 user = User.query.first()
             role = "User"
@@ -329,11 +395,18 @@ def auth_login():
                 emergency_contact_name="Maria Rivera",
                 emergency_contact_phone="+1-555-0188"
             )
+            user.set_password("alex123")
             db.session.add(user)
             db.session.commit()
 
+        if password and user.password_hash and not user.check_password(password):
+            return jsonify({"success": False, "error": "Invalid password credentials"}), 401
+
+        token = hashlib.sha256(f"{user.id}:{user.phone_no}:{datetime.utcnow().isoformat()}".encode('utf-8')).hexdigest()
+
         return jsonify({
             "success": True,
+            "token": token,
             "user": {
                 **user.to_dict(),
                 "role": role,
@@ -1050,6 +1123,286 @@ def api_figures_list():
         {"id": "correlation_heatmap", "title": "Environmental Feature Correlations", "category": "EDA", "filename": "correlation_heatmap.png", "desc": "Correlation matrix across all pollutant and weather variables."}
     ]
     return jsonify({"success": True, "figures": figures})
+
+# ==================== AIRGUARD AGENTIC CORE & HEALTH ROUTES ====================
+
+@app.route("/health", methods=["GET"])
+@app.route("/api/health", methods=["GET"])
+def health_check():
+    """Service health, model status, and agent readiness check."""
+    return jsonify({
+        "status": "healthy",
+        "service": "AirGuard Agentic Healthcare Engine",
+        "timestamp": datetime.utcnow().isoformat(),
+        "models_loaded": review1_package is not None,
+        "llm_provider": agent_loop.llm.get_provider_name(),
+        "features": {
+            "deterministic_guardrails": True,
+            "human_in_the_loop_approval": True,
+            "bilingual_support": True,
+            "gdpr_dpdp_compliance": True
+        }
+    })
+
+@app.route("/api/agent/run", methods=["POST"])
+def agent_run():
+    """Executes a full SENSE -> REASON -> PLAN -> PROPOSE -> ACT -> LOG cycle."""
+    try:
+        data = request.get_json(force=True) or {}
+        user_id = int(data.get("user_id") or 1)
+        trigger = data.get("trigger", "manual_run")
+        user_query = data.get("user_query")
+        lat = float(data.get("lat")) if data.get("lat") is not None else None
+        lon = float(data.get("lon")) if data.get("lon") is not None else None
+
+        result = agent_loop.run_cycle(
+            user_id=user_id,
+            trigger=trigger,
+            user_query=user_query,
+            lat=lat,
+            lon=lon
+        )
+        return jsonify(result)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/api/agent/forecast", methods=["GET"])
+def agent_forecast():
+    """Provides 48-hour air quality & meteorological forecast with safest window."""
+    lat = float(request.args.get("lat", 28.6139))
+    lon = float(request.args.get("lon", 77.2090))
+    hours = int(request.args.get("hours", 48))
+    forecast = AirGuardTools.get_air_quality_forecast(lat, lon, hours)
+    return jsonify(forecast)
+
+@app.route("/api/agent/actions/pending/<int:user_id>", methods=["GET"])
+def agent_pending_actions(user_id):
+    """Retrieves all pending human-approval actions for a user."""
+    try:
+        actions = AgentAction.query.filter_by(user_id=user_id, status="PENDING").order_by(AgentAction.id.desc()).all()
+        return jsonify({
+            "success": True,
+            "count": len(actions),
+            "pending_actions": [a.to_dict() for a in actions]
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/api/agent/actions/approve/<int:action_id>", methods=["POST"])
+def agent_approve_action(action_id):
+    """Human-in-the-loop: Patient explicitly approves action. Dispatches via notification tool."""
+    try:
+        action = AgentAction.query.get(action_id)
+        if not action:
+            return jsonify({"success": False, "error": "Action not found"}), 404
+
+        action.status = "APPROVED"
+        action.decided_at = datetime.utcnow()
+        db.session.commit()
+
+        # Dispatch action
+        dispatch_result = AirGuardTools.send_notification(action_id)
+        return jsonify({
+            "success": True,
+            "message": "Action approved by user and dispatched",
+            "dispatch": dispatch_result
+        })
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/api/agent/actions/reject/<int:action_id>", methods=["POST"])
+def agent_reject_action(action_id):
+    """Human-in-the-loop: Patient explicitly rejects action."""
+    try:
+        action = AgentAction.query.get(action_id)
+        if not action:
+            return jsonify({"success": False, "error": "Action not found"}), 404
+
+        action.status = "REJECTED"
+        action.decided_at = datetime.utcnow()
+        action.execution_result = "Action declined by user in approval queue."
+        db.session.commit()
+
+        return jsonify({
+            "success": True,
+            "message": "Action successfully rejected by patient",
+            "action": action.to_dict()
+        })
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/api/agent/logs/<int:user_id>", methods=["GET"])
+def agent_audit_logs(user_id):
+    """Complete audit trail of agent reasoning, inputs, outputs, and safety status."""
+    try:
+        limit = int(request.args.get("limit", 20))
+        logs = AgentLog.query.filter_by(user_id=user_id).order_by(AgentLog.id.desc()).limit(limit).all()
+        return jsonify({
+            "success": True,
+            "count": len(logs),
+            "logs": [l.to_dict() for l in logs]
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/api/agent/plan/<int:user_id>", methods=["GET"])
+def agent_daily_plan(user_id):
+    """Retrieves or computes today's 24-hour proactive plan."""
+    try:
+        today_str = datetime.utcnow().strftime("%Y-%m-%d")
+        plan = DailyPlan.query.filter_by(user_id=user_id, valid_date=today_str).first()
+        if not plan:
+            plan_res = AirGuardTools.draft_plan(user_id, review1_package=review1_package)
+            return jsonify(plan_res)
+        return jsonify({
+            "success": True,
+            "plan_id": plan.id,
+            "plan": plan.to_dict()
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/api/agent/symptom/log", methods=["POST"])
+def agent_log_symptom():
+    """Logs patient symptom diary entry and recalculates risk/plan."""
+    try:
+        data = request.get_json(force=True) or {}
+        user_id = int(data.get("user_id") or 1)
+        symptoms = data.get("symptoms", "")
+        severity = data.get("severity", "Mild")
+        puffs = int(data.get("inhaler_puffs_used", 0) or 0)
+        pef = float(data.get("pef_reading")) if data.get("pef_reading") is not None else None
+        activity = data.get("activity_level", "Rest")
+        notes = data.get("notes", "")
+
+        # Check for input red flags in symptoms / notes
+        red_flag = check_input_red_flags(f"{symptoms} {notes}")
+
+        res = AirGuardTools.log_symptom(
+            user_id=user_id,
+            symptoms=symptoms,
+            severity="Severe" if red_flag["tripped"] else severity,
+            inhaler_puffs_used=puffs,
+            pef_reading=pef,
+            activity_level=activity,
+            notes=notes
+        )
+
+        # Trigger quick agent cycle with symptom_logged trigger
+        agent_loop.run_cycle(user_id=user_id, trigger="symptom_logged", user_query=f"{symptoms} {notes}")
+
+        return jsonify({
+            "success": True,
+            "diary": res["entry"],
+            "red_flag": red_flag,
+            "emergency": red_flag["tripped"]
+        })
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/api/agent/chat", methods=["POST"])
+def agent_chat():
+    """Interactive conversational agent endpoint with voice-query support and guardrails."""
+    try:
+        data = request.get_json(force=True) or {}
+        user_id = int(data.get("user_id") or 1)
+        query = data.get("query", "").strip()
+        language = data.get("language") or "en"
+
+        user = User.query.get(user_id)
+        if user and not language:
+            language = user.language_pref or "en"
+
+        cycle_res = agent_loop.run_cycle(
+            user_id=user_id,
+            trigger="chat_query",
+            user_query=query
+        )
+
+        return jsonify({
+            "success": True,
+            "response": cycle_res.get("agent_response") or cycle_res.get("response"),
+            "emergency": cycle_res.get("emergency", False),
+            "risk_tier": cycle_res.get("risk_tier"),
+            "safest_window": cycle_res.get("safest_window"),
+            "guardrail_tripped": cycle_res.get("guardrail_tripped", False),
+            "guardrail_details": cycle_res.get("guardrail_details"),
+            "llm_provider": cycle_res.get("llm_provider")
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/api/agent/doctor-summary/<int:user_id>", methods=["GET"])
+def agent_doctor_summary(user_id):
+    """Generates 30-day clinical consultation report for doctor appointment."""
+    summary = AirGuardTools.generate_doctor_summary(user_id)
+    return jsonify(summary)
+
+# ==================== GDPR / DPDP ACT DATA PRIVACY ROUTES ====================
+
+@app.route("/api/user/export-data/<int:user_id>", methods=["GET"])
+def export_user_data(user_id):
+    """Right to Data Portability: Downloads complete user data in JSON format."""
+    try:
+        user = User.query.get(user_id)
+        if not user:
+            return jsonify({"success": False, "error": "User not found"}), 404
+
+        sensors = [s.to_dict() for s in SensorData.query.filter_by(user_id=user_id).all()]
+        diaries = [d.to_dict() for d in SymptomDiary.query.filter_by(user_id=user_id).all()]
+        actions = [a.to_dict() for a in AgentAction.query.filter_by(user_id=user_id).all()]
+        logs = [l.to_dict() for l in AgentLog.query.filter_by(user_id=user_id).all()]
+        alerts = [al.to_dict() for al in Alert.query.filter_by(user_id=user_id).all()]
+
+        return jsonify({
+            "export_metadata": {
+                "generated_at": datetime.utcnow().isoformat(),
+                "service": "AirGuard Healthcare Agent",
+                "format": "JSON Portable Format",
+                "compliance": "GDPR Art. 20 / India DPDP Act 2023"
+            },
+            "user_profile": user.to_dict(),
+            "sensor_readings": sensors,
+            "symptom_diary": diaries,
+            "agent_actions": actions,
+            "agent_audit_logs": logs,
+            "alerts": alerts
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/api/user/delete-account/<int:user_id>", methods=["DELETE"])
+def delete_user_account(user_id):
+    """Right to Erasure (Forget Me): Completely deletes user and all personal medical data."""
+    try:
+        user = User.query.get(user_id)
+        if not user:
+            return jsonify({"success": False, "error": "User not found"}), 404
+
+        # Cascade deletes
+        SensorData.query.filter_by(user_id=user_id).delete()
+        SymptomDiary.query.filter_by(user_id=user_id).delete()
+        AgentAction.query.filter_by(user_id=user_id).delete()
+        AgentLog.query.filter_by(user_id=user_id).delete()
+        Alert.query.filter_by(user_id=user_id).delete()
+        QuizResponse.query.filter_by(user_id=user_id).delete()
+        DailyPlan.query.filter_by(user_id=user_id).delete()
+
+        db.session.delete(user)
+        db.session.commit()
+
+        return jsonify({
+            "success": True,
+            "message": f"User account #{user_id} and all associated medical records permanently deleted."
+        })
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "error": str(e)}), 500
 
 # Initialize DB on load (ensures tables exist when running with Gunicorn or direct python)
 init_db()
