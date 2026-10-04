@@ -21,22 +21,40 @@
 
 ---
 
-## 📌 Project Transparency & Hackathon Disclosure
+## ⏱️ Built during WCC Launchpad 30 vs. Pre-existing HridyaVayu Base
 
-Per WCC Launchpad 30 hackathon rules, we explicitly disclose the provenance and timeline of this project:
+Per WCC Launchpad 30 hackathon rules, we explicitly distinguish pre-existing academic foundations from all agentic engineering, safety infrastructure, and UI built natively during the hackathon:
 
-* **Disclosed Base Project (Pre-existing):** This repository builds upon **HridyaVayu**, an earlier academic capstone project focused on multi-class asthma risk prediction using tabular machine learning and static web forms.
-* **Work Developed During WCC Launchpad 30:**
-  1. **Audit & Bug Fixing:** Comprehensive repository audit ([`AUDIT.md`](AUDIT.md)), diagnosis and fix of silent model unpickling failures, and cloud deployment fixes.
-  2. **Honest Science & Limitations:** Disclosed synthetic data provenance, removed inflated "zero false negatives" claims, created [`LIMITATIONS.md`](LIMITATIONS.md), and built [`research/evaluate.py`](research/evaluate.py) to independently regenerate all metrics.
-  3. **Agent Core Architecture (`agent/`):** Full autonomous agent loop (`SENSE` $\rightarrow$ `REASON` $\rightarrow$ `PLAN` $\rightarrow$ `PROPOSE` $\rightarrow$ `HUMAN APPROVAL` $\rightarrow$ `ACT` $\rightarrow$ `LOG`).
-  4. **Multi-Provider LLM Wrapper:** Provider-agnostic engine in `agent/llm.py` supporting Gemini, Anthropic, and an offline deterministic `MOCK` mode.
-  5. **Deterministic Clinical Safety Guardrails (`agent/guardrails.py`):** Intercepts inputs (red flags immediately trigger emergency protocols) and sanitizes LLM outputs (blocks unauthorized dosage alterations). Unit-tested with 15+ test cases.
-  6. **Human Approval Queue & Action Log:** Dedicated UI where every proposed external action requires explicit user approval before execution; backed by SQLite persistence (`pending_actions`, `agent_log`, `symptom_diary`).
-  7. **Proactive Environmental Day Planner:** Generates 24-hour hour-by-hour schedules highlighting safest outdoor air quality windows based on live Open-Meteo forecasts.
-  8. **Bilingual Localization:** English and Hindi support for accessibility across Indian patient demographics.
-  9. **Guarded n8n Automation (`n8n/airguard_workflow.json`):** Webhook integration for SMS/WhatsApp dispatch with strict approval validation.
-  10. **Evidence & User Research Instruments:** [`docs/user_research.md`](docs/user_research.md) with 10-question patient survey and clinical interview guides.
+| Dimension | Pre-existing HridyaVayu Base | Built during WCC Launchpad 30 (AirGuard Agent) |
+| :--- | :--- | :--- |
+| **System Paradigm** | Static tabular ML calculator (reactive) | **Autonomous Agentic Loop** (`SENSE` $\rightarrow$ `REASON` $\rightarrow$ `PLAN` $\rightarrow$ `PROPOSE` $\rightarrow$ `APPROVE` $\rightarrow$ `ACT` $\rightarrow$ `LOG`) |
+| **Safety Governance** | None; uncalibrated scores displayed | **Deterministic Dual-Layer Safety Rails** (`agent/guardrails.py`): input red-flag emergency bypass + output regex dosage scrubber |
+| **Human Agency** | N/A | **Zero-Trust Human-in-the-Loop Approval Queue**: External dispatches strictly gated behind user authorization |
+| **Proactive Planning** | None; point-in-time calculation | **24-Hour Environmental Day Planner**: Synchronizes with live Open-Meteo APIs to calculate safest outdoor daylight window |
+| **Reasoning Engine** | None | **Provider-Agnostic LLM Engine** (`agent/llm.py`): Google Gemini 1.5, Anthropic Claude 3.5, and deterministic offline `MOCK` mode |
+| **Language & Demographics** | English only | **Bilingual Localization (English & Hindi)** across UI, reasoning prompts, and voice input |
+| **Scientific Integrity** | Inflated unverified claims in legacy docs | **Complete Scientific Audit** ([`AUDIT.md`](AUDIT.md), [`LIMITATIONS.md`](LIMITATIONS.md)): Disclosed synthetic dataset provenance, calibrated honest hybrid framing |
+| **Design System** | Generic Bootstrap-style form | **Nova Astro Editorial Design System**: Warm ivory paper aesthetic, frosted glass floating navbar, capsule pill buttons, interactive cards |
+| **External Automations** | None | **Guarded n8n Webhook Workflow** (`n8n/airguard_workflow.json`) for validated SMS/WhatsApp caregiver dispatch |
+| **Test Coverage** | Zero automated tests | **29 Automated Pytest Suite** (`tests/test_agent.py`, `tests/test_guardrails.py`) verifying all guardrails and multi-tier flows |
+
+---
+
+## 🤖 AI Tools Used
+
+In accordance with responsible hackathon development standards, we disclose all AI tools utilized during the creation and execution of AirGuard:
+
+1. **Runtime Agentic & Reasoning Models**:
+   - **Google Gemini 1.5 Pro / Flash**: Used for multi-step clinical reasoning, contextual day plan generation, and conversational patient interaction via API.
+   - **Anthropic Claude 3.5 Sonnet**: Secondary runtime provider option in `agent/llm.py` for structured daily plan synthesis.
+   - **Deterministic Offline MOCK Engine**: Rule-governed clinical fall-back that generates reproducible GINA-compliant plans with zero API token latency and 100% offline uptime.
+
+2. **Development & Code Generation Assistants**:
+   - **Google Antigravity IDE (Gemini Advanced Agentic Assistant)**: Used as the primary pair programmer for repository auditing, test fixture generation, CSS architecture transformation, and pytest test suite construction.
+   - **GitHub Copilot**: Assisted with boilerplate Python typing, docstrings, and HTML markup scaffolding.
+
+3. **Machine Learning Models**:
+   - **Scikit-Learn Ensembles**: Random Forest, Gradient Boosting, and Logistic Regression models trained on synthetic clinical-environmental distributions.
 
 ---
 
@@ -146,6 +164,28 @@ flowchart TD
 | **Frontend Presentation**| Semantic HTML5, Vanilla CSS3, Modern ES6+ JavaScript, Chart.js 4.4 | Reactive single-page app, accessible gauges, voice input |
 | **External APIs** | Open-Meteo Air Quality & Weather Forecast APIs | Live 48-hour atmospheric dispersion & weather data |
 | **Workflow Automation**| n8n Webhook Workflow | Guarded caregiver notification and SMS dispatch |
+
+---
+
+## ⚠️ Limitations & Clinical Boundaries
+
+In compliance with responsible AI in healthcare standards, the core limitations of AirGuard must be explicitly recognized:
+
+1. **Synthetic Training Data**:
+   - The predictive models were trained and evaluated on parameterized synthetic datasets (`data/*.csv`) simulating GINA guidelines and atmospheric conditions.
+   - Synthetic distributions cannot fully reproduce the complexity of real-world patient populations, including multi-morbidities (COPD, rhinitis, cardiovascular disease) or atypical asthma phenotypes.
+2. **Not Clinically Validated**:
+   - The decision support algorithms have not been subjected to multi-center randomized controlled trials (RCTs) or prospective human clinical studies.
+   - All risk stratifications and daily suggestions remain investigational and uncertified for medical diagnosis.
+3. **Not a Cleared Medical Device**:
+   - AirGuard is an assistive prototype. It has not received 510(k) clearance or De Novo classification from the US FDA, CE Mark certification under EU MDR, or CDSCO approval in India.
+   - It does not diagnose disease or prescribe medications. In an acute attack, patients must immediately summon emergency medical services (112 / 108 in India or 911 in the US).
+4. **Indoor Exposure & Microclimate Gaps**:
+   - Telemetry from Open-Meteo reflects regional ambient air monitoring stations (5–10 km radius).
+   - High-impact indoor respiratory triggers (unvented gas stoves, biomass cooking smoke, incense, pet dander, mold spores) cannot be detected without direct personal IoT sensors or patient self-reporting.
+5. **High Sensitivity Trade-Off**:
+   - The system trades accuracy (73.0% -> 63.67%) for higher high-risk sensitivity (~83%) by design.
+   - This deliberate clinical bias prioritizes patient safety by minimizing false negatives at the cost of a higher false-positive alert frequency (~36% on test data).
 
 ---
 
