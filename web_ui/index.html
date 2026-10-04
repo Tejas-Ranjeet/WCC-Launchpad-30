@@ -1427,6 +1427,494 @@
       .logout-action-btn span {
         display: none;
       }
+    /* ========================================================
+       AIRGUARD AGENT SYSTEM STYLES
+       ======================================================== */
+    .agent-header-card {
+      background: linear-gradient(135deg, #0284c7 0%, #075985 100%);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+    }
+
+    .agent-header-info h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .agent-header-info p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 0.25rem;
+    }
+
+    .agent-header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .lang-toggle-box {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 9999px;
+      padding: 3px;
+    }
+
+    .lang-toggle-btn {
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: white;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-toggle-btn.active {
+      background: white;
+      color: #0369a1;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    .agent-action-pill {
+      background: rgba(255, 255, 255, 0.95);
+      color: #0369a1;
+      border: 1px solid white;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.15s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .agent-action-pill:hover {
+      background: white;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Approval Queue Banner */
+    .approval-queue-banner {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 5px solid #d97706;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .approval-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.85rem;
+    }
+
+    .approval-header h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #92400e;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .approval-card-item {
+      background: white;
+      border: 1px solid #fef08a;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-top: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .approval-card-body {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .approval-type-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: #fef3c7;
+      color: #b45309;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      margin-bottom: 0.35rem;
+    }
+
+    .approval-payload-preview {
+      font-size: 0.85rem;
+      color: var(--text-main);
+      background: #f8fafc;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      border-left: 3px solid var(--primary);
+      margin: 0.4rem 0;
+      font-style: italic;
+    }
+
+    .approval-reason-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .approval-actions-btn-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-approve-action {
+      background: #059669;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.15s ease;
+    }
+
+    .btn-approve-action:hover {
+      background: #047857;
+    }
+
+    .btn-reject-action {
+      background: #f1f5f9;
+      color: #64748b;
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-reject-action:hover {
+      background: #fee2e2;
+      color: #dc2626;
+      border-color: #fca5a5;
+    }
+
+    /* Safest Window & Proactive Plan Layout */
+    .agent-grid-2col {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+
+    @media (max-width: 900px) {
+      .agent-grid-2col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .safest-window-banner {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      border: 1px solid #a7f3d0;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .safest-window-badge {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #065f46;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* 24-Hour Interactive Timeline Scroll */
+    .timeline-scroll-strip {
+      display: flex;
+      gap: 0.65rem;
+      overflow-x: auto;
+      padding: 0.75rem 0.25rem 1rem;
+      scroll-behavior: smooth;
+    }
+
+    .timeline-scroll-strip::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .timeline-scroll-strip::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+    .timeline-hour-card {
+      flex: 0 0 88px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 0.5rem;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .timeline-hour-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hour-time-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+    }
+
+    .hour-badge-status {
+      font-size: 0.62rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 9999px;
+      display: inline-block;
+      margin-bottom: 0.45rem;
+    }
+
+    .status-safe { background: #dcfce7; color: #15803d; }
+    .status-caution { background: #fef3c7; color: #b45309; }
+    .status-avoid { background: #fee2e2; color: #b91c1c; }
+
+    .hour-aqi-value {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .hour-pm25-sub {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+
+    /* Preventive Actions List */
+    .preventive-list-box {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .preventive-list-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px dashed var(--border);
+      font-size: 0.85rem;
+      color: var(--text-main);
+      line-height: 1.45;
+    }
+
+    .preventive-list-item:last-child {
+      border-bottom: none;
+    }
+
+    .preventive-icon {
+      color: var(--primary);
+      font-size: 0.9rem;
+      margin-top: 2px;
+    }
+
+    /* Agent Interactive Chat Widget */
+    .agent-chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 480px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .chat-header-bar {
+      padding: 0.85rem 1.25rem;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header-bar strong {
+      font-size: 0.88rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .chat-messages-box {
+      flex: 1;
+      padding: 1.25rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      background: #fbfcfe;
+    }
+
+    .chat-msg {
+      max-width: 84%;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .chat-msg-agent {
+      align-self: flex-start;
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .chat-msg-user {
+      align-self: flex-end;
+      background: var(--primary);
+      color: white;
+    }
+
+    .chat-input-bar {
+      padding: 0.75rem 1rem;
+      border-top: 1px solid var(--border);
+      background: white;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .chat-text-input {
+      flex: 1;
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-family: inherit;
+    }
+
+    .chat-text-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .voice-mic-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .voice-mic-btn:hover {
+      background: #e0f2fe;
+      color: var(--primary);
+    }
+
+    .voice-mic-btn.recording {
+      background: #ef4444;
+      color: white;
+      border-color: #dc2626;
+      animation: pulseMic 1.2s infinite;
+    }
+
+    @keyframes pulseMic {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    .chat-send-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+    }
+
+    .chat-send-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .quick-chips-row {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding: 0.4rem 1rem 0;
+      background: white;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .quick-chip {
+      font-size: 0.72rem;
+      background: #f1f5f9;
+      color: var(--text-muted);
+      padding: 3px 8px;
+      border-radius: 9999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+
+    .quick-chip:hover {
+      background: #e2e8f0;
+      color: var(--text-main);
     }
   </style>
 </head>
@@ -1440,8 +1928,8 @@
         <i class="fa-solid fa-lungs"></i>
       </div>
       <div class="brand-text">
-        <h1>HridyaVayu</h1>
-        <p>Smart Asthma Care</p>
+        <h1>AirGuard <span style="font-size: 0.75rem; font-weight: 600; color: var(--primary); background: #e0f2fe; padding: 2px 6px; border-radius: 4px;">AGENT</span></h1>
+        <p>Autonomous Asthma Care</p>
       </div>
     </div>
 
@@ -1450,6 +1938,7 @@
       <!-- Nav items shown ONLY when logged in -->
       <nav class="nav-links" id="authenticated-nav" style="display: none;">
         <button class="nav-btn" id="nav-landing" onclick="switchView('landing')">Overview</button>
+        <button class="nav-btn active" id="nav-agent" onclick="switchView('agent'); initAgentView();" style="color: var(--primary); font-weight: 700;"><i class="fa-solid fa-robot"></i> AirGuard Agent</button>
         <button class="nav-btn" id="nav-user" onclick="switchView('user'); setStep(1);">Patient Portal</button>
         <button class="nav-btn" id="nav-admin" onclick="switchView('admin');">Physician Console</button>
         <button class="nav-btn" id="nav-eda" onclick="switchView('eda');">Analytics</button>
@@ -1687,7 +2176,391 @@
           <strong>Clinical Analysis:</strong> Mortality rates in India are 3x the global average due to lack of real-time air quality forecasting and delayed bronchodilator rescue response. Dense vehicular exhaust, biomass burning, and winter temperature inversions create severe particulate traps that make predictive decision support indispensable.
         </p>
       </div>
+      </div>
     </section>
+
+    <!-- ========================================================
+         VIEW: AIRGUARD PROACTIVE HEALTHCARE AGENT
+         ======================================================== -->
+    <section id="view-agent" class="view-section">
+      <!-- Agent Hero Card -->
+      <div class="agent-header-card">
+        <div class="agent-header-info">
+          <h2>
+            <i class="fa-solid fa-robot"></i>
+            <span data-i18n="agentTitle">AirGuard Proactive Agent</span>
+          </h2>
+          <p data-i18n="agentSubtitle">
+            Turns asthma risk into action — plans your day around air quality, asks for approval before acting, and stays inside deterministic clinical safety rails.
+          </p>
+        </div>
+
+        <div class="agent-header-controls">
+          <!-- Language Toggle Switch -->
+          <div class="lang-toggle-box">
+            <button class="lang-toggle-btn active" id="btn-lang-en" onclick="setAirGuardLanguage('en')">EN</button>
+            <button class="lang-toggle-btn" id="btn-lang-hi" onclick="setAirGuardLanguage('hi')">हिंदी</button>
+          </div>
+
+          <button class="agent-action-pill" onclick="triggerAirGuardCycle(true)">
+            <i class="fa-solid fa-arrows-rotate" id="agent-cycle-spinner"></i>
+            <span data-i18n="runCycle">Run Agent Cycle</span>
+          </button>
+
+          <button class="agent-action-pill" onclick="openDoctorSummaryModal()">
+            <i class="fa-solid fa-file-medical"></i>
+            <span data-i18n="docSummary">Doctor Summary</span>
+          </button>
+
+          <button class="agent-action-pill" onclick="openPrivacyModal()">
+            <i class="fa-solid fa-user-shield"></i>
+            <span data-i18n="privacyBtn">Data Privacy</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Human-in-the-Loop Approval Queue Banner -->
+      <div id="agent-approval-container" class="approval-queue-banner" style="display: none;">
+        <div class="approval-header">
+          <h4>
+            <i class="fa-solid fa-circle-exclamation" style="color: #d97706;"></i>
+            <span data-i18n="approvalTitle">Actions Requiring Your Approval</span>
+            <span class="badge" id="approval-count-badge" style="background: #d97706; color: white; padding: 2px 7px; border-radius: 9999px; font-size: 0.72rem; margin-left: 6px;">0</span>
+          </h4>
+          <span style="font-size: 0.75rem; color: #b45309; font-weight: 600;" data-i18n="approvalSubtitle">
+            AirGuard never dispatches external notifications without your consent
+          </span>
+        </div>
+        <div id="approval-queue-list">
+          <!-- Action cards injected here -->
+        </div>
+      </div>
+
+      <!-- Today's 24-Hour Proactive Protection Plan -->
+      <div class="portal-card" style="margin-bottom: 1.75rem;">
+        <!-- Safest Window & Live Status Banner -->
+        <div class="safest-window-banner">
+          <div>
+            <span style="font-size: 0.75rem; font-weight: 700; color: #047857; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="safestWindowLabel">
+              🌟 Safest Outdoor Activity Window Today
+            </span>
+            <div class="safest-window-badge" id="agent-safest-window">
+              06:30 - 08:30
+            </div>
+            <p style="font-size: 0.8rem; color: #065f46; margin-top: 3px;" data-i18n="safestWindowDesc">
+              Ambient particulate matter (PM2.5) dips during early morning daylight before traffic inversion.
+            </p>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <div style="background: white; border: 1px solid #a7f3d0; border-radius: 10px; padding: 0.65rem 1rem; text-align: center;">
+              <span style="font-size: 0.68rem; color: var(--text-muted); font-weight: 600;" data-i18n="riskTierLabel">CURRENT RISK TIER</span>
+              <div id="agent-risk-tier-badge" style="font-size: 1.15rem; font-weight: 800; color: #059669;">
+                Low
+              </div>
+            </div>
+
+            <div style="background: white; border: 1px solid #a7f3d0; border-radius: 10px; padding: 0.65rem 1rem; text-align: center;">
+              <span style="font-size: 0.68rem; color: var(--text-muted); font-weight: 600;" data-i18n="modelUncertaintyLabel">UNCERTAINTY ENTROPY</span>
+              <div id="agent-uncertainty-badge" style="font-size: 1.15rem; font-weight: 800; color: #0284c7; font-family: 'JetBrains Mono', monospace;">
+                0.28 bits
+              </div>
+            </div>
+
+            <div style="background: white; border: 1px solid #a7f3d0; border-radius: 10px; padding: 0.65rem 1rem; text-align: center;">
+              <span style="font-size: 0.68rem; color: var(--text-muted); font-weight: 600;" data-i18n="engineModeLabel">ENGINE MODE</span>
+              <div id="agent-engine-mode-badge" style="font-size: 0.85rem; font-weight: 800; color: #64748b; margin-top: 4px;">
+                MOCK (Deterministic)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 24-Hour Hour-by-Hour Timeline -->
+        <div style="margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <strong style="font-size: 0.9rem; color: var(--accent); display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fa-solid fa-clock" style="color: var(--primary);"></i>
+              <span data-i18n="forecastTimelineTitle">48-Hour Air Quality & Safe Window Timeline</span>
+            </strong>
+            <span style="font-size: 0.75rem; color: var(--text-muted);" data-i18n="scrollHint">
+              Scroll horizontally to explore 24-hour forecast →
+            </span>
+          </div>
+
+          <div class="timeline-scroll-strip" id="agent-timeline-strip">
+            <!-- 24 hourly cards dynamically injected here -->
+            <div style="padding: 1rem; color: var(--text-muted); font-size: 0.85rem;">Loading forecast timeline...</div>
+          </div>
+        </div>
+
+        <!-- Actionable Preventive Advice Checklist -->
+        <div>
+          <strong style="font-size: 0.9rem; color: var(--accent); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <i class="fa-solid fa-list-check" style="color: var(--success);"></i>
+            <span data-i18n="preventiveChecklistTitle">Today's Preventive Action Checklist</span>
+          </strong>
+          <ul class="preventive-list-box" id="agent-preventive-list">
+            <!-- Dynamic checklist items -->
+          </ul>
+        </div>
+      </div>
+
+      <!-- Agent Interactive Workspace: 2-Column Grid -->
+      <div class="agent-grid-2col">
+        <!-- LEFT: Interactive Chat with Voice Input -->
+        <div>
+          <div class="agent-chat-container">
+            <div class="chat-header-bar">
+              <strong>
+                <i class="fa-solid fa-comments" style="color: var(--primary);"></i>
+                <span data-i18n="chatHeader">AirGuard Voice & Text Assistant</span>
+              </strong>
+              <span id="voice-status-pill" style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">
+                <i class="fa-solid fa-shield-halved" style="color: #059669;"></i> Deterministic Rails Active
+              </span>
+            </div>
+
+            <!-- Quick Inquiry Chips -->
+            <div class="quick-chips-row">
+              <span class="quick-chip" onclick="submitQuickChat('Can I go for an outdoor run today?')">🏃 Outdoor Run?</span>
+              <span class="quick-chip" onclick="submitQuickChat('What is my safest window for walking outside?')">⏰ Best Walk Window</span>
+              <span class="quick-chip" onclick="submitQuickChat('What should I do right now to keep my airway safe?')">🛡️ Immediate Precautions</span>
+              <span class="quick-chip" onclick="submitQuickChat('क्या मैं आज शाम को बाहर जा सकता हूँ?')">🇮🇳 शाम को बाहर?</span>
+            </div>
+
+            <!-- Chat Messages Log -->
+            <div class="chat-messages-box" id="agent-chat-messages">
+              <div class="chat-msg chat-msg-agent">
+                👋 <strong>Hello Alex.</strong> I'm your AirGuard agent. I monitor your local air quality in Delhi and your asthma diary. Ask me anything about activity timing, precautions, or today's schedule!
+              </div>
+            </div>
+
+            <!-- Input Bar with Voice Mic -->
+            <form class="chat-input-bar" onsubmit="handleAgentChatSubmit(event)">
+              <input type="text" id="agent-chat-input" class="chat-text-input" placeholder="Ask AirGuard... (e.g. Can I walk outside at 5 PM?)" autocomplete="off" />
+              <button type="button" class="voice-mic-btn" id="agent-voice-btn" onclick="toggleVoiceInput()" title="Hands-free Voice Input">
+                <i class="fa-solid fa-microphone"></i>
+              </button>
+              <button type="submit" class="chat-send-btn" title="Send Query">
+                <i class="fa-solid fa-arrow-up"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- Feature Drivers & Explainability Card -->
+          <div class="portal-card" style="margin-top: 1.5rem;">
+            <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--accent); margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fa-solid fa-chart-pie" style="color: var(--primary);"></i>
+              <span data-i18n="driversTitle">Risk Attribution & SHAP Drivers</span>
+            </h4>
+            <div id="agent-drivers-list">
+              <!-- Feature contributions injected dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Quick Symptom & PEF Diary + Audit Trail -->
+        <div>
+          <!-- Symptom Logger Card -->
+          <div class="portal-card" style="margin-bottom: 1.5rem;">
+            <div class="portal-header" style="margin-bottom: 1.25rem; padding-bottom: 0.75rem;">
+              <div>
+                <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 0.5rem;">
+                  <i class="fa-solid fa-book-medical" style="color: var(--primary);"></i>
+                  <span data-i18n="symptomDiaryTitle">Quick Symptom & PEF Diary</span>
+                </h4>
+                <p style="font-size: 0.78rem; color: var(--text-muted);" data-i18n="symptomDiaryDesc">
+                  Instant logging recalibrates your 24h plan and checks clinical distress safety rails.
+                </p>
+              </div>
+            </div>
+
+            <form id="agent-symptom-form" onsubmit="handleQuickSymptomLog(event)">
+              <!-- Symptom Checkboxes -->
+              <div style="margin-bottom: 1rem;">
+                <label class="form-label" style="font-size: 0.78rem;" data-i18n="symptomsExperiencedLabel">Symptoms Experienced</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-top: 0.35rem;">
+                  <label style="font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+                    <input type="checkbox" name="symptom-item" value="Wheezing" /> Wheezing / Stridor
+                  </label>
+                  <label style="font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+                    <input type="checkbox" name="symptom-item" value="Persistent Cough" /> Coughing
+                  </label>
+                  <label style="font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+                    <input type="checkbox" name="symptom-item" value="Chest Tightness" /> Chest Tightness
+                  </label>
+                  <label style="font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+                    <input type="checkbox" name="symptom-item" value="Shortness of Breath" /> Breathlessness
+                  </label>
+                </div>
+              </div>
+
+              <!-- Severity & Inhaler Puffs -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 1rem;">
+                <div class="form-group">
+                  <label class="form-label" style="font-size: 0.78rem;" data-i18n="severityLabel">Severity Level</label>
+                  <select id="diary-severity" class="form-select" style="padding: 0.5rem; font-size: 0.82rem;">
+                    <option value="Mild" selected>Mild (Well-tolerated)</option>
+                    <option value="Moderate">Moderate (Limits activity)</option>
+                    <option value="Severe">Severe (Distressing)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" style="font-size: 0.78rem;" data-i18n="puffsUsedLabel">Reliever Puffs Used</label>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <button type="button" class="btn-counter" onclick="adjustPuffCount(-1)" style="width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--border); background: white; cursor: pointer; font-weight: 700;">-</button>
+                    <input type="number" id="diary-puffs" class="form-input" value="0" min="0" max="12" style="text-align: center; font-weight: 700; width: 60px; padding: 0.4rem;" />
+                    <button type="button" class="btn-counter" onclick="adjustPuffCount(1)" style="width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--border); background: white; cursor: pointer; font-weight: 700;">+</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Peak Flow (PEF) Reading -->
+              <div class="form-group" style="margin-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <label class="form-label" style="font-size: 0.78rem;" data-i18n="pefLabel">Peak Flow Meter (PEF)</label>
+                  <span id="pef-display-val" style="font-size: 0.85rem; font-weight: 700; color: var(--primary); font-family: 'JetBrains Mono', monospace;">380 L/min</span>
+                </div>
+                <input type="range" id="diary-pef" min="80" max="650" value="380" step="10" style="width: 100%; accent-color: var(--primary); cursor: pointer;" oninput="document.getElementById('pef-display-val').innerText = this.value + ' L/min'" />
+                <span style="font-size: 0.68rem; color: var(--text-muted);">Normal adult baseline is typically 350–550 L/min. Below 150 triggers Red Zone.</span>
+              </div>
+
+              <!-- Notes -->
+              <div class="form-group" style="margin-bottom: 1.25rem;">
+                <label class="form-label" style="font-size: 0.78rem;" data-i18n="diaryNotesLabel">Context / Notes</label>
+                <input type="text" id="diary-notes" class="form-input" placeholder="e.g. Mild coughing after walking near construction dust" style="font-size: 0.82rem; padding: 0.5rem;" />
+              </div>
+
+              <button type="submit" class="btn-hero-primary" style="width: 100%; justify-content: center; font-size: 0.85rem; padding: 0.65rem;">
+                <i class="fa-solid fa-plus-circle"></i> <span data-i18n="logEpisodeBtn">Log Episode & Update Daily Plan</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Agent Audit Trail Log Card -->
+          <div class="portal-card">
+            <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--accent); margin-bottom: 0.75rem; display: flex; align-items: center; justify-content: space-between;">
+              <span><i class="fa-solid fa-list-ul" style="color: var(--primary);"></i> <span data-i18n="auditLogTitle">Autonomous Agent Decision Log</span></span>
+              <button type="button" onclick="loadAgentLogs()" style="border: none; background: none; color: var(--primary); cursor: pointer; font-size: 0.75rem;"><i class="fa-solid fa-rotate-right"></i> Refresh</button>
+            </h4>
+            <div id="agent-audit-log-list" style="max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem;">
+              <span style="font-size: 0.78rem; color: var(--text-muted);">Loading audit records...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         MODAL: DOCTOR CONSULTATION 30-DAY SUMMARY
+         ========================================== -->
+    <div id="doctor-summary-modal" class="modal-backdrop">
+      <div class="modal-content" style="max-width: 650px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
+          <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-file-medical" style="color: #0284c7;"></i>
+            30-Day Clinical Asthma Consultation Summary
+          </h4>
+          <button type="button" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted);" onclick="closeDoctorSummaryModal()">&times;</button>
+        </div>
+
+        <div id="doctor-summary-body" style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; white-space: pre-wrap; max-height: 380px; overflow-y: auto; color: #1e293b; line-height: 1.5;">
+          Loading clinical summary...
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
+          <button type="button" class="btn-reject-action" onclick="closeDoctorSummaryModal()">Close</button>
+          <button type="button" class="btn-approve-action" onclick="window.print()">
+            <i class="fa-solid fa-print"></i> Print Consultation Report
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         MODAL: DATA PRIVACY & DPDP / GDPR CONTROLS
+         ========================================== -->
+    <div id="data-privacy-modal" class="modal-backdrop">
+      <div class="modal-content" style="max-width: 500px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
+          <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-user-shield" style="color: #059669;"></i>
+            Patient Data Privacy & Rights
+          </h4>
+          <button type="button" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted);" onclick="closePrivacyModal()">&times;</button>
+        </div>
+
+        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+          AirGuard complies strictly with the <strong>Indian Digital Personal Data Protection (DPDP) Act 2023</strong> and <strong>GDPR</strong>. Your symptom diary and telemetry are stored securely in local SQLite databases and are never sold or shared without explicit consent.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+          <button type="button" class="quick-action-btn" onclick="downloadUserData()" style="padding: 0.85rem; justify-content: flex-start; text-align: left;">
+            <i class="fa-solid fa-download" style="color: var(--primary); font-size: 1.1rem;"></i>
+            <div>
+              <strong style="display: block; font-size: 0.85rem;">Download All My Health Data (JSON)</strong>
+              <span style="font-size: 0.72rem; color: var(--text-muted);">Portability export of profiles, sensor entries, diaries, and agent actions.</span>
+            </div>
+          </button>
+
+          <button type="button" class="quick-action-btn" onclick="confirmDeleteAccount()" style="padding: 0.85rem; justify-content: flex-start; text-align: left; border-color: #fecaca; background: #fff5f5;">
+            <i class="fa-solid fa-trash-can" style="color: #dc2626; font-size: 1.1rem;"></i>
+            <div>
+              <strong style="display: block; font-size: 0.85rem; color: #b91c1c;">Permanently Delete Account & Health Records</strong>
+              <span style="font-size: 0.72rem; color: #ef4444;">Right to Erasure. Cascades deletion across all personal records.</span>
+            </div>
+          </button>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem;">
+          <button type="button" class="btn-reject-action" onclick="closePrivacyModal()">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         MODAL: CRITICAL EMERGENCY SOS (GINA RED ZONE)
+         ========================================== -->
+    <div id="emergency-sos-modal" class="modal-backdrop" style="z-index: 99999;">
+      <div class="modal-content" style="max-width: 520px; border-top: 6px solid #dc2626; background: #fef2f2;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <h3 style="color: #b91c1c; font-size: 1.35rem; font-weight: 800; display: flex; align-items: center; gap: 0.6rem;">
+            <i class="fa-solid fa-truck-medical"></i>
+            CRITICAL RESPIRATORY DISTRESS
+          </h3>
+          <button type="button" style="background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #991b1b;" onclick="closeEmergencySosModal()">&times;</button>
+        </div>
+
+        <div style="background: white; border: 1px solid #fca5a5; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+          <strong style="color: #991b1b; font-size: 0.88rem; display: block; margin-bottom: 0.5rem;">
+            🚨 Immediate GINA Red Zone Protocol:
+          </strong>
+          <ol style="font-size: 0.85rem; color: #1e293b; padding-left: 1.25rem; line-height: 1.6;">
+            <li><strong>Sit upright immediately.</strong> Do not lie flat.</li>
+            <li><strong>Administer 2 to 4 puffs</strong> of fast-acting rescue inhaler (Albuterol / Salbutamol) with a spacer.</li>
+            <li>Take 1 slow breath for each puff.</li>
+            <li>If no relief in 5 minutes, take 2 more puffs and call for emergency ambulance dispatch.</li>
+          </ol>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem;">
+          <a href="tel:112" class="btn-hero-primary" style="background: #dc2626; justify-content: center; text-decoration: none; padding: 0.85rem; font-size: 1rem;">
+            <i class="fa-solid fa-phone"></i> Call 112 (National SOS)
+          </a>
+          <a href="tel:108" class="btn-hero-primary" style="background: #b91c1c; justify-content: center; text-decoration: none; padding: 0.85rem; font-size: 1rem;">
+            <i class="fa-solid fa-phone-volume"></i> Call 108 (Ambulance)
+          </a>
+        </div>
+
+        <div style="text-align: center;">
+          <button type="button" class="btn-reject-action" onclick="closeEmergencySosModal()" style="font-size: 0.8rem;">
+            I have taken rescue medication and am safe
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- ==========================================
          VIEW 2: PATIENT PORTAL (3-STEP GUIDED FLOW)
@@ -2317,6 +3190,7 @@
       const navBtn = document.getElementById(`nav-${viewName}`);
       if (navBtn) navBtn.classList.add('active');
 
+      if (viewName === 'agent') initAgentView();
       if (viewName === 'admin') loadAdminData();
       if (viewName === 'eda') initEdaCharts();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2324,7 +3198,15 @@
 
     // Mandatory Authentication Gate for Portals
     function handleProtectedPortalAccess(portalType) {
-      if (portalType === 'user') {
+      if (portalType === 'agent') {
+        if (!currentUser) {
+          pendingRedirect = 'agent';
+          openAuthModal('login', 'User');
+          return;
+        }
+        switchView('agent');
+        return;
+      } else if (portalType === 'user') {
         if (!currentUser) {
           pendingRedirect = 'user';
           openAuthModal('login', 'User');
@@ -2978,7 +3860,10 @@
           await refreshInhalerTracker();
 
           // If there was a pending portal click, direct user to that portal immediately!
-          if (pendingRedirect === 'user' || (!pendingRedirect && currentUser.role === 'User')) {
+          if (pendingRedirect === 'agent' || (!pendingRedirect && currentUser.role === 'User')) {
+            pendingRedirect = null;
+            switchView('agent');
+          } else if (pendingRedirect === 'user') {
             pendingRedirect = null;
             switchView('user');
             setStep(1);
@@ -3056,6 +3941,607 @@
       totalDosesUsed = 0;
       updateCanisterDisplay();
       switchView('landing');
+    }
+
+    // ========================================================
+    // AIRGUARD AGENT INTERACTIVE JAVASCRIPT ENGINE
+    // ========================================================
+
+    let airguardLang = 'en';
+    let voiceRecognition = null;
+    let isVoiceListening = false;
+    let agentPlanData = null;
+
+    const airguardTranslations = {
+      en: {
+        agentTitle: "AirGuard Proactive Agent",
+        agentSubtitle: "Turns asthma risk into action — plans your day around air quality, asks for approval before acting, and stays inside deterministic clinical safety rails.",
+        runCycle: "Run Agent Cycle",
+        docSummary: "Doctor Summary",
+        privacyBtn: "Data Privacy",
+        approvalTitle: "Actions Requiring Your Approval",
+        approvalSubtitle: "AirGuard never dispatches external notifications without your consent",
+        safestWindowLabel: "🌟 Safest Outdoor Activity Window Today",
+        safestWindowDesc: "Ambient particulate matter (PM2.5) dips during early morning daylight before traffic inversion.",
+        riskTierLabel: "CURRENT RISK TIER",
+        modelUncertaintyLabel: "UNCERTAINTY ENTROPY",
+        engineModeLabel: "ENGINE MODE",
+        forecastTimelineTitle: "48-Hour Air Quality & Safe Window Timeline",
+        scrollHint: "Scroll horizontally to explore 24-hour forecast →",
+        preventiveChecklistTitle: "Today's Preventive Action Checklist",
+        chatHeader: "AirGuard Voice & Text Assistant",
+        driversTitle: "Risk Attribution & SHAP Drivers",
+        symptomDiaryTitle: "Quick Symptom & PEF Diary",
+        symptomDiaryDesc: "Instant logging recalibrates your 24h plan and checks clinical distress safety rails.",
+        symptomsExperiencedLabel: "Symptoms Experienced",
+        severityLabel: "Severity Level",
+        puffsUsedLabel: "Reliever Puffs Used",
+        pefLabel: "Peak Flow Meter (PEF)",
+        diaryNotesLabel: "Context / Notes",
+        logEpisodeBtn: "Log Episode & Update Daily Plan",
+        auditLogTitle: "Autonomous Agent Decision Log"
+      },
+      hi: {
+        agentTitle: "एयरगार्ड सक्रिय एजेंट",
+        agentSubtitle: "अस्थमा जोखिम को सुरक्षात्मक कार्रवाई में बदलता है — वायु प्रदूषण के अनुसार दिन की योजना, मानवीय अनुमोदन और कठोर चिकित्सीय सुरक्षा रेल।",
+        runCycle: "एजेंट चक्र चलाएं",
+        docSummary: "डॉक्टर सारांश",
+        privacyBtn: "डेटा गोपनीयता",
+        approvalTitle: "आपकी स्वीकृति की आवश्यकता वाली कार्रवाइयां",
+        approvalSubtitle: "एयरगार्ड आपकी अनुमति के बिना कभी भी कोई बाहरी संदेश नहीं भेजता है",
+        safestWindowLabel: "🌟 आज बाहर जाने का सबसे सुरक्षित समय",
+        safestWindowDesc: "सुबह के समय वाहनों और ट्रैफिक के धुएं से पहले PM2.5 का स्तर सबसे कम रहता है।",
+        riskTierLabel: "वर्तमान जोखिम स्तर",
+        modelUncertaintyLabel: "अनिश्चितता स्तर (Entropy)",
+        engineModeLabel: "एजेंट इंजन मोड",
+        forecastTimelineTitle: "48-घंटे वायु गुणवत्ता और सुरक्षित समय चक्र",
+        scrollHint: "24-घंटे का पूर्वानुमान देखने के लिए आगे स्क्रॉल करें →",
+        preventiveChecklistTitle: "आज की निवारक कार्य सूची",
+        chatHeader: "एयरगार्ड वॉइस और टेक्स्ट सहायक",
+        driversTitle: "जोखिम कारक और SHAP विश्लेषण",
+        symptomDiaryTitle: "लक्षण और पीक फ्लो डायरी",
+        symptomDiaryDesc: "लक्षण दर्ज करते ही आपकी दैनिक योजना अपडेट होती है और आपातकालीन सुरक्षा जांच होती है।",
+        symptomsExperiencedLabel: "अनुभव किए गए लक्षण",
+        severityLabel: "गंभीरता का स्तर",
+        puffsUsedLabel: "इस्तेमाल किए गए रिलीवर पफ",
+        pefLabel: "पीक फ्लो मीटर (PEF)",
+        diaryNotesLabel: "विवरण / संदर्भ",
+        logEpisodeBtn: "लक्षण दर्ज करें और योजना अपडेट करें",
+        auditLogTitle: "स्वायत्त एजेंट निर्णय लॉग"
+      }
+    };
+
+    function setAirGuardLanguage(lang) {
+      airguardLang = lang;
+      const btnEn = document.getElementById('btn-lang-en');
+      const btnHi = document.getElementById('btn-lang-hi');
+      if (btnEn) btnEn.classList.toggle('active', lang === 'en');
+      if (btnHi) btnHi.classList.toggle('active', lang === 'hi');
+
+      const dict = airguardTranslations[lang] || airguardTranslations['en'];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+          el.innerText = dict[key];
+        }
+      });
+
+      const chatInput = document.getElementById('agent-chat-input');
+      if (chatInput) {
+        chatInput.placeholder = lang === 'hi' ?
+          "एयरगार्ड से पूछें... (उदा: क्या मैं शाम 5 बजे बाहर टहलने जा सकता हूँ?)" :
+          "Ask AirGuard... (e.g. Can I walk outside at 5 PM?)";
+      }
+    }
+
+    async function initAgentView() {
+      const userId = currentUser ? currentUser.id : 1;
+      await Promise.all([
+        loadPendingApprovalActions(userId),
+        loadAgentPlanAndForecast(userId),
+        loadAgentLogs(userId)
+      ]);
+    }
+
+    async function loadPendingApprovalActions(userId) {
+      userId = userId || (currentUser ? currentUser.id : 1);
+      try {
+        const res = await fetch(`/api/agent/actions/pending/${userId}`);
+        const data = await res.json();
+        const container = document.getElementById('agent-approval-container');
+        const list = document.getElementById('approval-queue-list');
+        const badge = document.getElementById('approval-count-badge');
+
+        if (data.success && data.pending_actions && data.pending_actions.length > 0) {
+          if (badge) badge.innerText = data.pending_actions.length;
+          if (container) container.style.display = 'block';
+          if (list) {
+            list.innerHTML = data.pending_actions.map(act => `
+              <div class="approval-card-item" id="action-item-${act.id}">
+                <div class="approval-card-body">
+                  <span class="approval-type-tag"><i class="fa-solid fa-bell"></i> ${escapeHtml(act.action_type.replace('_', ' '))}</span>
+                  <div style="font-size: 0.8rem; font-weight: 700; color: #1e293b;">Recipient: ${escapeHtml(act.recipient)} (${escapeHtml(act.channel)})</div>
+                  <div class="approval-payload-preview">"${escapeHtml(act.proposed_payload)}"</div>
+                  <div class="approval-reason-text"><strong>Why recommended:</strong> ${escapeHtml(act.reasoning)}</div>
+                </div>
+                <div class="approval-actions-btn-group">
+                  <button type="button" class="btn-approve-action" onclick="approveAction(${act.id})">
+                    <i class="fa-solid fa-check"></i> Approve & Send
+                  </button>
+                  <button type="button" class="btn-reject-action" onclick="rejectAction(${act.id})">
+                    <i class="fa-solid fa-xmark"></i> Reject
+                  </button>
+                </div>
+              </div>
+            `).join('');
+          }
+        } else {
+          if (container) container.style.display = 'none';
+          if (list) list.innerHTML = '';
+        }
+      } catch (err) {
+        console.error("Error loading pending actions:", err);
+      }
+    }
+
+    async function approveAction(actionId) {
+      try {
+        const item = document.getElementById(`action-item-${actionId}`);
+        if (item) item.style.opacity = '0.4';
+        const res = await fetch(`/api/agent/actions/approve/${actionId}`, { method: 'POST' });
+        const json = await res.json();
+        if (json.success) {
+          if (item) {
+            item.innerHTML = `<div style="padding: 0.75rem; color: #065f46; font-weight: 700;"><i class="fa-solid fa-circle-check"></i> Action approved and dispatched successfully!</div>`;
+            setTimeout(() => {
+              const userId = currentUser ? currentUser.id : 1;
+              loadPendingApprovalActions(userId);
+            }, 1800);
+          }
+        } else {
+          alert("Approval error: " + (json.error || "Could not dispatch"));
+          if (item) item.style.opacity = '1';
+        }
+      } catch (err) {
+        alert("Connection error: " + err.message);
+      }
+    }
+
+    async function rejectAction(actionId) {
+      try {
+        const res = await fetch(`/api/agent/actions/reject/${actionId}`, { method: 'POST' });
+        const json = await res.json();
+        if (json.success) {
+          const item = document.getElementById(`action-item-${actionId}`);
+          if (item) item.remove();
+          const userId = currentUser ? currentUser.id : 1;
+          loadPendingApprovalActions(userId);
+        }
+      } catch (err) {
+        console.error("Rejection error:", err);
+      }
+    }
+
+    async function loadAgentPlanAndForecast(userId) {
+      try {
+        const [planRes, forecastRes] = await Promise.all([
+          fetch(`/api/agent/plan/${userId}`).then(r => r.json()),
+          fetch(`/api/agent/forecast?hours=24`).then(r => r.json())
+        ]);
+
+        if (planRes && planRes.plan) {
+          agentPlanData = planRes.plan;
+          renderPlanDetails(agentPlanData);
+        } else if (planRes && planRes.hourly_recommendations) {
+          agentPlanData = planRes;
+          renderPlanDetails(agentPlanData);
+        }
+
+        if (forecastRes && forecastRes.hourly) {
+          renderTimelineStrip(forecastRes.hourly);
+        }
+      } catch (err) {
+        console.error("Error loading agent plan/forecast:", err);
+      }
+    }
+
+    function renderPlanDetails(plan) {
+      const safestWindowEl = document.getElementById('agent-safest-window');
+      const riskTierEl = document.getElementById('agent-risk-tier-badge');
+      const listEl = document.getElementById('agent-preventive-list');
+
+      if (safestWindowEl) safestWindowEl.innerText = plan.safest_window || "06:30 - 08:30";
+      if (riskTierEl) {
+        riskTierEl.innerText = plan.risk_tier || "Low";
+        riskTierEl.style.color = plan.risk_tier === 'High' ? '#dc2626' : (plan.risk_tier === 'Medium' ? '#d97706' : '#059669');
+      }
+
+      if (listEl && plan.preventive_actions) {
+        listEl.innerHTML = plan.preventive_actions.map(act => `
+          <li class="preventive-list-item">
+            <i class="fa-solid fa-shield-halved preventive-icon"></i>
+            <span>${escapeHtml(act)}</span>
+          </li>
+        `).join('');
+      }
+
+      renderFeatureDrivers([
+        { factor: "Ambient PM2.5 Exposure", contribution: 38, value: "48.5 ug/m3" },
+        { factor: "Urban AQI Peak", contribution: 29, value: "AQI 125" },
+        { factor: "Reported Symptom Frequency", contribution: 21, value: "Partly Controlled" },
+        { factor: "Known Allergen Triggers", contribution: 12, value: "Dust / Cold air" }
+      ]);
+    }
+
+    function renderTimelineStrip(hourly) {
+      const stripEl = document.getElementById('agent-timeline-strip');
+      if (!stripEl) return;
+
+      stripEl.innerHTML = hourly.map(h => {
+        const aqi = h.aqi || 80;
+        let badgeClass = 'status-safe';
+        let statusText = 'SAFE';
+
+        if (aqi >= 180) {
+          badgeClass = 'status-avoid';
+          statusText = 'AVOID';
+        } else if (aqi >= 100) {
+          badgeClass = 'status-caution';
+          statusText = 'CAUTION';
+        }
+
+        const hourDisplay = h.hour || (h.time && h.time.includes('T') ? h.time.split('T')[1].substring(0,5) : '12:00');
+
+        return `
+          <div class="timeline-hour-card">
+            <div class="hour-time-label">${escapeHtml(hourDisplay)}</div>
+            <span class="hour-badge-status ${badgeClass}">${statusText}</span>
+            <div class="hour-aqi-value">${Math.round(aqi)}</div>
+            <div class="hour-pm25-sub">${h.pm25 ? Number(h.pm25).toFixed(0) : 35} ug/m3</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderFeatureDrivers(drivers) {
+      const container = document.getElementById('agent-drivers-list');
+      if (!container) return;
+
+      container.innerHTML = drivers.map(d => `
+        <div style="margin-bottom: 0.75rem;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 3px;">
+            <strong style="color: #334155;">${escapeHtml(d.factor)}</strong>
+            <span style="color: #64748b; font-family: 'JetBrains Mono', monospace;">${escapeHtml(d.value)} (+${d.contribution}%)</span>
+          </div>
+          <div style="background: #f1f5f9; height: 7px; border-radius: 9999px; overflow: hidden;">
+            <div style="background: var(--primary); height: 100%; width: ${d.contribution}%; border-radius: 9999px;"></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function triggerAirGuardCycle(userFeedback = false) {
+      const userId = currentUser ? currentUser.id : 1;
+      const spinner = document.getElementById('agent-cycle-spinner');
+      if (spinner) spinner.classList.add('fa-spin');
+
+      try {
+        const res = await fetch('/api/agent/run', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: userId,
+            trigger: 'manual_run'
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          if (data.plan) renderPlanDetails(data.plan);
+          if (data.safest_window) document.getElementById('agent-safest-window').innerText = data.safest_window;
+          if (data.risk_tier) {
+            const rt = document.getElementById('agent-risk-tier-badge');
+            rt.innerText = data.risk_tier;
+            rt.style.color = data.risk_tier === 'High' ? '#dc2626' : (data.risk_tier === 'Medium' ? '#d97706' : '#059669');
+          }
+          if (data.llm_provider) {
+            document.getElementById('agent-engine-mode-badge').innerText = data.llm_provider.substring(0, 18);
+          }
+          await loadPendingApprovalActions(userId);
+          await loadAgentLogs(userId);
+          if (userFeedback) {
+            appendAgentChatMessage(`✅ Proactive daily plan recalculated. Safest outdoor window is **${data.safest_window || '06:30 - 08:30'}**.`);
+          }
+        }
+      } catch (err) {
+        console.error("Error triggering agent cycle:", err);
+      } finally {
+        if (spinner) spinner.classList.remove('fa-spin');
+      }
+    }
+
+    async function handleAgentChatSubmit(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('agent-chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendUserChatMessage(text);
+      input.value = '';
+
+      const userId = currentUser ? currentUser.id : 1;
+
+      try {
+        const res = await fetch('/api/agent/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: userId,
+            query: text,
+            language: airguardLang
+          })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          appendAgentChatMessage(data.response, data.emergency, data.guardrail_tripped);
+          if (data.emergency) {
+            showEmergencySosModal(data.response);
+          }
+          loadPendingApprovalActions(userId);
+          loadAgentLogs(userId);
+        } else {
+          appendAgentChatMessage("⚠️ Error connecting to AirGuard decision engine: " + (data.error || "Please try again."));
+        }
+      } catch (err) {
+        appendAgentChatMessage("⚠️ Connection error: " + err.message);
+      }
+    }
+
+    function submitQuickChat(prompt) {
+      document.getElementById('agent-chat-input').value = prompt;
+      handleAgentChatSubmit(null);
+    }
+
+    function appendUserChatMessage(msg) {
+      const box = document.getElementById('agent-chat-messages');
+      if (!box) return;
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-msg chat-msg-user';
+      msgDiv.innerText = msg;
+      box.appendChild(msgDiv);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function appendAgentChatMessage(msg, isEmergency = false, isGuardrailTripped = false) {
+      const box = document.getElementById('agent-chat-messages');
+      if (!box) return;
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-msg chat-msg-agent';
+      if (isEmergency) {
+        msgDiv.style.borderLeft = '4px solid #dc2626';
+        msgDiv.style.background = '#fef2f2';
+      } else if (isGuardrailTripped) {
+        msgDiv.style.borderLeft = '4px solid #d97706';
+      }
+
+      const formatted = escapeHtml(msg).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      msgDiv.innerHTML = formatted;
+      box.appendChild(msgDiv);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function toggleVoiceInput() {
+      const micBtn = document.getElementById('agent-voice-btn');
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        alert("Voice speech recognition is not supported in this browser. Please use Google Chrome or Microsoft Edge.");
+        return;
+      }
+
+      if (isVoiceListening) {
+        if (voiceRecognition) voiceRecognition.stop();
+        isVoiceListening = false;
+        micBtn.classList.remove('recording');
+        return;
+      }
+
+      voiceRecognition = new SpeechRecognition();
+      voiceRecognition.lang = airguardLang === 'hi' ? 'hi-IN' : 'en-US';
+      voiceRecognition.interimResults = false;
+      voiceRecognition.maxAlternatives = 1;
+
+      voiceRecognition.onstart = function() {
+        isVoiceListening = true;
+        micBtn.classList.add('recording');
+      };
+
+      voiceRecognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('agent-chat-input').value = transcript;
+        handleAgentChatSubmit(null);
+      };
+
+      voiceRecognition.onerror = function(event) {
+        console.error("Speech recognition error:", event.error);
+        isVoiceListening = false;
+        micBtn.classList.remove('recording');
+      };
+
+      voiceRecognition.onend = function() {
+        isVoiceListening = false;
+        micBtn.classList.remove('recording');
+      };
+
+      try {
+        voiceRecognition.start();
+      } catch (err) {
+        console.error("Failed to start speech recognition:", err);
+      }
+    }
+
+    function adjustPuffCount(delta) {
+      const input = document.getElementById('diary-puffs');
+      const val = Math.max(0, Math.min(15, (parseInt(input.value) || 0) + delta));
+      input.value = val;
+    }
+
+    async function handleQuickSymptomLog(e) {
+      if (e) e.preventDefault();
+      const userId = currentUser ? currentUser.id : 1;
+      const checkedBoxes = document.querySelectorAll('input[name="symptom-item"]:checked');
+      const symptoms = Array.from(checkedBoxes).map(b => b.value).join(', ') || 'General Check-in';
+      const severity = document.getElementById('diary-severity').value;
+      const puffs = parseInt(document.getElementById('diary-puffs').value) || 0;
+      const pef = parseFloat(document.getElementById('diary-pef').value) || 380;
+      const notes = document.getElementById('diary-notes').value;
+
+      try {
+        const res = await fetch('/api/agent/symptom/log', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: userId,
+            symptoms: symptoms,
+            severity: severity,
+            inhaler_puffs_used: puffs,
+            pef_reading: pef,
+            notes: notes
+          })
+        });
+        const data = await res.json();
+
+        if (data.emergency || (data.red_flag && data.red_flag.tripped)) {
+          showEmergencySosModal(data.red_flag.instructions || "Critical distress detected in symptom log.");
+        } else {
+          alert("Symptom episode logged in clinical diary. AirGuard has refreshed your daily safety plan.");
+        }
+
+        checkedBoxes.forEach(b => b.checked = false);
+        document.getElementById('diary-notes').value = '';
+        document.getElementById('diary-puffs').value = '0';
+
+        await triggerAirGuardCycle(false);
+      } catch (err) {
+        alert("Error logging symptom: " + err.message);
+      }
+    }
+
+    async function loadAgentLogs(userId) {
+      userId = userId || (currentUser ? currentUser.id : 1);
+      try {
+        const res = await fetch(`/api/agent/logs/${userId}?limit=8`);
+        const data = await res.json();
+        const listEl = document.getElementById('agent-audit-log-list');
+        if (!listEl) return;
+
+        if (data.success && data.logs && data.logs.length > 0) {
+          listEl.innerHTML = data.logs.map(log => `
+            <div style="font-size: 0.75rem; background: white; border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem 0.65rem;">
+              <div style="display: flex; justify-content: space-between; font-weight: 700; color: #1e293b; margin-bottom: 2px;">
+                <span><i class="fa-solid fa-bolt" style="color: var(--primary);"></i> ${escapeHtml(log.trigger)}</span>
+                <span style="font-size: 0.68rem; color: #94a3b8;">${escapeHtml(log.timestamp.substring(11, 19))}</span>
+              </div>
+              <p style="color: #475569; line-height: 1.35; margin: 2px 0;">${escapeHtml(log.reasoning.substring(0, 120))}...</p>
+              <div style="font-size: 0.68rem; color: ${log.guardrail_tripped ? '#dc2626' : '#059669'}; font-weight: 700;">
+                ${log.guardrail_tripped ? '⚠️ Guardrail Tripped' : '✓ Safe Rails Confirmed'}
+              </div>
+            </div>
+          `).join('');
+        } else {
+          listEl.innerHTML = '<span style="font-size: 0.78rem; color: var(--text-muted);">No agent decisions logged yet.</span>';
+        }
+      } catch (err) {
+        console.error("Error loading agent logs:", err);
+      }
+    }
+
+    async function openDoctorSummaryModal() {
+      const userId = currentUser ? currentUser.id : 1;
+      document.getElementById('doctor-summary-modal').style.display = 'flex';
+      const body = document.getElementById('doctor-summary-body');
+      body.innerText = "Generating 30-day clinical consultation summary...";
+
+      try {
+        const res = await fetch(`/api/agent/doctor-summary/${userId}`);
+        const data = await res.json();
+        if (data.success) {
+          body.innerText = data.formatted_report;
+        } else {
+          body.innerText = "Error generating summary: " + (data.error || "Unknown error");
+        }
+      } catch (err) {
+        body.innerText = "Connection error: " + err.message;
+      }
+    }
+
+    function closeDoctorSummaryModal() {
+      document.getElementById('doctor-summary-modal').style.display = 'none';
+    }
+
+    function openPrivacyModal() {
+      document.getElementById('data-privacy-modal').style.display = 'flex';
+    }
+
+    function closePrivacyModal() {
+      document.getElementById('data-privacy-modal').style.display = 'none';
+    }
+
+    async function downloadUserData() {
+      const userId = currentUser ? currentUser.id : 1;
+      try {
+        const res = await fetch(`/api/user/export-data/${userId}`);
+        const data = await res.json();
+        const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+        const dlAnchor = document.createElement('a');
+        dlAnchor.setAttribute("href", jsonStr);
+        dlAnchor.setAttribute("download", `airguard_patient_data_${userId}.json`);
+        document.body.appendChild(dlAnchor);
+        dlAnchor.click();
+        dlAnchor.remove();
+      } catch (err) {
+        alert("Export error: " + err.message);
+      }
+    }
+
+    async function confirmDeleteAccount() {
+      const userId = currentUser ? currentUser.id : 1;
+      const confirmed = confirm("Are you sure you want to permanently delete your account and all associated symptom diaries? This action complies with GDPR Right to Erasure and cannot be undone.");
+      if (confirmed) {
+        try {
+          const res = await fetch(`/api/user/delete-account/${userId}`, { method: 'DELETE' });
+          const data = await res.json();
+          if (data.success) {
+            alert(data.message);
+            localStorage.removeItem('hridyavayu_user');
+            window.location.reload();
+          } else {
+            alert("Error: " + data.error);
+          }
+        } catch (err) {
+          alert("Error deleting account: " + err.message);
+        }
+      }
+    }
+
+    function showEmergencySosModal(instructions) {
+      const modal = document.getElementById('emergency-sos-modal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeEmergencySosModal() {
+      const modal = document.getElementById('emergency-sos-modal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
     // Initialize on load
