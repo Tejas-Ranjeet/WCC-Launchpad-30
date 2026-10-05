@@ -18,5 +18,5 @@ COPY . /app
 ENV PORT=7860
 EXPOSE 7860
 
-# Run with Gunicorn on dynamic PORT
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-7860} --workers 2 --threads 4 app:app"]
+# Seed demo data and run Gunicorn on dynamic PORT
+CMD ["sh", "-c", "python scripts/seed_demo.py && gunicorn --bind 0.0.0.0:${PORT:-7860} --workers 2 --threads 4 --timeout 120 app:app"]
