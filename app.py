@@ -277,79 +277,99 @@ def get_db_connection():
     return conn
 
 def init_db():
-    with app.app_context():
-        db.create_all()
-
-    with get_db_connection() as conn:
-        conn.execute("""
-            CREATE TABLE IF NOT EXISTS predictions (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp TEXT,
-                score REAL,
-                risk_level TEXT,
-                patient_name TEXT,
-                symptoms TEXT,
-                aqi REAL,
-                user_id INTEGER,
-                baseline_score REAL DEFAULT 0.0,
-                rf_score REAL DEFAULT 0.0,
-                gb_score REAL DEFAULT 0.0,
-                heuristic_override INTEGER DEFAULT 0
-            )
-        """)
-        conn.execute("""
-            CREATE TABLE IF NOT EXISTS inhaler_usage (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER,
-                timestamp TEXT,
-                dose_count INTEGER DEFAULT 1
-            )
-        """)
-
-        # Upgrades for existing predictions table
-        cur = conn.cursor()
-        cur.execute("PRAGMA table_info(predictions)")
-        cols = [col[1] for col in cur.fetchall()]
-        for col_name, col_def in [
-            ('patient_name', "TEXT DEFAULT 'Anonymous'"),
-            ('symptoms', "TEXT DEFAULT ''"),
-            ('aqi', "REAL DEFAULT 0.0"),
-            ('user_id', "INTEGER DEFAULT NULL"),
-            ('baseline_score', "REAL DEFAULT 0.0"),
-            ('rf_score', "REAL DEFAULT 0.0"),
-            ('gb_score', "REAL DEFAULT 0.0"),
-            ('heuristic_override', "INTEGER DEFAULT 0")
-        ]:
-            if col_name not in cols:
-                conn.execute(f"ALTER TABLE predictions ADD COLUMN {col_name} {col_def}")
-
-        # Upgrades for sensor_data table (ensure air_quality column)
-        cur.execute("PRAGMA table_info(sensor_data)")
-        s_cols = [col[1] for col in cur.fetchall()]
-        if 'air_quality' not in s_cols and len(s_cols) > 0:
-            conn.execute("ALTER TABLE sensor_data ADD COLUMN air_quality INTEGER DEFAULT 50")
-            if 'aqi' in s_cols:
-                conn.execute("UPDATE sensor_data SET air_quality = aqi WHERE aqi IS NOT NULL")
-
-        # Upgrades for user table (security, clinical parameters, localization)
-        cur.execute("PRAGMA table_info(user)")
-        u_cols = [col[1] for col in cur.fetchall()]
-        for col_name, col_def in [
-            ('password_hash', "TEXT DEFAULT ''"),
-            ('baseline_severity', "TEXT DEFAULT 'Mild Intermittent'"),
-            ('inhaler_prescribed', "TEXT DEFAULT 'Albuterol (Reliever) 2 puffs PRN, Budesonide/Formoterol 1 puff BID'"),
-            ('triggers', "TEXT DEFAULT 'Dust, Pollen, Cold Air, Air Pollution'"),
-            ('language_pref', "TEXT DEFAULT 'en'"),
-            ('city', "TEXT DEFAULT 'Delhi'"),
-            ('lat', "REAL DEFAULT 28.6139"),
-            ('lon', "REAL DEFAULT 77.2090")
-        ]:
-            if col_name not in u_cols:
-                conn.execute(f"ALTER TABLE user ADD COLUMN {col_name} {col_def}")
-
-        # Seed Demo User & Admin in User ORM table
+    try:
         with app.app_context():
-            demo_patient = User.query.filter_by(phone_no="+1-555-0143").first()
+            db.create_all()
+    except Exception as e:
+        print(f"Warning during db.create_all: {e}")
+
+    try:
+        with get_db_connection() as conn:
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS predictions (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    timestamp TEXT,
+                    score REAL,
+                    risk_level TEXT,
+                    patient_name TEXT,
+                    symptoms TEXT,
+                    aqi REAL,
+                    user_id INTEGER,
+                    baseline_score REAL DEFAULT 0.0,
+                    rf_score REAL DEFAULT 0.0,
+                    gb_score REAL DEFAULT 0.0,
+                    heuristic_override INTEGER DEFAULT 0
+                )
+            """)
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS inhaler_usage (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER,
+                    timestamp TEXT,
+                    dose_count INTEGER DEFAULT 1
+                )
+            """)
+
+            # Upgrades for existing predictions table
+            cur = conn.cursor()
+            cur.execute("PRAGMA table_info(predictions)")
+            cols = [col[1] for col in cur.fetchall()]
+            for col_name, col_def in [
+                ('patient_name', "TEXT DEFAULT 'Anonymous'"),
+                ('symptoms', "TEXT DEFAULT ''"),
+                ('aqi', "REAL DEFAULT 0.0"),
+                ('user_id', "INTEGER DEFAULT NULL"),
+                ('baseline_score', "REAL DEFAULT 0.0"),
+                ('rf_score', "REAL DEFAULT 0.0"),
+                ('gb_score', "REAL DEFAULT 0.0"),
+                ('heuristic_override', "INTEGER DEFAULT 0")
+            ]:
+                if col_name not in cols:
+                    try:
+                        conn.execute(f"ALTER TABLE predictions ADD COLUMN {col_name} {col_def}")
+                    except Exception:
+                        pass
+
+            # Upgrades for sensor_data table (ensure air_quality column)
+            cur.execute("PRAGMA table_info(sensor_data)")
+            s_cols = [col[1] for col in cur.fetchall()]
+            if 'air_quality' not in s_cols and len(s_cols) > 0:
+                try:
+                    conn.execute("ALTER TABLE sensor_data ADD COLUMN air_quality INTEGER DEFAULT 50")
+                    if 'aqi' in s_cols:
+                        conn.execute("UPDATE sensor_data SET air_quality = aqi WHERE aqi IS NOT NULL")
+                except Exception:
+                    pass
+
+            # Upgrades for user table (security, clinical parameters, localization)
+            cur.execute("PRAGMA table_info(user)")
+            u_cols = [col[1] for col in cur.fetchall()]
+            for col_name, col_def in [
+                ('password_hash', "TEXT DEFAULT ''"),
+                ('baseline_severity', "TEXT DEFAULT 'Mild Intermittent'"),
+                ('inhaler_prescribed', "TEXT DEFAULT 'Albuterol (Reliever) 2 puffs PRN, Budesonide/Formoterol 1 puff BID'"),
+                ('triggers', "TEXT DEFAULT 'Dust, Pollen, Cold Air, Air Pollution'"),
+                ('language_pref', "TEXT DEFAULT 'en'"),
+                ('city', "TEXT DEFAULT 'Delhi'"),
+                ('lat', "REAL DEFAULT 28.6139"),
+                ('lon', "REAL DEFAULT 77.2090")
+            ]:
+                if col_name not in u_cols:
+                    try:
+                        conn.execute(f"ALTER TABLE user ADD COLUMN {col_name} {col_def}")
+                    except Exception:
+                        pass
+    except Exception as e:
+        print(f"Warning during SQLite schema migration: {e}")
+
+    # Seed Demo User & Admin in User ORM table (safely idempotent and race-protected)
+    with app.app_context():
+        try:
+            demo_patient = User.query.filter(
+                (User.phone_no == "+1-555-0143") | 
+                (User.phone_no == "+1555019900") | 
+                (User.name == "Alex Rivera")
+            ).first()
             if not demo_patient:
                 demo_patient = User(
                     name="Alex Rivera",
@@ -369,10 +389,18 @@ def init_db():
                 )
                 demo_patient.set_password("alex123")
                 db.session.add(demo_patient)
+                db.session.commit()
             elif not demo_patient.password_hash:
                 demo_patient.set_password("alex123")
+                db.session.commit()
+        except Exception as e:
+            db.session.rollback()
 
-            demo_doctor = User.query.filter_by(phone_no="+1-555-0199").first()
+        try:
+            demo_doctor = User.query.filter(
+                (User.phone_no == "+1-555-0199") | 
+                (User.name.like("%Mitchell%"))
+            ).first()
             if not demo_doctor:
                 demo_doctor = User(
                     name="Dr. Sarah Mitchell, MD",
@@ -390,10 +418,12 @@ def init_db():
                 )
                 demo_doctor.set_password("doctor123")
                 db.session.add(demo_doctor)
+                db.session.commit()
             elif not demo_doctor.password_hash:
                 demo_doctor.set_password("doctor123")
-
-            db.session.commit()
+                db.session.commit()
+        except Exception as e:
+            db.session.rollback()
 
 # ==================== STATIC & FIGURE ROUTES ====================
 
@@ -486,7 +516,7 @@ def auth_signup():
 def auth_login():
     try:
         data = request.get_json(force=True) or {}
-        username = str(data.get("username", "") or data.get("email", "") or data.get("phone", "")).strip()
+        username = str(data.get("username", "") or data.get("email", "") or data.get("phone", "") or data.get("phone_no", "")).strip()
         password = str(data.get("password", ""))
 
         if not username:
@@ -498,7 +528,7 @@ def auth_login():
 
         # Check known demo aliases
         if u_low in ["alex@example.com", "alex", "demo_user", "alex rivera"]:
-            user = User.query.filter((User.phone_no == "+1-555-0143") | (User.name == "Alex Rivera")).first()
+            user = User.query.filter((User.phone_no == "+1-555-0143") | (User.phone_no == "+1555019900") | (User.name == "Alex Rivera")).first()
             role = "User"
         elif u_low in ["doctor@example.com", "admin", "dr. sarah mitchell", "sarah"]:
             user = User.query.filter((User.phone_no == "+1-555-0199") | (User.name.like("%Mitchell%"))).first()
@@ -514,7 +544,7 @@ def auth_login():
 
         # Check password: Demo account Alex accepts both 'demo123' and 'alex123'
         is_valid = False
-        if user.phone_no == "+1-555-0143" and password in ["demo123", "alex123"]:
+        if user.phone_no in ["+1-555-0143", "+1555019900"] and password in ["demo123", "alex123"]:
             is_valid = True
         elif user.phone_no == "+1-555-0199" and password in ["doctor123", "admin123"]:
             is_valid = True
