@@ -46,7 +46,7 @@ AirGuard is not a passive dashboard and not a chat wrapper. It is an **autonomou
 
 ### Honest ML Science & The Clinical Safety Trade-off
 We evaluated our pre-existing multimodal stacking ensemble on held-out test data ($N=300$ samples, evaluated via `research/evaluate.py`):
-- **Pure ML Ensemble**: **73.0% Accuracy**, **0.7234 Macro F1**, **0.8496 Multiclass AUC**, with **68.18% High-Risk Sensitivity**.
+- **Pure ML Ensemble**: **73.0% Accuracy**, **0.7234 Weighted F1** (**0.6370 Macro F1**), with **72.09% High-Risk Sensitivity**.
 - **Hybrid Clinical Rule Override**: **63.67% Accuracy**, with High-Risk Sensitivity surging to **82.95%**.
 - **The Deliberate Trade-Off**: It trades accuracy (73.0% -> 63.67%) for higher high-risk sensitivity (~83%) by design. In healthcare triage:
   > *"A false alarm causes minor schedule inconvenience. A false negative lands the patient in the ICU. We accept more false alarms to miss fewer emergencies."*
@@ -57,7 +57,7 @@ We evaluated our pre-existing multimodal stacking ensemble on held-out test data
 - **Deterministic Safety Rails (The Zero-Trust Barrier)**:
   - **Input Interceptor**: Bypasses the LLM completely upon detecting life-threatening GINA distress phrases in English and Hindi (*"can't speak in full sentences"*, *"blue lips"*, *"silent chest"*, *"सांस नहीं आ रही"*, *"होंठ नीले"*).
   - **Output Sanitizer**: Enforces regex-based post-generation filters that block dosage tampering, diagnostic assertions, and anti-medical claims.
-- **Automated Test Suite**: 29 automated unit tests verifying every guardrail, multilingual phrase, and approval constraint, plus end-to-end integration tests.
+- **Automated Test Suite**: 184 automated tests verifying every guardrail, multilingual phrase, and approval constraint, plus strict end-to-end API integration tests.
 
 ---
 

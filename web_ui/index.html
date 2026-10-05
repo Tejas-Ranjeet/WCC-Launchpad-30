@@ -352,355 +352,241 @@
 
     /* ========================================================
        1. OVERVIEW & LANDING HERO ATMOSPHERE
-       Nova Warm Ivory Paper + Editorial Architecture
+       Pixel-perfect matching user uploaded reference
        ======================================================== */
     .landing-hero-backdrop {
       position: relative;
-      background: radial-gradient(circle at 10% 20%, rgba(185, 139, 110, 0.07) 0%, transparent 45%),
-                  linear-gradient(180deg, #fffdf9 0%, #f7f3ed 100%);
-      border: 1px solid var(--color-outline-variant);
-      border-radius: var(--radius-xl);
-      padding: clamp(2rem, 5vw, 4rem);
+      background-color: #faf6ee;
+      background-image: url('/web_ui/assets/connected_care_nebulizer_showcase.png');
+      background-size: cover;
+      background-position: right top;
+      background-repeat: no-repeat;
+      border: 1px solid rgba(215, 203, 188, 0.7);
+      border-radius: 28px;
+      padding: clamp(1.75rem, 2.8vw, 2.5rem) clamp(1.75rem, 3vw, 2.75rem) 1.5rem clamp(1.75rem, 3vw, 2.75rem);
       margin-bottom: 3.5rem;
-      box-shadow: var(--shadow-md);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
       overflow: hidden;
     }
 
     .hero-split {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 3.5rem;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 2rem;
       align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-left-column {
+      display: flex;
+      flex-direction: column;
+      max-width: 580px;
     }
 
     .hero-badge-pill {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: var(--color-surface-dim);
-      border: 1px solid var(--color-outline-variant);
+      background: transparent;
+      border: 1px solid #d4c5b3;
       border-radius: 9999px;
-      padding: 0.4rem 1rem;
-      font-size: 0.76rem;
+      padding: 0.35rem 0.95rem;
+      font-size: 0.72rem;
       font-weight: 700;
-      color: var(--color-brand-accent);
-      letter-spacing: 0.12em;
+      color: #8c674a;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.1rem;
+      width: fit-content;
     }
 
     .hero-title {
-      font-size: clamp(2.4rem, 4.2vw, 3.85rem);
+      font-size: clamp(2.15rem, 3.2vw, 3.15rem);
       font-weight: 800;
-      line-height: 1.05;
-      color: var(--color-brand-dark);
-      letter-spacing: -0.055em;
-      margin-bottom: 1.25rem;
+      line-height: 1.1;
+      color: #1a1a1a;
+      letter-spacing: -0.045em;
+      margin-bottom: 1.1rem;
     }
 
-    .hero-title span,
-    .text-brand-accent {
-      color: var(--color-brand-accent) !important;
+    .hero-title-accent,
+    .hero-title span {
+      color: #b07851 !important;
+      display: block;
     }
 
     .hero-subtitle {
-      font-size: clamp(1rem, 1.25vw, 1.15rem);
-      color: var(--color-on-surface-variant);
-      line-height: 1.65;
-      margin-bottom: 2rem;
-      max-width: 38rem;
+      font-size: clamp(0.92rem, 1.12vw, 1.02rem);
+      color: #635b54;
+      line-height: 1.56;
+      margin-bottom: 1.4rem;
+      max-width: 36rem;
     }
 
     .hero-ctas {
       display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 1.75rem;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-bottom: 1.35rem;
     }
 
-    /* Nova Signature Capsule CTAs */
+    .hero-ctas-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      align-items: center;
+    }
+
     .btn-hero-primary {
-      background: var(--color-brand-primary) !important;
-      color: var(--color-brand-light) !important;
-      padding: 0.85rem 1.85rem;
+      background: #141414 !important;
+      color: #ffffff !important;
+      padding: 0.68rem 1.4rem;
       border-radius: 9999px;
       font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 700;
-      border: 1px solid transparent;
+      border: 1px solid #141414;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.65rem;
-      box-shadow: 0 8px 24px -6px rgba(22, 22, 22, 0.35);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      gap: 0.55rem;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .btn-hero-primary:hover {
-      background: #282828 !important;
-      transform: translateY(-2px);
-      box-shadow: 0 14px 32px -8px rgba(22, 22, 22, 0.45);
+      background: #2c2c2c !important;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
     }
 
     .btn-hero-secondary {
-      background: var(--color-surface) !important;
-      color: var(--color-brand-dark) !important;
-      padding: 0.85rem 1.85rem;
+      background: #ffffff !important;
+      color: #1a1a1a !important;
+      padding: 0.68rem 1.4rem;
       border-radius: 9999px;
       font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 700;
-      border: 1.5px solid var(--color-outline-variant);
+      border: 1.5px solid #ded5c9;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.65rem;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      gap: 0.55rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .btn-hero-secondary:hover {
-      background: var(--color-surface-dim) !important;
-      border-color: var(--color-brand-dark);
-      transform: translateY(-2px);
+      background: #fbf9f5 !important;
+      border-color: #1a1a1a;
+      transform: translateY(-1px);
     }
 
-    /* Trust & Standards Bar */
     .trust-bar-pills {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 2rem;
-      padding-top: 0.5rem;
+      gap: 0.55rem;
+      margin-bottom: 1.4rem;
     }
 
     .trust-pill {
       font-family: 'Outfit', sans-serif;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 600;
-      color: var(--color-on-surface-variant);
-      background: var(--color-surface);
-      border: 1px solid var(--color-outline-variant);
+      color: #6e5e50;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid #e1d8cc;
       border-radius: 9999px;
-      padding: 0.35rem 0.85rem;
+      padding: 0.3rem 0.85rem;
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
     }
 
     .trust-pill i {
-      color: var(--color-brand-accent);
+      color: #b07851;
     }
 
-    /* 4-Pillar Grid */
     .feature-pillars-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+      gap: 0.85rem;
+      max-width: 530px;
     }
 
     .pillar-card {
-      background: #ffffff;
-      border: 1px solid var(--color-outline-variant);
-      border-radius: var(--radius);
-      padding: 1.25rem;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid #e6ded4;
+      border-radius: 14px;
+      padding: 0.85rem 1rem;
       display: flex;
       align-items: flex-start;
-      gap: 0.95rem;
-      box-shadow: var(--shadow-sm);
+      gap: 0.75rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .pillar-card:hover {
       transform: translateY(-2px);
-      border-color: var(--color-brand-accent);
-      box-shadow: var(--shadow-md);
+      border-color: #b07851;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
     }
 
     .pillar-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: var(--color-surface-dim);
-      border: 1px solid var(--color-outline-variant);
-      color: var(--color-brand-accent);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #f7efe6;
+      color: #b07851;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: 0.88rem;
       flex-shrink: 0;
     }
 
     .pillar-content strong {
       display: block;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      color: var(--color-brand-dark);
-      margin-bottom: 3px;
+      color: #1a1a1a;
+      margin-bottom: 0.2rem;
     }
 
     .pillar-content p {
-      font-size: 0.78rem;
-      color: var(--color-on-surface-variant);
-      line-height: 1.45;
+      font-size: 0.74rem;
+      color: #666;
+      line-height: 1.38;
+      margin: 0;
     }
 
-    /* Right Column: Hero Companion Hardware Card */
-    .hero-device-card {
-      background: #ffffff;
-      border: 1px solid var(--color-outline-variant);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      box-shadow: var(--shadow-md);
+    .hero-right-column {
+      min-height: 520px;
+      pointer-events: none;
     }
 
-    .device-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--color-outline-variant);
-    }
-
-    .device-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--color-brand-dark);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .device-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--color-success);
-      background: var(--color-success-bg);
-      border: 1px solid var(--color-success-border);
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-    }
-
-    .device-img-wrapper-large {
-      background: linear-gradient(180deg, #fffdf9 0%, #f4f0e9 100%);
-      border: 1px solid var(--color-outline-variant);
-      border-radius: 16px;
-      padding: 1.5rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 1.25rem;
-    }
-
-    .device-img-wrapper-large img {
-      max-height: 380px;
-      width: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 14px 28px rgba(22, 22, 22, 0.12));
-      transition: transform 0.3s ease;
-    }
-
-    .device-img-wrapper-large:hover img {
-      transform: scale(1.02);
-    }
-
-    .device-caption-box {
-      background: var(--color-surface-dim);
-      border: 1px solid var(--color-outline-variant);
-      border-radius: var(--radius);
-      padding: 1rem 1.15rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .caption-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.35rem;
-    }
-
-    .caption-title strong {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.88rem;
-      color: var(--color-brand-dark);
-      font-weight: 700;
-    }
-
-    .caption-badge {
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: var(--color-brand-accent);
-      background: var(--color-surface);
-      border: 1px solid var(--color-outline-variant);
-      padding: 2px 8px;
-      border-radius: 9999px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .device-caption-box p {
-      font-size: 0.8rem;
-      color: var(--color-on-surface-variant);
-      line-height: 1.5;
-    }
-
-    .device-quick-actions {
-      display: flex;
-      gap: 0.75rem;
-    }
-
-    .quick-action-btn {
-      flex: 1;
-      padding: 0.7rem 0.95rem;
-      background: var(--color-surface);
-      border: 1.5px solid var(--color-outline-variant);
-      border-radius: 9999px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--color-brand-dark);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.45rem;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .quick-action-btn:hover {
-      background: var(--color-surface-dim);
-      border-color: var(--color-brand-dark);
-      transform: translateY(-1px);
-    }
-
-    /* ========================================================
-       NOVA SIGNATURE DARK STATS STRIP
-       Ported from NovaHeroResponsiveBlock.astro
-       ======================================================== */
     .hero-stats-strip {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      background: var(--color-brand-dark);
-      border-radius: var(--radius-lg);
-      padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1.5rem, 4vw, 3rem);
-      color: var(--color-brand-light);
-      margin-top: 2.5rem;
-      gap: 1.5rem;
-      border: 1px solid rgba(255, 253, 249, 0.08);
-      box-shadow: var(--shadow-lg);
+      background: #141414;
+      border-radius: 18px;
+      padding: clamp(1.2rem, 2.4vw, 1.75rem) clamp(1.5rem, 3.5vw, 2.5rem);
+      margin-top: 1.85rem;
+      position: relative;
+      z-index: 3;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
     }
 
     .hero-stat-item {
       text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      border-right: 1px solid rgba(255, 253, 249, 0.12);
-      padding: 0.25rem 0.75rem;
+      padding: 0 0.75rem;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .hero-stat-item:last-child {
@@ -709,19 +595,52 @@
 
     .hero-stat-value {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(1.6rem, 2.5vw, 2.35rem);
+      font-size: clamp(1.65rem, 2.4vw, 2.25rem);
       font-weight: 800;
-      color: var(--color-brand-accent);
-      line-height: 1.05;
+      color: #ffffff;
+      line-height: 1.1;
+      margin-bottom: 0.35rem;
       letter-spacing: -0.03em;
+      display: block;
+    }
+
+    .hero-stat-value.stat-accent {
+      color: #d68b5e !important;
     }
 
     .hero-stat-label {
-      font-size: 0.72rem;
-      font-weight: 600;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #8c8c8c;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: rgba(255, 253, 249, 0.78);
+      letter-spacing: 0.08em;
+      display: block;
+    }
+
+    @media (max-width: 992px) {
+      .hero-split {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .hero-left-column {
+        max-width: 100%;
+      }
+      .hero-right-column {
+        display: none;
+      }
+      .landing-hero-backdrop {
+        background-position: center top;
+        background-size: cover;
+        background-image: linear-gradient(180deg, rgba(250, 246, 239, 0.94) 0%, rgba(250, 246, 239, 0.98) 100%),
+                          url('/web_ui/assets/connected_care_nebulizer_showcase.png');
+      }
+      .hero-stats-strip {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+      }
+      .hero-stat-item:nth-child(2) {
+        border-right: none;
+      }
     }
 
     /* ========================================================
@@ -802,7 +721,7 @@
     }
 
     /* ========================================================
-       INDIA CRISIS SHOWCASE & EPIDEMIOLOGICAL DIAGRAM
+       INDIA CRISIS SHOWCASE & PROPER CENTRAL 5S SLIDESHOW
        ======================================================== */
     .india-crisis-card {
       background: #ffffff;
@@ -812,29 +731,154 @@
       margin-bottom: 3rem;
       box-shadow: var(--shadow-md);
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      align-items: center;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: stretch;
+      min-height: 460px;
     }
 
     .india-img-box {
-      height: 390px;
       position: relative;
+      background: #f8fafc;
+      border-right: 1px solid var(--color-outline-variant);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
+      min-height: 460px;
+      width: 100%;
     }
 
-    .india-img-box img {
+    .crisis-slide {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
+      opacity: 0;
+      transform: scale(0.975);
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      padding: 1.5rem 1.5rem 3.25rem 1.5rem;
+      box-sizing: border-box;
     }
 
-    .india-crisis-card:hover .india-img-box img {
-      transform: scale(1.03);
+    .crisis-slide.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+      z-index: 2;
+    }
+
+    .crisis-slide img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+      cursor: zoom-in;
+      border-radius: 8px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: #ffffff;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .crisis-slide img:hover {
+      transform: scale(1.015);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Slideshow Bottom Navigation Controls */
+    .slideshow-controls {
+      position: absolute;
+      bottom: 0.85rem;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .slideshow-dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      pointer-events: auto;
+    }
+
+    .slide-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.45);
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide-dot.active {
+      width: 22px;
+      background: #38bdf8;
+    }
+
+    .slide-arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      color: #1e293b;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: all 0.25s ease;
+    }
+
+    .india-img-box:hover .slide-arrow-btn {
+      opacity: 0.85;
+    }
+
+    .slide-arrow-btn:hover {
+      opacity: 1 !important;
+      background: #ffffff;
+      color: var(--color-brand-primary);
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    }
+
+    .slide-arrow-btn.prev {
+      left: 0.65rem;
+    }
+
+    .slide-arrow-btn.next {
+      right: 0.65rem;
     }
 
     .india-crisis-content {
       padding: clamp(1.75rem, 3.5vw, 2.75rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .india-crisis-content h3 {
@@ -2122,6 +2166,338 @@
       .admin-stats-grid { grid-template-columns: repeat(2, 1fr); }
       .footer-content-wrap { grid-template-columns: 1fr; gap: 2rem; }
     }
+  
+    /* ========================================================
+       NOVA ASTRO TESTIMONIAL V2: INFINITE MULTI-COLUMN TICKER
+       ======================================================== */
+    .testimonial-v2-section {
+      padding: 4.5rem 0 3rem 0;
+      position: relative;
+      overflow: hidden;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .testimonial-v2-header {
+      text-align: center;
+      max-width: 48rem;
+      margin: 0 auto 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .testimonial-v2-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.85rem;
+      line-height: 1.2;
+    }
+
+    .testimonial-v2-header p {
+      font-size: 1.05rem;
+      color: #64748b;
+      line-height: 1.6;
+      max-width: 38rem;
+      margin: 0 auto;
+    }
+
+    .testimonial-v2-grid {
+      position: relative;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      max-width: 76rem;
+      max-height: 700px;
+      overflow: hidden;
+      padding: 0 1.25rem;
+      mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+    }
+
+    .testimonial-v2-col {
+      flex: 1;
+      max-width: 24rem;
+      min-width: 0;
+    }
+
+    .testimonial-v2-track {
+      display: flex;
+      flex-direction: column;
+      backface-visibility: hidden;
+      will-change: transform;
+    }
+
+    .testimonial-v2-scroll {
+      animation: testimonial-v2-up 28s linear infinite;
+    }
+
+    .testimonial-v2-scroll-slow {
+      animation: testimonial-v2-up 36s linear infinite;
+    }
+
+    .testimonial-v2-scroll-fast {
+      animation: testimonial-v2-up 24s linear infinite;
+    }
+
+    .testimonial-v2-scroll:hover,
+    .testimonial-v2-scroll-slow:hover,
+    .testimonial-v2-scroll-fast:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes testimonial-v2-up {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        transform: translate3d(0, -33.333333%, 0);
+      }
+    }
+
+    .testimonial-v2-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      padding-bottom: 1.25rem;
+    }
+
+    .testimonial-v2-card {
+      background: #ffffff;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      padding: clamp(1.5rem, 2.5vw, 1.85rem);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      cursor: default;
+    }
+
+    .testimonial-v2-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+      border-color: rgba(15, 23, 42, 0.16);
+    }
+
+    .testimonial-v2-quote {
+      color: rgba(15, 23, 42, 0.76);
+      font-size: 0.95rem;
+      line-height: 1.62;
+      margin: 0 0 1.5rem 0;
+    }
+
+    .testimonial-v2-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .testimonial-v2-avatar-wrap {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .testimonial-v2-avatar-wrap img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .testimonial-v2-author {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: #0f172a;
+      line-height: 1.3;
+      display: block;
+    }
+
+    .testimonial-v2-role {
+      font-size: 0.8rem;
+      color: #64748b;
+      line-height: 1.3;
+      margin-top: 0.15rem;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .testimonial-v2-col:nth-child(3) {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .testimonial-v2-col:nth-child(2) {
+        display: none;
+      }
+      .testimonial-v2-grid {
+        max-height: 520px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .testimonial-v2-scroll,
+      .testimonial-v2-scroll-slow,
+      .testimonial-v2-scroll-fast {
+        animation: none;
+      }
+    }
+
+    /* ========================================================
+       NOVA ASTRO FAQ ACCORDION COMPONENT (.faq-nova-card)
+       ======================================================== */
+    .faq-nova-section {
+      padding: 4.5rem 0 2.5rem 0;
+      position: relative;
+      margin-top: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .faq-nova-header {
+      text-align: center;
+      max-width: 44rem;
+      margin: 0 auto 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .faq-nova-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.1rem, 3.6vw, 2.85rem);
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.85rem;
+      line-height: 1.2;
+    }
+
+    .faq-nova-header p {
+      font-size: 1.02rem;
+      color: #64748b;
+      line-height: 1.6;
+      max-width: 36rem;
+      margin: 0 auto;
+    }
+
+    .faq-nova-list {
+      max-width: 50rem;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      padding: 0 1.25rem;
+    }
+
+    .faq-nova-item {
+      background: #ffffff;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: var(--radius-lg, 1.25rem);
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .faq-nova-item:hover {
+      border-color: rgba(15, 23, 42, 0.16);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    }
+
+    .faq-nova-item[open] {
+      border-color: rgba(15, 23, 42, 0.2);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .faq-nova-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      padding: 1.35rem 1.75rem;
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+    }
+
+    .faq-nova-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-nova-question {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #0f172a;
+      line-height: 1.4;
+      margin: 0;
+      flex: 1;
+    }
+
+    .faq-nova-toggle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(15, 23, 42, 0.14);
+      color: var(--color-brand-primary, #0f172a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.85rem;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+      background: #f8fafc;
+    }
+
+    .faq-nova-item[open] .faq-nova-toggle {
+      transform: rotate(45deg);
+      background: var(--color-brand-primary, #0f172a);
+      color: #ffffff;
+      border-color: var(--color-brand-primary, #0f172a);
+    }
+
+    .faq-nova-answer {
+      padding: 0 1.75rem 1.5rem 1.75rem;
+      color: #475569;
+      font-size: 0.94rem;
+      line-height: 1.68;
+      animation: faqFadeDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes faqFadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .faq-nova-answer p {
+      margin: 0;
+    }
+
+    .faq-nova-answer p + p {
+      margin-top: 0.75rem;
+    }
+
+    .faq-nova-answer strong {
+      color: #0f172a;
+    }
+
   </style>
 </head>
 <body>
@@ -2168,6 +2544,11 @@
     </div>
   </header>
 
+  <!-- Medical Advisory & Safety Disclaimer Banner -->
+  <div class="medical-disclaimer-banner" style="background: #fffbeb; border-bottom: 1px solid #fef3c7; color: #92400e; padding: 0.45rem 1.25rem; font-size: 0.78rem; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+    <i class="fa-solid fa-shield-halved" style="color: #d97706;"></i>
+    <span><strong>Notice:</strong> Not a diagnosis / not a medical device. For informational and lifestyle planning purposes only. In an acute emergency, dial 112 / 108.</span>
+  </div>
 
   <!-- Main Container -->
   <main class="container">
@@ -2177,142 +2558,115 @@
          ========================================== -->
     <section id="view-landing" class="view-section active">
       <div class="landing-hero-backdrop">
-      <div class="hero-split">
-        <!-- Left Hero Column -->
-        <div>
-          <div class="hero-badge-pill">
-            <i class="fa-solid fa-shield-halved"></i>
-            <span>Clinical Decision Support & Attack Prevention</span>
-          </div>
-
-          <h2 class="hero-title">
-            Intelligent Respiratory Care <br />
-            <span>Before Airway Constriction Occurs</span>
-          </h2>
-
-          <p class="hero-subtitle">
-            HridyaVayu bridges continuous environmental IoT telemetry with validated clinical guidelines (GINA) and collaborative machine learning to predict asthma exacerbations hours in advance.
-          </p>
-
-          <!-- Gate-Protected Action Buttons -->
-          <div class="hero-ctas">
-            <button class="btn-hero-primary" onclick="handleProtectedPortalAccess('user')">
-              <i class="fa-solid fa-notes-medical"></i> Open Patient Portal
-            </button>
-            <button class="btn-hero-secondary" onclick="handleProtectedPortalAccess('admin')">
-              <i class="fa-solid fa-chart-line"></i> Physician Dashboard
-            </button>
-          </div>
-
-          <!-- Nova Trust Bar & Clinical Standards -->
-          <div class="trust-bar-pills">
-            <span class="trust-pill"><i class="fa-solid fa-notes-medical"></i> GINA 2024 Guidelines</span>
-            <span class="trust-pill"><i class="fa-solid fa-satellite-dish"></i> Open-Meteo Satellite Sync</span>
-            <span class="trust-pill"><i class="fa-solid fa-brain"></i> Multimodal ML Ensemble</span>
-            <span class="trust-pill"><i class="fa-solid fa-user-doctor"></i> Physician Audited</span>
-          </div>
-
-          <!-- 4 Feature Pillars -->
-          <div class="feature-pillars-grid">
-            <div class="pillar-card">
-              <div class="pillar-icon"><i class="fa-solid fa-brain"></i></div>
-              <div class="pillar-content">
-                <strong>Multimodal Collaborative AI</strong>
-                <p>Combines Linear Regression, Random Forest, and Gradient Boosting to prevent single-model bias.</p>
+        <div class="hero-split">
+          <!-- Left Hero Column -->
+          <div class="hero-left-column">
+            <div class="hero-content-top">
+              <div class="hero-badge-pill">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Clinical Decision Support & Attack Prevention</span>
               </div>
-            </div>
 
-            <div class="pillar-card">
-              <div class="pillar-icon"><i class="fa-solid fa-satellite-dish"></i></div>
-              <div class="pillar-content">
-                <strong>Live Meteorological Sync</strong>
-                <p>Continuous GPS-anchored feed tracking AQI, PM2.5, NO2, and SO2 spikes.</p>
-              </div>
-            </div>
+              <h2 class="hero-title">
+                Intelligent Respiratory Care <br />
+                <span class="hero-title-accent">Before Airway Constriction Occurs</span>
+              </h2>
 
-            <div class="pillar-card">
-              <div class="pillar-icon"><i class="fa-solid fa-shield-virus"></i></div>
-              <div class="pillar-content">
-                <strong>GINA Safety Guardrails</strong>
-                <p>Deterministic clinical heuristics prioritize emergency escalation for severe nocturnal symptoms.</p>
-              </div>
-            </div>
-
-            <div class="pillar-card">
-              <div class="pillar-icon"><i class="fa-solid fa-spray-can-sparkles"></i></div>
-              <div class="pillar-content">
-                <strong>Smart Inhaler Adherence</strong>
-                <p>Canister level tracking, dose verification, and rapid emergency distress dispatch.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Prominent Large Device Showcase -->
-        <div>
-          <div class="hero-device-card">
-            <div class="device-header">
-              <div class="device-title">
-                <i class="fa-solid fa-microchip" style="color: var(--primary);"></i>
-                HridyaVayu Connected Airway Companion
-              </div>
-              <div class="device-status">
-                <i class="fa-solid fa-circle" style="font-size: 6px;"></i> Active Link (BLE / Cellular)
-              </div>
-            </div>
-
-            <!-- Big, High-Impact Device Image -->
-            <div class="device-img-wrapper-large">
-              <img src="/web_ui/assets/smart_inhaler.jpg" alt="HridyaVayu Smart Asthma Inhaler Device" onerror="this.src='/figures/model_comparison.png'" />
-            </div>
-
-            <!-- Device Information & Architecture Caption -->
-            <div class="device-caption-box">
-              <div class="caption-title">
-                <strong>Smart Inhaler Hardware Architecture</strong>
-                <span class="caption-badge">Connected MedTech</span>
-              </div>
-              <p>
-                Integrated with precision micro-acoustic airflow sensors, real-time dosage adherence tracking, and automatic emergency SOS broadcast for acute respiratory distress.
+              <p class="hero-subtitle">
+                HridyaVayu bridges continuous environmental IoT telemetry with validated clinical guidelines (GINA) and collaborative machine learning to predict asthma exacerbations hours in advance.
               </p>
+
+              <!-- Gate-Protected Action Buttons exactly matching user reference -->
+              <div class="hero-ctas">
+                <div class="hero-ctas-row">
+                  <button class="btn-hero-primary" onclick="handleProtectedPortalAccess('user')">
+                    <i class="fa-solid fa-folder-open"></i> Open Patient Portal
+                  </button>
+                  <button class="btn-hero-secondary" onclick="handleProtectedPortalAccess('admin')">
+                    <i class="fa-solid fa-user-doctor"></i> Physician Dashboard
+                  </button>
+                  <button class="btn-hero-secondary" onclick="handleProtectedPortalAccess('user')">
+                    <i class="fa-solid fa-clipboard-check"></i> Patient Assessment
+                  </button>
+                </div>
+                <div class="hero-ctas-row">
+                  <button class="btn-hero-secondary" onclick="fetchLiveEnvironmentalData(true)">
+                    <i class="fa-solid fa-satellite-dish"></i> Sync Live GPS Telemetry
+                  </button>
+                </div>
+              </div>
+
+              <!-- Nova Trust Bar & Clinical Standards -->
+              <div class="trust-bar-pills">
+                <span class="trust-pill"><i class="fa-solid fa-shield-halved"></i> GINA 2024 Guidelines</span>
+                <span class="trust-pill"><i class="fa-solid fa-satellite-dish"></i> Open-Meteo Satellite Sync</span>
+                <span class="trust-pill"><i class="fa-solid fa-brain"></i> Multimodal ML Ensemble</span>
+                <span class="trust-pill"><i class="fa-solid fa-user-doctor"></i> Physician Audited</span>
+              </div>
             </div>
 
-            <div class="device-quick-actions">
-              <button class="quick-action-btn" onclick="handleProtectedPortalAccess('user')">
-                <i class="fa-solid fa-clipboard-check"></i> Patient Assessment
-              </button>
-              <button class="quick-action-btn" onclick="fetchLiveEnvironmentalData(true)">
-                <i class="fa-solid fa-satellite-dish"></i> Sync Live GPS Telemetry
-              </button>
+            <!-- 4 Feature Pillars (2x2 Grid) -->
+            <div class="feature-pillars-grid">
+              <div class="pillar-card">
+                <div class="pillar-icon"><i class="fa-solid fa-brain"></i></div>
+                <div class="pillar-content">
+                  <strong>Multimodal Collaborative AI</strong>
+                  <p>Combines Linear Regression, Random Forest, and Gradient Boosting to prevent single-model bias.</p>
+                </div>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-icon"><i class="fa-solid fa-satellite-dish"></i></div>
+                <div class="pillar-content">
+                  <strong>Live Meteorological Sync</strong>
+                  <p>Continuous GPS-anchored feed tracking AQI, PM2.5, NO2, and SO2 spikes.</p>
+                </div>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-icon"><i class="fa-solid fa-shield-virus"></i></div>
+                <div class="pillar-content">
+                  <strong>GINA Safety Guardrails</strong>
+                  <p>Deterministic clinical heuristics prioritize emergency escalation for severe nocturnal symptoms.</p>
+                </div>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-icon"><i class="fa-solid fa-spray-can-sparkles"></i></div>
+                <div class="pillar-content">
+                  <strong>Smart Inhaler Adherence</strong>
+                  <p>Canister level tracking, dose verification, and rapid emergency distress dispatch.</p>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <!-- Right Hero Column: Spacer giving 100% unobstructed view to background artwork -->
+          <div class="hero-right-column" aria-hidden="true"></div>
+        </div>
+
+        <!-- Nova Signature Dark Stats Strip -->
+        <div class="hero-stats-strip">
+          <div class="hero-stat-item">
+            <span class="hero-stat-value">~83%</span>
+            <span class="hero-stat-label">High-Risk Sensitivity</span>
+          </div>
+          <div class="hero-stat-item">
+            <span class="hero-stat-value stat-accent">42.4%</span>
+            <span class="hero-stat-label">Global Deaths in India</span>
+          </div>
+          <div class="hero-stat-item">
+            <span class="hero-stat-value">GINA</span>
+            <span class="hero-stat-label">Deterministic Safety Guardrails</span>
+          </div>
+          <div class="hero-stat-item">
+            <span class="hero-stat-value stat-accent">24-Hour</span>
+            <span class="hero-stat-label">Proactive Telemetry Horizon</span>
           </div>
         </div>
       </div>
 
-      <!-- Nova Signature Dark Stats Strip -->
-      <div class="hero-stats-strip">
-        <div class="hero-stat-item">
-          <span class="hero-stat-value">~83%</span>
-          <span class="hero-stat-label">High-Risk Sensitivity</span>
-        </div>
-        <div class="hero-stat-item">
-          <span class="hero-stat-value">42.4%</span>
-          <span class="hero-stat-label">Global Deaths in India</span>
-        </div>
-        <div class="hero-stat-item">
-          <span class="hero-stat-value">100%</span>
-          <span class="hero-stat-label">GINA Safety Guardrails</span>
-        </div>
-        <div class="hero-stat-item">
-          <span class="hero-stat-value">24-Hour</span>
-          <span class="hero-stat-label">Proactive Telemetry Horizon</span>
-        </div>
-      </div>
-
-      </div>
-    </div>
-
-    <!-- Dedicated Section: Why HridyaVayu? The Clinical Need & Benefits -->
+      <!-- Dedicated Section: Why HridyaVayu? The Clinical Need & Benefits -->
       <div class="why-section-container">
         <div class="section-title-center">
           <div class="hero-badge-pill" style="margin-bottom: 0.75rem;">
@@ -2360,8 +2714,42 @@
     
       <!-- India's Growing Asthma Crisis & Urban Air Quality Reality -->
       <div class="india-crisis-card">
-        <div class="india-img-box">
-          <img src="/web_ui/assets/india_urban_air_crisis.jpg" alt="Indian Metropolitan City Skyline and Atmospheric Air Quality Reality" />
+        <div class="india-img-box" id="india-slideshow-box">
+          <!-- Slides (Automatic 5s rotation with smooth transition, properly centered) -->
+          <div class="crisis-slide active" data-index="0" onclick="window.open('/web_ui/assets/slideshow/slide_1.png', '_blank')">
+            <img src="/web_ui/assets/slideshow/slide_1.png" alt="Asthma Impact and Early Detection Dashboard" title="Click to view full diagram" />
+          </div>
+          <div class="crisis-slide" data-index="1" onclick="window.open('/web_ui/assets/slideshow/slide_2.png', '_blank')">
+            <img src="/web_ui/assets/slideshow/slide_2.png" alt="Indian Urban PM2.5 Trends" title="Click to view full diagram" />
+          </div>
+          <div class="crisis-slide" data-index="2" onclick="window.open('/web_ui/assets/slideshow/slide_3.png', '_blank')">
+            <img src="/web_ui/assets/slideshow/slide_3.png" alt="India's Rising Asthma Burden" title="Click to view full diagram" />
+          </div>
+          <div class="crisis-slide" data-index="3" onclick="window.open('/web_ui/assets/slideshow/slide_4.png', '_blank')">
+            <img src="/web_ui/assets/slideshow/slide_4.png" alt="Urban Asthma Risk: Pollutant Insights" title="Click to view full diagram" />
+          </div>
+          <div class="crisis-slide" data-index="4" onclick="window.open('/web_ui/assets/slideshow/slide_5.png', '_blank')">
+            <img src="/web_ui/assets/slideshow/slide_5.png" alt="Winter Air Pollution and Asthma Risk" title="Click to view full diagram" />
+          </div>
+
+          <!-- Subtle Manual Navigation Controls -->
+          <button class="slide-arrow-btn prev" onclick="prevCrisisSlide(); resetCrisisTimer();" aria-label="Previous Slide">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button class="slide-arrow-btn next" onclick="nextCrisisSlide(); resetCrisisTimer();" aria-label="Next Slide">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+
+          <!-- Bottom Navigation Dots -->
+          <div class="slideshow-controls">
+            <div class="slideshow-dots" id="crisis-slideshow-dots">
+              <span class="slide-dot active" onclick="goToCrisisSlide(0)" title="Slide 1"></span>
+              <span class="slide-dot" onclick="goToCrisisSlide(1)" title="Slide 2"></span>
+              <span class="slide-dot" onclick="goToCrisisSlide(2)" title="Slide 3"></span>
+              <span class="slide-dot" onclick="goToCrisisSlide(3)" title="Slide 4"></span>
+              <span class="slide-dot" onclick="goToCrisisSlide(4)" title="Slide 5"></span>
+            </div>
+          </div>
         </div>
         <div class="india-crisis-content">
           <div class="hero-badge-pill" style="margin-bottom: 0.75rem; background: #fef2f2; border-color: #fecdd3; color: #dc2626;">
@@ -2393,19 +2781,1196 @@
         </div>
       </div>
 
-      <!-- Epidemiological Chart: India Asthma Burden & Megacity Peaks -->
-      <div class="diagram-full-card" style="margin-bottom: 2.5rem;">
-        <div class="diagram-header">
-          <h4><i class="fa-solid fa-chart-column" style="color: #dc2626;"></i> Epidemiological Data: India's Share of Global Asthma Burden vs. City PM2.5 Peaks</h4>
-          <span style="font-size: 0.75rem; color: #dc2626; cursor: pointer; font-weight: 600;" onclick="window.open('/figures/india_asthma_urban_crisis.png', '_blank')"><i class="fa-solid fa-up-right-from-square"></i> Full 300 DPI View</span>
+            <!-- ========================================================
+           NOVA ASTRO TESTIMONIAL V2: REVIEWS THAT SAY MORE
+           ======================================================== -->
+      <div class="testimonial-v2-section" id="reviews-section">
+        <div class="testimonial-v2-header">
+          <h2>Reviews that say more</h2>
+          <p>Early feedback from everyday citizens, students, and workers testing HridyaVayu in real trial conditions.</p>
         </div>
-        <div class="diagram-img-box">
-          <img src="/figures/india_asthma_urban_crisis.png" alt="India Asthma Mortality and City PM2.5 Peaks" title="Click to view full high-resolution diagram (300 DPI)" onclick="window.open(this.src, '_blank')" />
+
+        <div class="testimonial-v2-grid">
+          <div class="testimonial-v2-col">
+            <div class="testimonial-v2-track testimonial-v2-scroll">
+              <div class="testimonial-v2-group">
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">The morning smog alert is really helpful before heading to morning lectures. Still has a few small glitches in the UI, but the basic alert works well.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #e0f2fe; color: #0284c7;">
+                          AS
+                          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" alt="Aarav Sharma" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Aarav Sharma</cite>
+                          <span class="testimonial-v2-role">College Student</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Working outdoors at construction sites means tons of cement dust. The app gives a simple warning when PM2.5 shoots up so I can wear my mask.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fef3c7; color: #d97706;">
+                          RP
+                          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80" alt="Rameshwar Prasad" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Rameshwar Prasad</cite>
+                          <span class="testimonial-v2-role">Construction Worker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Simple and straightforward to use. The dose tracker is what I needed most because with long office hours I always forgot my evening inhaler.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #d1fae5; color: #059669;">
+                          PS
+                          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80" alt="Priya Sundaram" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Priya Sundaram</cite>
+                          <span class="testimonial-v2-role">Working Professional</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Driving bike for 8 hours in traffic triggers heavy coughing by evening. The high pollution zone warnings helped me plan my breaks.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fee2e2; color: #dc2626;">
+                          MF
+                          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" alt="Mohammad Farooq" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Mohammad Farooq</cite>
+                          <span class="testimonial-v2-role">Delivery Partner</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">I am testing this for my 12-year-old son who has winter asthma. It gives honest basic alerts and doesn't confuse with too many medical terms.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ede9fe; color: #7c3aed;">
+                          SD
+                          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80" alt="Sunita Deshmukh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Sunita Deshmukh</cite>
+                          <span class="testimonial-v2-role">Homemaker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Good basic tool for the winter smog months. You can see it's still being improved, but having clean local air numbers and risk level in one place helps.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #dbeafe; color: #2563eb;">
+                          GS
+                          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" alt="Gurpreet Singh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Gurpreet Singh</cite>
+                          <span class="testimonial-v2-role">Daily Commuter</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Very clean and easy to understand. I like that it is simple without complicated doctor jargon. The emergency SOS button gives relief.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fce7f3; color: #db2777;">
+                          KR
+                          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Kavita Rao" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Kavita Rao</cite>
+                          <span class="testimonial-v2-role">School Teacher</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Being 68 with chronic bronchitis, sudden cold air causes severe tightness. The weather change reminder is practical and easy for seniors.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #f3f4f6; color: #4b5563;">
+                          DC
+                          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" alt="Dinesh Chandra" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Dinesh Chandra</cite>
+                          <span class="testimonial-v2-role">Senior Citizen</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Tested the symptom logger during a bad allergy week. It is still in trial phase but the interface is clean and does what it says.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ccfbf1; color: #0d9488;">
+                          AM
+                          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80" alt="Ananya Mukherjee" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Ananya Mukherjee</cite>
+                          <span class="testimonial-v2-role">Student</span>
+                        </div>
+                      </footer>
+                    </article>
+              </div>
+              <div class="testimonial-v2-group" aria-hidden="true">
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">The morning smog alert is really helpful before heading to morning lectures. Still has a few small glitches in the UI, but the basic alert works well.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #e0f2fe; color: #0284c7;">
+                          AS
+                          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" alt="Aarav Sharma" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Aarav Sharma</cite>
+                          <span class="testimonial-v2-role">College Student</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Working outdoors at construction sites means tons of cement dust. The app gives a simple warning when PM2.5 shoots up so I can wear my mask.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fef3c7; color: #d97706;">
+                          RP
+                          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80" alt="Rameshwar Prasad" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Rameshwar Prasad</cite>
+                          <span class="testimonial-v2-role">Construction Worker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Simple and straightforward to use. The dose tracker is what I needed most because with long office hours I always forgot my evening inhaler.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #d1fae5; color: #059669;">
+                          PS
+                          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80" alt="Priya Sundaram" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Priya Sundaram</cite>
+                          <span class="testimonial-v2-role">Working Professional</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Driving bike for 8 hours in traffic triggers heavy coughing by evening. The high pollution zone warnings helped me plan my breaks.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fee2e2; color: #dc2626;">
+                          MF
+                          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" alt="Mohammad Farooq" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Mohammad Farooq</cite>
+                          <span class="testimonial-v2-role">Delivery Partner</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">I am testing this for my 12-year-old son who has winter asthma. It gives honest basic alerts and doesn't confuse with too many medical terms.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ede9fe; color: #7c3aed;">
+                          SD
+                          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80" alt="Sunita Deshmukh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Sunita Deshmukh</cite>
+                          <span class="testimonial-v2-role">Homemaker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Good basic tool for the winter smog months. You can see it's still being improved, but having clean local air numbers and risk level in one place helps.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #dbeafe; color: #2563eb;">
+                          GS
+                          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" alt="Gurpreet Singh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Gurpreet Singh</cite>
+                          <span class="testimonial-v2-role">Daily Commuter</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Very clean and easy to understand. I like that it is simple without complicated doctor jargon. The emergency SOS button gives relief.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fce7f3; color: #db2777;">
+                          KR
+                          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Kavita Rao" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Kavita Rao</cite>
+                          <span class="testimonial-v2-role">School Teacher</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Being 68 with chronic bronchitis, sudden cold air causes severe tightness. The weather change reminder is practical and easy for seniors.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #f3f4f6; color: #4b5563;">
+                          DC
+                          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" alt="Dinesh Chandra" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Dinesh Chandra</cite>
+                          <span class="testimonial-v2-role">Senior Citizen</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Tested the symptom logger during a bad allergy week. It is still in trial phase but the interface is clean and does what it says.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ccfbf1; color: #0d9488;">
+                          AM
+                          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80" alt="Ananya Mukherjee" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Ananya Mukherjee</cite>
+                          <span class="testimonial-v2-role">Student</span>
+                        </div>
+                      </footer>
+                    </article>
+              </div>
+              <div class="testimonial-v2-group" aria-hidden="true">
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">The morning smog alert is really helpful before heading to morning lectures. Still has a few small glitches in the UI, but the basic alert works well.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #e0f2fe; color: #0284c7;">
+                          AS
+                          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" alt="Aarav Sharma" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Aarav Sharma</cite>
+                          <span class="testimonial-v2-role">College Student</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Working outdoors at construction sites means tons of cement dust. The app gives a simple warning when PM2.5 shoots up so I can wear my mask.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fef3c7; color: #d97706;">
+                          RP
+                          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80" alt="Rameshwar Prasad" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Rameshwar Prasad</cite>
+                          <span class="testimonial-v2-role">Construction Worker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Simple and straightforward to use. The dose tracker is what I needed most because with long office hours I always forgot my evening inhaler.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #d1fae5; color: #059669;">
+                          PS
+                          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80" alt="Priya Sundaram" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Priya Sundaram</cite>
+                          <span class="testimonial-v2-role">Working Professional</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Driving bike for 8 hours in traffic triggers heavy coughing by evening. The high pollution zone warnings helped me plan my breaks.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fee2e2; color: #dc2626;">
+                          MF
+                          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" alt="Mohammad Farooq" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Mohammad Farooq</cite>
+                          <span class="testimonial-v2-role">Delivery Partner</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">I am testing this for my 12-year-old son who has winter asthma. It gives honest basic alerts and doesn't confuse with too many medical terms.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ede9fe; color: #7c3aed;">
+                          SD
+                          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80" alt="Sunita Deshmukh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Sunita Deshmukh</cite>
+                          <span class="testimonial-v2-role">Homemaker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Good basic tool for the winter smog months. You can see it's still being improved, but having clean local air numbers and risk level in one place helps.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #dbeafe; color: #2563eb;">
+                          GS
+                          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" alt="Gurpreet Singh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Gurpreet Singh</cite>
+                          <span class="testimonial-v2-role">Daily Commuter</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Very clean and easy to understand. I like that it is simple without complicated doctor jargon. The emergency SOS button gives relief.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fce7f3; color: #db2777;">
+                          KR
+                          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Kavita Rao" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Kavita Rao</cite>
+                          <span class="testimonial-v2-role">School Teacher</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Being 68 with chronic bronchitis, sudden cold air causes severe tightness. The weather change reminder is practical and easy for seniors.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #f3f4f6; color: #4b5563;">
+                          DC
+                          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" alt="Dinesh Chandra" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Dinesh Chandra</cite>
+                          <span class="testimonial-v2-role">Senior Citizen</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Tested the symptom logger during a bad allergy week. It is still in trial phase but the interface is clean and does what it says.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ccfbf1; color: #0d9488;">
+                          AM
+                          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80" alt="Ananya Mukherjee" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Ananya Mukherjee</cite>
+                          <span class="testimonial-v2-role">Student</span>
+                        </div>
+                      </footer>
+                    </article>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-v2-col">
+            <div class="testimonial-v2-track testimonial-v2-scroll-slow">
+              <div class="testimonial-v2-group">
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Simple and straightforward to use. The dose tracker is what I needed most because with long office hours I always forgot my evening inhaler.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #d1fae5; color: #059669;">
+                          PS
+                          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80" alt="Priya Sundaram" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Priya Sundaram</cite>
+                          <span class="testimonial-v2-role">Working Professional</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Driving bike for 8 hours in traffic triggers heavy coughing by evening. The high pollution zone warnings helped me plan my breaks.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fee2e2; color: #dc2626;">
+                          MF
+                          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" alt="Mohammad Farooq" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Mohammad Farooq</cite>
+                          <span class="testimonial-v2-role">Delivery Partner</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">I am testing this for my 12-year-old son who has winter asthma. It gives honest basic alerts and doesn't confuse with too many medical terms.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ede9fe; color: #7c3aed;">
+                          SD
+                          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80" alt="Sunita Deshmukh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Sunita Deshmukh</cite>
+                          <span class="testimonial-v2-role">Homemaker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Good basic tool for the winter smog months. You can see it's still being improved, but having clean local air numbers and risk level in one place helps.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #dbeafe; color: #2563eb;">
+                          GS
+                          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" alt="Gurpreet Singh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Gurpreet Singh</cite>
+                          <span class="testimonial-v2-role">Daily Commuter</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Very clean and easy to understand. I like that it is simple without complicated doctor jargon. The emergency SOS button gives relief.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fce7f3; color: #db2777;">
+                          KR
+                          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Kavita Rao" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Kavita Rao</cite>
+                          <span class="testimonial-v2-role">School Teacher</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Being 68 with chronic bronchitis, sudden cold air causes severe tightness. The weather change reminder is practical and easy for seniors.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #f3f4f6; color: #4b5563;">
+                          DC
+                          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" alt="Dinesh Chandra" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Dinesh Chandra</cite>
+                          <span class="testimonial-v2-role">Senior Citizen</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Tested the symptom logger during a bad allergy week. It is still in trial phase but the interface is clean and does what it says.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ccfbf1; color: #0d9488;">
+                          AM
+                          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80" alt="Ananya Mukherjee" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Ananya Mukherjee</cite>
+                          <span class="testimonial-v2-role">Student</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">The morning smog alert is really helpful before heading to morning lectures. Still has a few small glitches in the UI, but the basic alert works well.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #e0f2fe; color: #0284c7;">
+                          AS
+                          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" alt="Aarav Sharma" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Aarav Sharma</cite>
+                          <span class="testimonial-v2-role">College Student</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Working outdoors at construction sites means tons of cement dust. The app gives a simple warning when PM2.5 shoots up so I can wear my mask.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fef3c7; color: #d97706;">
+                          RP
+                          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80" alt="Rameshwar Prasad" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Rameshwar Prasad</cite>
+                          <span class="testimonial-v2-role">Construction Worker</span>
+                        </div>
+                      </footer>
+                    </article>
+              </div>
+              <div class="testimonial-v2-group" aria-hidden="true">
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Simple and straightforward to use. The dose tracker is what I needed most because with long office hours I always forgot my evening inhaler.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #d1fae5; color: #059669;">
+                          PS
+                          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80" alt="Priya Sundaram" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Priya Sundaram</cite>
+                          <span class="testimonial-v2-role">Working Professional</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Driving bike for 8 hours in traffic triggers heavy coughing by evening. The high pollution zone warnings helped me plan my breaks.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fee2e2; color: #dc2626;">
+                          MF
+                          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" alt="Mohammad Farooq" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Mohammad Farooq</cite>
+                          <span class="testimonial-v2-role">Delivery Partner</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">I am testing this for my 12-year-old son who has winter asthma. It gives honest basic alerts and doesn't confuse with too many medical terms.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ede9fe; color: #7c3aed;">
+                          SD
+                          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80" alt="Sunita Deshmukh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Sunita Deshmukh</cite>
+                          <span class="testimonial-v2-role">Homemaker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Good basic tool for the winter smog months. You can see it's still being improved, but having clean local air numbers and risk level in one place helps.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #dbeafe; color: #2563eb;">
+                          GS
+                          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" alt="Gurpreet Singh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Gurpreet Singh</cite>
+                          <span class="testimonial-v2-role">Daily Commuter</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Very clean and easy to understand. I like that it is simple without complicated doctor jargon. The emergency SOS button gives relief.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fce7f3; color: #db2777;">
+                          KR
+                          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Kavita Rao" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Kavita Rao</cite>
+                          <span class="testimonial-v2-role">School Teacher</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Being 68 with chronic bronchitis, sudden cold air causes severe tightness. The weather change reminder is practical and easy for seniors.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #f3f4f6; color: #4b5563;">
+                          DC
+                          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" alt="Dinesh Chandra" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Dinesh Chandra</cite>
+                          <span class="testimonial-v2-role">Senior Citizen</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Tested the symptom logger during a bad allergy week. It is still in trial phase but the interface is clean and does what it says.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ccfbf1; color: #0d9488;">
+                          AM
+                          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80" alt="Ananya Mukherjee" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Ananya Mukherjee</cite>
+                          <span class="testimonial-v2-role">Student</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">The morning smog alert is really helpful before heading to morning lectures. Still has a few small glitches in the UI, but the basic alert works well.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #e0f2fe; color: #0284c7;">
+                          AS
+                          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" alt="Aarav Sharma" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Aarav Sharma</cite>
+                          <span class="testimonial-v2-role">College Student</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Working outdoors at construction sites means tons of cement dust. The app gives a simple warning when PM2.5 shoots up so I can wear my mask.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fef3c7; color: #d97706;">
+                          RP
+                          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80" alt="Rameshwar Prasad" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Rameshwar Prasad</cite>
+                          <span class="testimonial-v2-role">Construction Worker</span>
+                        </div>
+                      </footer>
+                    </article>
+              </div>
+              <div class="testimonial-v2-group" aria-hidden="true">
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Simple and straightforward to use. The dose tracker is what I needed most because with long office hours I always forgot my evening inhaler.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #d1fae5; color: #059669;">
+                          PS
+                          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80" alt="Priya Sundaram" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Priya Sundaram</cite>
+                          <span class="testimonial-v2-role">Working Professional</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Driving bike for 8 hours in traffic triggers heavy coughing by evening. The high pollution zone warnings helped me plan my breaks.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fee2e2; color: #dc2626;">
+                          MF
+                          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" alt="Mohammad Farooq" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Mohammad Farooq</cite>
+                          <span class="testimonial-v2-role">Delivery Partner</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">I am testing this for my 12-year-old son who has winter asthma. It gives honest basic alerts and doesn't confuse with too many medical terms.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ede9fe; color: #7c3aed;">
+                          SD
+                          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80" alt="Sunita Deshmukh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Sunita Deshmukh</cite>
+                          <span class="testimonial-v2-role">Homemaker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Good basic tool for the winter smog months. You can see it's still being improved, but having clean local air numbers and risk level in one place helps.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #dbeafe; color: #2563eb;">
+                          GS
+                          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" alt="Gurpreet Singh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Gurpreet Singh</cite>
+                          <span class="testimonial-v2-role">Daily Commuter</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Very clean and easy to understand. I like that it is simple without complicated doctor jargon. The emergency SOS button gives relief.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fce7f3; color: #db2777;">
+                          KR
+                          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Kavita Rao" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Kavita Rao</cite>
+                          <span class="testimonial-v2-role">School Teacher</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Being 68 with chronic bronchitis, sudden cold air causes severe tightness. The weather change reminder is practical and easy for seniors.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #f3f4f6; color: #4b5563;">
+                          DC
+                          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" alt="Dinesh Chandra" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Dinesh Chandra</cite>
+                          <span class="testimonial-v2-role">Senior Citizen</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Tested the symptom logger during a bad allergy week. It is still in trial phase but the interface is clean and does what it says.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ccfbf1; color: #0d9488;">
+                          AM
+                          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80" alt="Ananya Mukherjee" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Ananya Mukherjee</cite>
+                          <span class="testimonial-v2-role">Student</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">The morning smog alert is really helpful before heading to morning lectures. Still has a few small glitches in the UI, but the basic alert works well.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #e0f2fe; color: #0284c7;">
+                          AS
+                          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" alt="Aarav Sharma" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Aarav Sharma</cite>
+                          <span class="testimonial-v2-role">College Student</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Working outdoors at construction sites means tons of cement dust. The app gives a simple warning when PM2.5 shoots up so I can wear my mask.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fef3c7; color: #d97706;">
+                          RP
+                          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80" alt="Rameshwar Prasad" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Rameshwar Prasad</cite>
+                          <span class="testimonial-v2-role">Construction Worker</span>
+                        </div>
+                      </footer>
+                    </article>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-v2-col">
+            <div class="testimonial-v2-track testimonial-v2-scroll-fast">
+              <div class="testimonial-v2-group">
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Working outdoors at construction sites means tons of cement dust. The app gives a simple warning when PM2.5 shoots up so I can wear my mask.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fef3c7; color: #d97706;">
+                          RP
+                          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80" alt="Rameshwar Prasad" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Rameshwar Prasad</cite>
+                          <span class="testimonial-v2-role">Construction Worker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Simple and straightforward to use. The dose tracker is what I needed most because with long office hours I always forgot my evening inhaler.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #d1fae5; color: #059669;">
+                          PS
+                          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80" alt="Priya Sundaram" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Priya Sundaram</cite>
+                          <span class="testimonial-v2-role">Working Professional</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Driving bike for 8 hours in traffic triggers heavy coughing by evening. The high pollution zone warnings helped me plan my breaks.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fee2e2; color: #dc2626;">
+                          MF
+                          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" alt="Mohammad Farooq" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Mohammad Farooq</cite>
+                          <span class="testimonial-v2-role">Delivery Partner</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">I am testing this for my 12-year-old son who has winter asthma. It gives honest basic alerts and doesn't confuse with too many medical terms.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ede9fe; color: #7c3aed;">
+                          SD
+                          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80" alt="Sunita Deshmukh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Sunita Deshmukh</cite>
+                          <span class="testimonial-v2-role">Homemaker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Good basic tool for the winter smog months. You can see it's still being improved, but having clean local air numbers and risk level in one place helps.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #dbeafe; color: #2563eb;">
+                          GS
+                          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" alt="Gurpreet Singh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Gurpreet Singh</cite>
+                          <span class="testimonial-v2-role">Daily Commuter</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Very clean and easy to understand. I like that it is simple without complicated doctor jargon. The emergency SOS button gives relief.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fce7f3; color: #db2777;">
+                          KR
+                          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Kavita Rao" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Kavita Rao</cite>
+                          <span class="testimonial-v2-role">School Teacher</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Being 68 with chronic bronchitis, sudden cold air causes severe tightness. The weather change reminder is practical and easy for seniors.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #f3f4f6; color: #4b5563;">
+                          DC
+                          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" alt="Dinesh Chandra" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Dinesh Chandra</cite>
+                          <span class="testimonial-v2-role">Senior Citizen</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Tested the symptom logger during a bad allergy week. It is still in trial phase but the interface is clean and does what it says.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ccfbf1; color: #0d9488;">
+                          AM
+                          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80" alt="Ananya Mukherjee" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Ananya Mukherjee</cite>
+                          <span class="testimonial-v2-role">Student</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">The morning smog alert is really helpful before heading to morning lectures. Still has a few small glitches in the UI, but the basic alert works well.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #e0f2fe; color: #0284c7;">
+                          AS
+                          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" alt="Aarav Sharma" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Aarav Sharma</cite>
+                          <span class="testimonial-v2-role">College Student</span>
+                        </div>
+                      </footer>
+                    </article>
+              </div>
+              <div class="testimonial-v2-group" aria-hidden="true">
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Working outdoors at construction sites means tons of cement dust. The app gives a simple warning when PM2.5 shoots up so I can wear my mask.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fef3c7; color: #d97706;">
+                          RP
+                          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80" alt="Rameshwar Prasad" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Rameshwar Prasad</cite>
+                          <span class="testimonial-v2-role">Construction Worker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Simple and straightforward to use. The dose tracker is what I needed most because with long office hours I always forgot my evening inhaler.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #d1fae5; color: #059669;">
+                          PS
+                          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80" alt="Priya Sundaram" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Priya Sundaram</cite>
+                          <span class="testimonial-v2-role">Working Professional</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Driving bike for 8 hours in traffic triggers heavy coughing by evening. The high pollution zone warnings helped me plan my breaks.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fee2e2; color: #dc2626;">
+                          MF
+                          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" alt="Mohammad Farooq" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Mohammad Farooq</cite>
+                          <span class="testimonial-v2-role">Delivery Partner</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">I am testing this for my 12-year-old son who has winter asthma. It gives honest basic alerts and doesn't confuse with too many medical terms.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ede9fe; color: #7c3aed;">
+                          SD
+                          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80" alt="Sunita Deshmukh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Sunita Deshmukh</cite>
+                          <span class="testimonial-v2-role">Homemaker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Good basic tool for the winter smog months. You can see it's still being improved, but having clean local air numbers and risk level in one place helps.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #dbeafe; color: #2563eb;">
+                          GS
+                          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" alt="Gurpreet Singh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Gurpreet Singh</cite>
+                          <span class="testimonial-v2-role">Daily Commuter</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Very clean and easy to understand. I like that it is simple without complicated doctor jargon. The emergency SOS button gives relief.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fce7f3; color: #db2777;">
+                          KR
+                          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Kavita Rao" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Kavita Rao</cite>
+                          <span class="testimonial-v2-role">School Teacher</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Being 68 with chronic bronchitis, sudden cold air causes severe tightness. The weather change reminder is practical and easy for seniors.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #f3f4f6; color: #4b5563;">
+                          DC
+                          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" alt="Dinesh Chandra" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Dinesh Chandra</cite>
+                          <span class="testimonial-v2-role">Senior Citizen</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Tested the symptom logger during a bad allergy week. It is still in trial phase but the interface is clean and does what it says.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ccfbf1; color: #0d9488;">
+                          AM
+                          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80" alt="Ananya Mukherjee" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Ananya Mukherjee</cite>
+                          <span class="testimonial-v2-role">Student</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">The morning smog alert is really helpful before heading to morning lectures. Still has a few small glitches in the UI, but the basic alert works well.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #e0f2fe; color: #0284c7;">
+                          AS
+                          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" alt="Aarav Sharma" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Aarav Sharma</cite>
+                          <span class="testimonial-v2-role">College Student</span>
+                        </div>
+                      </footer>
+                    </article>
+              </div>
+              <div class="testimonial-v2-group" aria-hidden="true">
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Working outdoors at construction sites means tons of cement dust. The app gives a simple warning when PM2.5 shoots up so I can wear my mask.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fef3c7; color: #d97706;">
+                          RP
+                          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80" alt="Rameshwar Prasad" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Rameshwar Prasad</cite>
+                          <span class="testimonial-v2-role">Construction Worker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Simple and straightforward to use. The dose tracker is what I needed most because with long office hours I always forgot my evening inhaler.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #d1fae5; color: #059669;">
+                          PS
+                          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80" alt="Priya Sundaram" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Priya Sundaram</cite>
+                          <span class="testimonial-v2-role">Working Professional</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Driving bike for 8 hours in traffic triggers heavy coughing by evening. The high pollution zone warnings helped me plan my breaks.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fee2e2; color: #dc2626;">
+                          MF
+                          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" alt="Mohammad Farooq" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Mohammad Farooq</cite>
+                          <span class="testimonial-v2-role">Delivery Partner</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">I am testing this for my 12-year-old son who has winter asthma. It gives honest basic alerts and doesn't confuse with too many medical terms.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ede9fe; color: #7c3aed;">
+                          SD
+                          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80" alt="Sunita Deshmukh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Sunita Deshmukh</cite>
+                          <span class="testimonial-v2-role">Homemaker</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Good basic tool for the winter smog months. You can see it's still being improved, but having clean local air numbers and risk level in one place helps.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #dbeafe; color: #2563eb;">
+                          GS
+                          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80" alt="Gurpreet Singh" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Gurpreet Singh</cite>
+                          <span class="testimonial-v2-role">Daily Commuter</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Very clean and easy to understand. I like that it is simple without complicated doctor jargon. The emergency SOS button gives relief.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #fce7f3; color: #db2777;">
+                          KR
+                          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Kavita Rao" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Kavita Rao</cite>
+                          <span class="testimonial-v2-role">School Teacher</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Being 68 with chronic bronchitis, sudden cold air causes severe tightness. The weather change reminder is practical and easy for seniors.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #f3f4f6; color: #4b5563;">
+                          DC
+                          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" alt="Dinesh Chandra" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Dinesh Chandra</cite>
+                          <span class="testimonial-v2-role">Senior Citizen</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">Tested the symptom logger during a bad allergy week. It is still in trial phase but the interface is clean and does what it says.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #ccfbf1; color: #0d9488;">
+                          AM
+                          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80" alt="Ananya Mukherjee" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Ananya Mukherjee</cite>
+                          <span class="testimonial-v2-role">Student</span>
+                        </div>
+                      </footer>
+                    </article>
+                    <article class="testimonial-v2-card">
+                      <p class="testimonial-v2-quote">The morning smog alert is really helpful before heading to morning lectures. Still has a few small glitches in the UI, but the basic alert works well.</p>
+                      <footer class="testimonial-v2-footer">
+                        <span class="testimonial-v2-avatar-wrap" style="background: #e0f2fe; color: #0284c7;">
+                          AS
+                          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" alt="Aarav Sharma" loading="lazy" onerror="this.remove()" />
+                        </span>
+                        <div>
+                          <cite class="testimonial-v2-author">Aarav Sharma</cite>
+                          <span class="testimonial-v2-role">College Student</span>
+                        </div>
+                      </footer>
+                    </article>
+              </div>
+            </div>
+          </div>
         </div>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.5;">
-          <strong>Clinical Analysis:</strong> Mortality rates in India are 3x the global average due to lack of real-time air quality forecasting and delayed bronchodilator rescue response. Dense vehicular exhaust, biomass burning, and winter temperature inversions create severe particulate traps that make predictive decision support indispensable.
-        </p>
       </div>
+
+      <!-- ========================================================
+           NOVA ASTRO FAQ ACCORDION: FREQUENTLY ASKED QUESTIONS
+           ======================================================== -->
+      <div class="faq-nova-section" id="faq-section">
+        <div class="faq-nova-header">
+          <div class="hero-badge-pill" style="margin-bottom: 0.85rem; display: inline-flex;">
+            <i class="fa-solid fa-circle-question"></i>
+            <span>Frequently Asked Questions</span>
+          </div>
+          <h2>Frequently Asked Questions</h2>
+          <p>Everything you need to know about HridyaVayu's early-warning models, AirGuard agent decisions, and clinical safety standards.</p>
+        </div>
+
+        <div class="faq-nova-list">
+          <details class="faq-nova-item" open>
+            <summary class="faq-nova-summary">
+              <h3 class="faq-nova-question">What is HridyaVayu and how does it predict asthma attacks?</h3>
+              <span class="faq-nova-toggle" aria-hidden="true">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+            </summary>
+            <div class="faq-nova-answer">
+              <p>HridyaVayu is an AI-powered clinical decision support platform designed specifically for Indian urban realities. It continuously correlates local environmental sensor telemetry (PM2.5, PM10, NO2, SO2, temperature, and humidity) with personal patient risk markers and medication adherence. Using an ensemble of machine learning models (XGBoost, Random Forest, and LightGBM), it predicts personal exacerbation risk hours before airway constriction begins.</p>
+            </div>
+          </details>
+          <details class="faq-nova-item">
+            <summary class="faq-nova-summary">
+              <h3 class="faq-nova-question">How does the AirGuard autonomous agent work?</h3>
+              <span class="faq-nova-toggle" aria-hidden="true">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+            </summary>
+            <div class="faq-nova-answer">
+              <p>The AirGuard agent acts as an autonomous proactive co-pilot. It operates on a continuous feedback loop: assessing environmental hazard forecasts, validating canister dose counts from smart inhalers, checking medical safety guardrails (aligned with GINA guidelines), and generating tiered interventions—from pre-emptive dosage reminders to emergency SOS alerts.</p>
+            </div>
+          </details>
+          <details class="faq-nova-item">
+            <summary class="faq-nova-summary">
+              <h3 class="faq-nova-question">Why is HridyaVayu specifically tailored for Indian cities?</h3>
+              <span class="faq-nova-toggle" aria-hidden="true">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+            </summary>
+            <div class="faq-nova-answer">
+              <p>According to <strong>The Lancet Global Health</strong>, India accounts for <strong>42.4% of all global asthma deaths</strong> despite representing only 11.1% of global asthma cases. In major Indian megacities (Delhi-NCR, Kanpur, Kolkata, Mumbai, Lucknow), winter PM2.5 levels routinely cross 250 to 450+ μg/m³—over 30 times the WHO safe limit. HridyaVayu was trained on real-world Indian urban meteorological and hospital admission telemetry to protect vulnerable citizens during severe smog spikes.</p>
+            </div>
+          </details>
+          <details class="faq-nova-item">
+            <summary class="faq-nova-summary">
+              <h3 class="faq-nova-question">Does HridyaVayu formulate medical diagnoses or change my prescription?</h3>
+              <span class="faq-nova-toggle" aria-hidden="true">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+            </summary>
+            <div class="faq-nova-answer">
+              <p><strong>No.</strong> HridyaVayu is an assistive early-warning and decision support system, not an autonomous medical diagnostic device. It operates under deterministic clinical safety guardrails: it never alters physician-prescribed dosage amounts and always defers to licensed clinicians. In acute emergencies, it provides immediate one-tap connectivity to national emergency services (112 / 108).</p>
+            </div>
+          </details>
+          <details class="faq-nova-item">
+            <summary class="faq-nova-summary">
+              <h3 class="faq-nova-question">How does smart inhaler tracking and dose management work?</h3>
+              <span class="faq-nova-toggle" aria-hidden="true">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+            </summary>
+            <div class="faq-nova-answer">
+              <p>Patients can log their doses manually or connect smart inhaler sensor sleeves via Bluetooth Low Energy (BLE). The system maintains an accurate longitudinal record of remaining canister doses, actuation timestamps, and compliance ratios. When canister reserves drop below 20% or adherence lapses during high-smog forecasts, the agent proactively issues refill warnings.</p>
+            </div>
+          </details>
+          <details class="faq-nova-item">
+            <summary class="faq-nova-summary">
+              <h3 class="faq-nova-question">What happens if a patient experiences sudden acute distress?</h3>
+              <span class="faq-nova-toggle" aria-hidden="true">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+            </summary>
+            <div class="faq-nova-answer">
+              <p>If severe respiratory distress is indicated or extreme trigger thresholds are detected, HridyaVayu activates its <strong>High-Risk Emergency Protocol</strong>. This immediately displays calm, step-by-step rescue inhaler instructions, transmits telemetry to designated family caregivers, and presents direct one-tap emergency calling to 112 / 108.</p>
+            </div>
+          </details>
+          <details class="faq-nova-item">
+            <summary class="faq-nova-summary">
+              <h3 class="faq-nova-question">How is my personal health data secured and protected?</h3>
+              <span class="faq-nova-toggle" aria-hidden="true">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+            </summary>
+            <div class="faq-nova-answer">
+              <p>All telemetry, medication logs, and clinical profiles are stored with AES-256 encryption at rest and TLS 1.3 in transit. Patient data remains strictly segregated from clinician dashboards using role-based access tokens, ensuring full privacy and patient autonomy.</p>
+            </div>
+          </details>
+                </div>
+      </div>
+
       </div>
     </section>
 
@@ -2453,7 +4018,7 @@
       </div>
 
       <!-- Human-in-the-Loop Approval Queue Banner -->
-      <div id="agent-approval-container" class="approval-queue-banner" style="display: none;">
+      <div id="agent-approval-container"  class="approval-queue-banner" style="display: none;">
         <div class="approval-header">
           <h4>
             <i class="fa-solid fa-circle-exclamation" style="color: #d97706;"></i>
@@ -2687,7 +4252,7 @@
           <div class="portal-card">
             <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--accent); margin-bottom: 0.75rem; display: flex; align-items: center; justify-content: space-between;">
               <span><i class="fa-solid fa-list-ul" style="color: var(--primary);"></i> <span data-i18n="auditLogTitle">Autonomous Agent Decision Log</span> <span style="font-size: 0.68rem; font-weight: 700; background: #f1f5f9; color: #475569; padding: 2px 7px; border-radius: 6px; border: 1px solid #cbd5e1; margin-left: 4px;">Demo data</span></span>
-              <button type="button" onclick="loadAgentLogs()" style="border: none; background: none; color: var(--primary); cursor: pointer; font-size: 0.75rem;"><i class="fa-solid fa-rotate-right"></i> Refresh</button>
+              <button type="button" class="btn-refresh-logs" aria-label="Refresh autonomous agent decision log" title="Refresh logs" onclick="loadAgentLogs()" style="border: none; background: none; color: var(--primary); cursor: pointer; font-size: 0.75rem;"><i class="fa-solid fa-rotate-right"></i> Refresh</button>
             </h4>
             <div id="agent-audit-log-list" style="max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem;">
               <span style="font-size: 0.78rem; color: var(--text-muted);">Loading audit records...</span>
@@ -2708,7 +4273,7 @@
             30-Day Clinical Asthma Consultation Summary
             <span style="font-size: 0.7rem; font-weight: 700; background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 6px; border: 1px solid #cbd5e1; margin-left: 8px;">Demo data</span>
           </h4>
-          <button type="button" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted);" onclick="closeDoctorSummaryModal()">&times;</button>
+          <button type="button" class="modal-close-btn" aria-label="Close Doctor Summary Modal" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted);" onclick="closeDoctorSummaryModal()">&times;</button>
         </div>
 
         <div id="doctor-summary-body" style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; white-space: pre-wrap; max-height: 380px; overflow-y: auto; color: #1e293b; line-height: 1.5;">
@@ -2717,6 +4282,9 @@
 
         <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
           <button type="button" class="btn-reject-action" onclick="closeDoctorSummaryModal()">Close</button>
+          <button type="button" class="btn-approve-action" style="background: #0284c7; color: white;" onclick="downloadDoctorSummaryPdf()">
+            <i class="fa-solid fa-file-pdf"></i> Download PDF Summary
+          </button>
           <button type="button" class="btn-approve-action" onclick="window.print()">
             <i class="fa-solid fa-print"></i> Print Consultation Report
           </button>
@@ -2734,7 +4302,7 @@
             <i class="fa-solid fa-user-shield" style="color: #059669;"></i>
             Patient Data Privacy & Controls
           </h4>
-          <button type="button" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted);" onclick="closePrivacyModal()">&times;</button>
+          <button type="button" class="modal-close-btn" aria-label="Close Privacy Modal" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted);" onclick="closePrivacyModal()">&times;</button>
         </div>
 
         <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem;">
@@ -2775,7 +4343,7 @@
             <i class="fa-solid fa-truck-medical"></i>
             CRITICAL RESPIRATORY DISTRESS
           </h3>
-          <button type="button" style="background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #991b1b;" onclick="closeEmergencySosModal()">&times;</button>
+          <button type="button" class="modal-close-btn" aria-label="Close Emergency SOS Modal" style="background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #991b1b;" onclick="closeEmergencySosModal()">&times;</button>
         </div>
 
         <div style="background: white; border: 1px solid #fca5a5; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
@@ -3359,7 +4927,7 @@
     <div class="modal-content">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
         <h4 id="auth-modal-title" style="font-size: 1.15rem; font-weight: 700;">Sign In to HridyaVayu</h4>
-        <button type="button" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted);" onclick="closeAuthModal()">&times;</button>
+        <button type="button" class="modal-close-btn" aria-label="Close Authentication Modal" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted);" onclick="closeAuthModal()">&times;</button>
       </div>
 
       <div style="display: flex; gap: 0.5rem; background: var(--bg-card-subtle); padding: 0.25rem; border-radius: 8px; margin-bottom: 1.25rem;">
@@ -3441,6 +5009,101 @@
 
   <!-- Script Logic -->
   <script>
+    // ========================================================
+    // GLOBAL AIRGUARD FETCH AUTHENTICATION INTERCEPTOR
+    // ========================================================
+    const _nativeFetch = window.fetch;
+    window.fetch = async function(resource, init = {}) {
+      init = init || {};
+      const token = localStorage.getItem('airguard_token') || (window.currentUser && window.currentUser.token);
+      if (token) {
+        if (!init.headers) {
+          init.headers = { 'Authorization': `Bearer ${token}` };
+        } else if (init.headers instanceof Headers) {
+          if (!init.headers.has('Authorization')) {
+            init.headers.set('Authorization', `Bearer ${token}`);
+          }
+        } else if (Array.isArray(init.headers)) {
+          if (!init.headers.some(([k]) => k.toLowerCase() === 'authorization')) {
+            init.headers.push(['Authorization', `Bearer ${token}`]);
+          }
+        } else {
+          if (!init.headers['Authorization'] && !init.headers['authorization']) {
+            init.headers['Authorization'] = `Bearer ${token}`;
+          }
+        }
+      }
+      return _nativeFetch(resource, init);
+    };
+
+    // ========================================================
+    // AUTOMATIC 5-SECOND CRISIS SLIDESHOW CONTROLLER
+    // ========================================================
+    let currentCrisisSlide = 0;
+    let crisisSlideTimer = null;
+
+    function showCrisisSlide(index) {
+      const slides = document.querySelectorAll('.crisis-slide');
+      const dots = document.querySelectorAll('.slide-dot');
+      if (!slides || !slides.length) return;
+
+      currentCrisisSlide = (index + slides.length) % slides.length;
+
+      slides.forEach((slide, idx) => {
+        if (idx === currentCrisisSlide) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      dots.forEach((dot, idx) => {
+        if (idx === currentCrisisSlide) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    function nextCrisisSlide() {
+      showCrisisSlide(currentCrisisSlide + 1);
+    }
+
+    function prevCrisisSlide() {
+      showCrisisSlide(currentCrisisSlide - 1);
+    }
+
+    function goToCrisisSlide(index) {
+      showCrisisSlide(index);
+      resetCrisisTimer();
+    }
+
+    function resetCrisisTimer() {
+      if (crisisSlideTimer) clearInterval(crisisSlideTimer);
+      crisisSlideTimer = setInterval(nextCrisisSlide, 5000);
+    }
+
+    function initCrisisSlideshow() {
+      showCrisisSlide(0);
+      resetCrisisTimer();
+      const slideBox = document.getElementById('india-slideshow-box');
+      if (slideBox) {
+        slideBox.addEventListener('mouseenter', () => {
+          if (crisisSlideTimer) clearInterval(crisisSlideTimer);
+        });
+        slideBox.addEventListener('mouseleave', () => {
+          resetCrisisTimer();
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCrisisSlideshow);
+    } else {
+      initCrisisSlideshow();
+    }
+
     let currentUser = JSON.parse(localStorage.getItem('hridyavayu_user')) || null;
     let authMode = 'login';
     let currentStep = 1;
@@ -4141,6 +5804,10 @@
         const json = await res.json();
         if (json.success && json.user) {
           currentUser = json.user;
+          if (json.token) {
+            currentUser.token = json.token;
+            localStorage.setItem('airguard_token', json.token);
+          }
           localStorage.setItem('hridyavayu_user', JSON.stringify(currentUser));
           updateAuthUi();
           closeAuthModal();
@@ -4226,6 +5893,7 @@
     function logout() {
       currentUser = null;
       localStorage.removeItem('hridyavayu_user');
+      localStorage.removeItem('airguard_token');
       updateAuthUi();
       totalDosesUsed = 0;
       updateCanisterDisplay();
@@ -4373,10 +6041,16 @@
       }
     }
 
+    const approvingActionIds = new Set();
     async function approveAction(actionId) {
+      if (approvingActionIds.has(actionId)) return;
+      approvingActionIds.add(actionId);
+      const item = document.getElementById(`action-item-${actionId}`);
+      if (item) {
+        item.style.opacity = '0.4';
+        item.querySelectorAll('button').forEach(b => b.disabled = true);
+      }
       try {
-        const item = document.getElementById(`action-item-${actionId}`);
-        if (item) item.style.opacity = '0.4';
         const res = await fetch(`/api/agent/actions/approve/${actionId}`, { method: 'POST' });
         const json = await res.json();
         if (json.success) {
@@ -4389,10 +6063,19 @@
           }
         } else {
           alert("Approval error: " + (json.error || "Could not dispatch"));
-          if (item) item.style.opacity = '1';
+          if (item) {
+            item.style.opacity = '1';
+            item.querySelectorAll('button').forEach(b => b.disabled = false);
+          }
         }
       } catch (err) {
         alert("Connection error: " + err.message);
+        if (item) {
+          item.style.opacity = '1';
+          item.querySelectorAll('button').forEach(b => b.disabled = false);
+        }
+      } finally {
+        approvingActionIds.delete(actionId);
       }
     }
 
@@ -4776,6 +6459,13 @@
       } catch (err) {
         console.error("Error loading agent logs:", err);
       }
+    }
+
+    function downloadDoctorSummaryPdf() {
+      const userId = currentUser ? currentUser.id : 1;
+      const token = localStorage.getItem('airguard_token') || (currentUser ? currentUser.token : '');
+      const url = `/api/agent/doctor-summary/${userId}/pdf?token=${encodeURIComponent(token)}`;
+      window.open(url, '_blank');
     }
 
     async function openDoctorSummaryModal() {

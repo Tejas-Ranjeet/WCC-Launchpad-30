@@ -3,6 +3,18 @@ sys.stdout.reconfigure(encoding='utf-8')
 sys.stderr.reconfigure(encoding='utf-8')
 
 import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except Exception:
+    pass
+
+# Cython unpickling alias compatibility
+try:
+    import sklearn._loss._loss as _cy_loss
+    sys.modules['_loss'] = _cy_loss
+except Exception:
+    pass
 import json
 import pickle
 import sqlite3
@@ -12,7 +24,7 @@ import numpy as np
 import pandas as pd
 import requests
 from datetime import datetime
-from flask import Flask, request, jsonify, render_template, send_from_directory
+from flask import Flask, request, jsonify, render_template, send_from_directory, send_file
 from flask_cors import CORS
 
 from models import db, User, SensorData, Alert, QuizResponse, SymptomDiary, AgentAction, AgentLog, DailyPlan
@@ -156,9 +168,103 @@ aqi_service = RealTimeAQI()
 app = Flask(__name__, template_folder='web_ui', static_folder='web_ui')
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.abspath(DB_PATH)}"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'airguard-super-secret-production-key-replace-me')
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.abspath(DB_PATH)}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
+
+# ==================== TOKEN AUTHENTICATION & IDOR GUARDS ====================
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
+from functools import wraps
+import io
+
+TOKEN_MAX_AGE = 86400 * 7  # 7 days
+
+def get_token_serializer():
+    return URLSafeTimedSerializer(app.config.get('SECRET_KEY', 'airguard-super-secret-production-key-replace-me'))
+
+def generate_auth_token(user_id: int, role: str = "User") -> str:
+    s = get_token_serializer()
+    return s.dumps({"user_id": user_id, "role": role})
+
+def verify_auth_token(token: str):
+    if not token:
+        return None
+    s = get_token_serializer()
+    try:
+        return s.loads(token, max_age=TOKEN_MAX_AGE)
+    except (SignatureExpired, BadSignature, Exception):
+        return None
+
+def _execute_auth_check(func, admin_only, *args, **kwargs):
+    auth_header = request.headers.get("Authorization", "")
+    token = None
+    if auth_header.startswith("Bearer "):
+        token = auth_header.split(" ", 1)[1].strip()
+    elif request.headers.get("X-Auth-Token"):
+        token = request.headers.get("X-Auth-Token").strip()
+    elif request.args.get("token"):
+        token = request.args.get("token").strip()
+
+    if not token:
+        return jsonify({"success": False, "error": "Authentication token required. Please log in."}), 401
+
+    payload = verify_auth_token(token)
+    if not payload:
+        return jsonify({"success": False, "error": "Invalid or expired authentication token. Please log in again."}), 401
+
+    auth_user_id = payload.get("user_id")
+    auth_role = payload.get("role", "User")
+
+    if admin_only and auth_role != "Admin":
+        return jsonify({"success": False, "error": "Administrator privileges required."}), 403
+
+    # IDOR check: if endpoint takes user_id in URL kwargs
+    if "user_id" in kwargs:
+        target_user_id = kwargs["user_id"]
+        if target_user_id != auth_user_id and auth_role != "Admin":
+            return jsonify({"success": False, "error": "Forbidden: You cannot access, modify, or delete another patient's data."}), 403
+
+    # IDOR check: if endpoint takes action_id in URL kwargs
+    if "action_id" in kwargs:
+        action = AgentAction.query.get(kwargs["action_id"])
+        if not action:
+            return jsonify({"success": False, "error": "Action not found"}), 404
+        if action.user_id != auth_user_id and auth_role != "Admin":
+            return jsonify({"success": False, "error": "Forbidden: You cannot decide an action belonging to another patient."}), 403
+
+    # IDOR check: if user_id in JSON payload
+    if request.is_json:
+        try:
+            body = request.get_json(silent=True) or {}
+            if "user_id" in body and body["user_id"] is not None:
+                target_user_id = int(body["user_id"])
+                if target_user_id != auth_user_id and auth_role != "Admin":
+                    return jsonify({"success": False, "error": "Forbidden: You cannot submit actions or diaries for another patient."}), 403
+        except Exception:
+            pass
+
+    return func(*args, **kwargs)
+
+def token_required(f_or_admin=None, admin_only=False):
+    if callable(f_or_admin):
+        func = f_or_admin
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            return _execute_auth_check(func, False, *args, **kwargs)
+        return wrapper
+    else:
+        is_admin = admin_only or (f_or_admin is True)
+        def decorator(func):
+            @wraps(func)
+            def wrapper(*args, **kwargs):
+                return _execute_auth_check(func, is_admin, *args, **kwargs)
+            return wrapper
+        return decorator
 
 # ==================== DATABASE HELPERS ====================
 
@@ -303,6 +409,10 @@ def serve_assets(filename):
 def serve_figures(filename):
     return send_from_directory(os.path.join(app.root_path, "figures"), filename)
 
+@app.route("/slideshow/<path:filename>")
+def serve_slideshow(filename):
+    return send_from_directory(os.path.join(app.root_path, "slideshow"), filename)
+
 # ==================== AUTHENTICATION & PROFILE ROUTES ====================
 
 @app.route("/api/auth/signup", methods=["POST"])
@@ -312,7 +422,9 @@ def auth_signup():
         name = data.get("name") or data.get("full_name") or data.get("username", "Alex Rivera").strip()
         age = int(data.get("age", 30) or 30)
         gender = data.get("gender", "Other")
-        phone_no = data.get("phone_no") or f"+1-555-{np.random.randint(1000, 9999)}"
+        phone_no = (data.get("phone_no") or "").strip()
+        if not phone_no:
+            phone_no = f"+1-555-{np.random.randint(1000, 9999)}"
         password = data.get("password", "")
         medical_history = data.get("medical_history", "Mild intermittent asthma")
         baseline_severity = data.get("baseline_severity", "Mild Intermittent")
@@ -324,33 +436,36 @@ def auth_signup():
         emergency_contact_phone = data.get("emergency_contact_phone", "+1-555-0188")
         role = data.get("role", "User").strip()
 
-        # Check existing phone
+        # Check existing phone - Reject duplicate signup with 409 Conflict
         existing = User.query.filter_by(phone_no=phone_no).first()
         if existing:
-            user = existing
-            if password:
-                user.set_password(password)
+            return jsonify({
+                "success": False,
+                "error": f"An account with phone number '{phone_no}' already exists. Please log in instead."
+            }), 409
+
+        user = User(
+            name=name,
+            age=age,
+            gender=gender,
+            phone_no=phone_no,
+            medical_history=medical_history,
+            baseline_severity=baseline_severity,
+            inhaler_prescribed=inhaler_prescribed,
+            triggers=triggers,
+            language_pref=language_pref,
+            city=city,
+            emergency_contact_name=emergency_contact_name,
+            emergency_contact_phone=emergency_contact_phone
+        )
+        if password:
+            user.set_password(password)
         else:
-            user = User(
-                name=name,
-                age=age,
-                gender=gender,
-                phone_no=phone_no,
-                medical_history=medical_history,
-                baseline_severity=baseline_severity,
-                inhaler_prescribed=inhaler_prescribed,
-                triggers=triggers,
-                language_pref=language_pref,
-                city=city,
-                emergency_contact_name=emergency_contact_name,
-                emergency_contact_phone=emergency_contact_phone
-            )
-            if password:
-                user.set_password(password)
-            db.session.add(user)
+            user.set_password("alex123")
+        db.session.add(user)
         db.session.commit()
 
-        token = hashlib.sha256(f"{user.id}:{user.phone_no}:{datetime.utcnow().isoformat()}".encode('utf-8')).hexdigest()
+        token = generate_auth_token(user.id, role=role)
 
         return jsonify({
             "success": True,
@@ -362,7 +477,7 @@ def auth_signup():
                 "username": name.lower().replace(" ", "_"),
                 "full_name": user.name
             }
-        })
+        }), 201
     except Exception as e:
         db.session.rollback()
         return jsonify({"success": False, "error": str(e)}), 500
@@ -371,38 +486,47 @@ def auth_signup():
 def auth_login():
     try:
         data = request.get_json(force=True) or {}
-        username = data.get("username", "").strip()
-        password = data.get("password", "")
+        username = str(data.get("username", "") or data.get("email", "") or data.get("phone", "")).strip()
+        password = str(data.get("password", ""))
 
-        # Check if admin demo or user demo
-        if "admin" in username.lower():
-            user = User.query.filter_by(phone_no="+1-555-0199").first()
+        if not username:
+            return jsonify({"success": False, "error": "Username, email, or phone number required"}), 400
+
+        u_low = username.lower()
+        role = "User"
+        user = None
+
+        # Check known demo aliases
+        if u_low in ["alex@example.com", "alex", "demo_user", "alex rivera"]:
+            user = User.query.filter((User.phone_no == "+1-555-0143") | (User.name == "Alex Rivera")).first()
+            role = "User"
+        elif u_low in ["doctor@example.com", "admin", "dr. sarah mitchell", "sarah"]:
+            user = User.query.filter((User.phone_no == "+1-555-0199") | (User.name.like("%Mitchell%"))).first()
             role = "Admin"
         else:
+            # Query by exact phone or name
             user = User.query.filter((User.name == username) | (User.phone_no == username)).first()
-            if not user:
-                user = User.query.filter_by(phone_no="+1-555-0143").first()
-            if not user:
-                user = User.query.first()
-            role = "User"
+            if "admin" in u_low:
+                role = "Admin"
 
         if not user:
-            user = User(
-                name="Alex Rivera",
-                age=28,
-                gender="Male",
-                phone_no="+1-555-0143",
-                emergency_contact_name="Maria Rivera",
-                emergency_contact_phone="+1-555-0188"
-            )
-            user.set_password("alex123")
-            db.session.add(user)
-            db.session.commit()
+            return jsonify({"success": False, "error": "User account not found. Please sign up."}), 401
 
-        if password and user.password_hash and not user.check_password(password):
+        # Check password: Demo account Alex accepts both 'demo123' and 'alex123'
+        is_valid = False
+        if user.phone_no == "+1-555-0143" and password in ["demo123", "alex123"]:
+            is_valid = True
+        elif user.phone_no == "+1-555-0199" and password in ["doctor123", "admin123"]:
+            is_valid = True
+        elif user.password_hash:
+            is_valid = user.check_password(password)
+        elif not password:
+            is_valid = False
+
+        if not is_valid:
             return jsonify({"success": False, "error": "Invalid password credentials"}), 401
 
-        token = hashlib.sha256(f"{user.id}:{user.phone_no}:{datetime.utcnow().isoformat()}".encode('utf-8')).hexdigest()
+        token = generate_auth_token(user.id, role=role)
 
         return jsonify({
             "success": True,
@@ -419,6 +543,7 @@ def auth_login():
 
 @app.route("/get-user/<int:user_id>", methods=["GET"])
 @app.route("/api/get-user/<int:user_id>", methods=["GET"])
+@token_required
 def get_user_profile(user_id):
     try:
         user = User.query.get(user_id)
@@ -433,6 +558,7 @@ def get_user_profile(user_id):
 
 @app.route("/save-profile", methods=["POST"])
 @app.route("/api/save-profile", methods=["POST"])
+@token_required
 def save_profile():
     try:
         data = request.get_json(force=True) or {}
@@ -533,6 +659,7 @@ def upload_sensor_data():
 
 @app.route("/get-user-data/<int:user_id>", methods=["GET"])
 @app.route("/api/get-user-data/<int:user_id>", methods=["GET"])
+@token_required
 def get_user_data(user_id):
     """Fetches stored environmental sensor data for a specific user from SensorData table."""
     try:
@@ -551,6 +678,7 @@ def get_user_data(user_id):
 
 @app.route("/submit-quiz", methods=["POST"])
 @app.route("/api/submit-quiz", methods=["POST"])
+@token_required
 def submit_quiz():
     """Stores quiz responses into QuizResponse model."""
     try:
@@ -583,6 +711,7 @@ def submit_quiz():
 
 @app.route("/get-quiz-responses/<int:user_id>", methods=["GET"])
 @app.route("/api/get-quiz-responses/<int:user_id>", methods=["GET"])
+@token_required
 def get_quiz_responses(user_id):
     """Retrieves stored quiz responses for a specific user."""
     try:
@@ -599,6 +728,7 @@ def get_quiz_responses(user_id):
 
 @app.route("/get-alerts/<int:user_id>", methods=["GET"])
 @app.route("/api/get-alerts/<int:user_id>", methods=["GET"])
+@token_required
 def get_alerts(user_id):
     """Fetches AI-generated alerts and emergency notifications for a specific user."""
     try:
@@ -630,7 +760,10 @@ def trigger_sos():
         return jsonify({
             "success": True,
             "message": "Emergency SOS broadcasted! SMS and alerts sent to designated emergency contact.",
-            "emergency_contact": contact
+            "emergency_contact": contact,
+            "emergency_numbers": ["112", "108"],
+            "ambulance_call": "108",
+            "national_emergency": "112"
         })
     except Exception as e:
         db.session.rollback()
@@ -640,42 +773,88 @@ def trigger_sos():
 
 @app.route("/use-inhaler", methods=["POST"])
 @app.route("/api/inhaler/use", methods=["POST"])
+@token_required
 def inhaler_use():
     try:
         data = request.get_json(force=True) or {}
         user_id = int(data.get("user_id") or 1)
+        doses_to_add = int(data.get("dose_count", 1) or 1)
+        if doses_to_add < 1:
+            doses_to_add = 1
+
+        CANISTER_CAPACITY = 200
         with get_db_connection() as conn:
-            conn.execute("INSERT INTO inhaler_usage (user_id, timestamp, dose_count) VALUES (?, ?, 1)",
-                         (user_id, datetime.utcnow().isoformat()))
             cur = conn.cursor()
             cur.execute("SELECT SUM(dose_count) as total FROM inhaler_usage WHERE user_id = ?", (user_id,))
-            total = cur.fetchone()["total"] or 0
+            current_total = cur.fetchone()["total"] or 0
+
+            # Decrement / add dose
+            conn.execute("INSERT INTO inhaler_usage (user_id, timestamp, dose_count) VALUES (?, ?, ?)",
+                         (user_id, datetime.utcnow().isoformat(), doses_to_add))
             conn.commit()
-        return jsonify({"success": True, "total_doses": total, "message": "Inhaler dose logged successfully"})
+
+            cur.execute("SELECT SUM(dose_count) as total FROM inhaler_usage WHERE user_id = ?", (user_id,))
+            total = cur.fetchone()["total"] or 0
+
+        remaining = max(0, CANISTER_CAPACITY - total)
+        low_canister = remaining <= 20
+        return jsonify({
+            "success": True,
+            "total_doses": total,
+            "doses_used": total,
+            "canister_capacity": CANISTER_CAPACITY,
+            "remaining_doses": remaining,
+            "low_canister_alert": low_canister,
+            "message": f"Inhaler dose logged successfully. {remaining} doses remaining."
+        })
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
 @app.route("/get-inhaler-usage/<int:user_id>", methods=["GET"])
 @app.route("/api/inhaler/count/<int:user_id>", methods=["GET"])
+@app.route("/api/inhaler/status/<int:user_id>", methods=["GET"])
+@token_required
 def inhaler_count(user_id):
     try:
+        CANISTER_CAPACITY = 200
         with get_db_connection() as conn:
             cur = conn.cursor()
             cur.execute("SELECT SUM(dose_count) as total FROM inhaler_usage WHERE user_id = ?", (user_id,))
             total = cur.fetchone()["total"] or 0
-        return jsonify({"success": True, "total_doses": total})
+
+        remaining = max(0, CANISTER_CAPACITY - total)
+        low_canister = remaining <= 20
+        return jsonify({
+            "success": True,
+            "total_doses": total,
+            "doses_used": total,
+            "canister_capacity": CANISTER_CAPACITY,
+            "remaining_doses": remaining,
+            "low_canister_alert": low_canister
+        })
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
 @app.route("/api/inhaler/reset", methods=["POST"])
-def inhaler_reset():
+@app.route("/api/inhaler/reset/<int:user_id>", methods=["POST"])
+@token_required
+def inhaler_reset(user_id=None):
     try:
-        data = request.get_json(force=True) or {}
-        user_id = int(data.get("user_id") or 1)
+        if not user_id:
+            data = request.get_json(force=True) or {}
+            user_id = int(data.get("user_id") or 1)
         with get_db_connection() as conn:
             conn.execute("DELETE FROM inhaler_usage WHERE user_id = ?", (user_id,))
             conn.commit()
-        return jsonify({"success": True, "total_doses": 0, "message": "Canister tracker calibrated for new inhaler"})
+        return jsonify({
+            "success": True,
+            "total_doses": 0,
+            "doses_used": 0,
+            "remaining_doses": 200,
+            "canister_capacity": 200,
+            "low_canister_alert": False,
+            "message": "Canister tracker calibrated for new inhaler (200 doses ready)"
+        })
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
@@ -731,14 +910,22 @@ def predict():
         patient_name = data.get("patient_name", "Anonymous Patient").strip()
         user_id = int(data.get("user_id") or 1)
 
-        # Parse inputs
-        aqi = float(data.get("air_quality") or data.get("AQI", 80))
-        pm25 = float(data.get("pm25") or data.get("PM2.5", 35))
-        so2 = float(data.get("so2_level") or data.get("SO2 level", 15))
-        no2 = float(data.get("no2_level") or data.get("NO2 level", 25))
-        co2 = float(data.get("co2_level") or data.get("CO2 level", 450))
-        humidity = float(data.get("humidity") or data.get("Humidity", 50))
-        temperature = float(data.get("temperature") or data.get("Temperature", 24))
+        # Robust input parsing helper
+        def _parse_num(val, default):
+            if val is None or val == "":
+                return default
+            try:
+                return float(val)
+            except (ValueError, TypeError):
+                return default
+
+        aqi = _parse_num(data.get("air_quality") if data.get("air_quality") is not None else data.get("AQI"), 80.0)
+        pm25 = _parse_num(data.get("pm25") if data.get("pm25") is not None else data.get("PM2.5"), 35.0)
+        so2 = _parse_num(data.get("so2_level") if data.get("so2_level") is not None else data.get("SO2 level"), 15.0)
+        no2 = _parse_num(data.get("no2_level") if data.get("no2_level") is not None else data.get("NO2 level"), 25.0)
+        co2 = _parse_num(data.get("co2_level") if data.get("co2_level") is not None else data.get("CO2 level"), 450.0)
+        humidity = _parse_num(data.get("humidity") if data.get("humidity") is not None else data.get("Humidity"), 50.0)
+        temperature = _parse_num(data.get("temperature") if data.get("temperature") is not None else data.get("Temperature"), 24.0)
 
         symptoms_freq = str(data.get("Asthma Symptoms Frequency", "1-2 times a month"))
         triggers = str(data.get("Triggers", "Dust"))
@@ -874,7 +1061,9 @@ def predict():
             "risk_score": round(ens_score, 4),
             "asthma_risk_score": round(ens_score, 4),
             "risk_level": risk_level,
+            "tier": risk_level,
             "confidence": round(confidence, 4),
+            "uncertainty": round(uncertainty, 4),
             "uncertainty_entropy": round(uncertainty, 4),
             "heuristic_override": heuristic_override,
             "model_architecture": "HridyaVayu Multimodal Collaborative Ensemble (Baseline LR + RF + GB)",
@@ -886,6 +1075,7 @@ def predict():
             },
             "recommendations": recommendations,
             "factors": factors,
+            "drivers": factors,
             "timestamp": ts
         })
 
@@ -896,6 +1086,7 @@ def predict():
 
 @app.route("/send-data-to-ai/<int:user_id>", methods=["GET", "POST"])
 @app.route("/api/send-data-to-ai/<int:user_id>", methods=["GET", "POST"])
+@token_required
 def send_data_to_ai(user_id):
     """Takes stored SensorData & QuizResponse from DB for user_id and runs AI Risk Prediction."""
     try:
@@ -1007,6 +1198,7 @@ def send_data_to_ai(user_id):
 # ==================== ADMIN & TELEMETRY ROUTES ====================
 
 @app.route("/api/admin/overview", methods=["GET"])
+@token_required(admin_only=True)
 def admin_overview():
     try:
         total_users = User.query.count()
@@ -1146,6 +1338,7 @@ def health_check():
     })
 
 @app.route("/api/agent/run", methods=["POST"])
+@token_required
 def agent_run():
     """Executes a full SENSE -> REASON -> PLAN -> PROPOSE -> ACT -> LOG cycle."""
     try:
@@ -1179,6 +1372,7 @@ def agent_forecast():
     return jsonify(forecast)
 
 @app.route("/api/agent/actions/pending/<int:user_id>", methods=["GET"])
+@token_required
 def agent_pending_actions(user_id):
     """Retrieves all pending human-approval actions for a user."""
     try:
@@ -1194,6 +1388,7 @@ def agent_pending_actions(user_id):
         return jsonify({"success": False, "error": str(e)}), 500
 
 @app.route("/api/agent/actions/approve/<int:action_id>", methods=["POST"])
+@token_required
 def agent_approve_action(action_id):
     """Human-in-the-loop: Patient explicitly approves action. Dispatches via notification tool."""
     try:
@@ -1201,11 +1396,26 @@ def agent_approve_action(action_id):
         if not action:
             return jsonify({"success": False, "error": "Action not found"}), 404
 
+        # Idempotency guard: never allow re-approving an action
+        if action.status != "PENDING":
+            return jsonify({
+                "success": False,
+                "error": f"Action has already been decided with status: {action.status}. Cannot re-approve."
+            }), 400
+
+        # Allow patient to edit payload/message before approving
+        if request.is_json:
+            data = request.get_json(silent=True) or {}
+            if "message" in data and data["message"]:
+                action.proposed_payload = str(data["message"]).strip()
+            elif "proposed_payload" in data and data["proposed_payload"]:
+                action.proposed_payload = str(data["proposed_payload"]).strip()
+
         action.status = "APPROVED"
         action.decided_at = datetime.utcnow()
         db.session.commit()
 
-        # Dispatch action
+        # Dispatch action exactly once
         dispatch_result = AirGuardTools.send_notification(action_id)
         return jsonify({
             "success": True,
@@ -1218,12 +1428,19 @@ def agent_approve_action(action_id):
         return jsonify({"success": False, "error": str(e)}), 500
 
 @app.route("/api/agent/actions/reject/<int:action_id>", methods=["POST"])
+@token_required
 def agent_reject_action(action_id):
     """Human-in-the-loop: Patient explicitly rejects action."""
     try:
         action = AgentAction.query.get(action_id)
         if not action:
             return jsonify({"success": False, "error": "Action not found"}), 404
+
+        if action.status != "PENDING":
+            return jsonify({
+                "success": False,
+                "error": f"Action has already been decided with status: {action.status}."
+            }), 400
 
         action.status = "REJECTED"
         action.decided_at = datetime.utcnow()
@@ -1240,6 +1457,7 @@ def agent_reject_action(action_id):
         return jsonify({"success": False, "error": str(e)}), 500
 
 @app.route("/api/agent/logs/<int:user_id>", methods=["GET"])
+@token_required
 def agent_audit_logs(user_id):
     """Complete audit trail of agent reasoning, inputs, outputs, and safety status."""
     try:
@@ -1254,6 +1472,7 @@ def agent_audit_logs(user_id):
         return jsonify({"success": False, "error": str(e)}), 500
 
 @app.route("/api/agent/plan/<int:user_id>", methods=["GET"])
+@token_required
 def agent_daily_plan(user_id):
     """Retrieves or computes today's 24-hour proactive plan."""
     try:
@@ -1271,6 +1490,7 @@ def agent_daily_plan(user_id):
         return jsonify({"success": False, "error": str(e)}), 500
 
 @app.route("/api/agent/symptom/log", methods=["POST"])
+@token_required
 def agent_log_symptom():
     """Logs patient symptom diary entry and recalculates risk/plan."""
     try:
@@ -1309,7 +1529,23 @@ def agent_log_symptom():
         db.session.rollback()
         return jsonify({"success": False, "error": str(e)}), 500
 
+@app.route("/api/symptom/history/<int:user_id>", methods=["GET"])
+@app.route("/api/agent/symptom/history/<int:user_id>", methods=["GET"])
+@token_required
+def get_symptom_history(user_id):
+    """Retrieves longitudinal symptom diary history for a patient."""
+    try:
+        entries = SymptomDiary.query.filter_by(user_id=user_id).order_by(SymptomDiary.timestamp.desc()).all()
+        return jsonify({
+            "success": True,
+            "count": len(entries),
+            "symptoms": [e.to_dict() for e in entries]
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
 @app.route("/api/agent/chat", methods=["POST"])
+@token_required
 def agent_chat():
     """Interactive conversational agent endpoint with voice-query support and guardrails."""
     try:
@@ -1345,16 +1581,35 @@ def agent_chat():
         return jsonify({"success": False, "error": str(e)}), 500
 
 @app.route("/api/agent/doctor-summary/<int:user_id>", methods=["GET"])
+@token_required
 def agent_doctor_summary(user_id):
     """Generates 30-day clinical consultation report for doctor appointment."""
     summary = AirGuardTools.generate_doctor_summary(user_id)
     return jsonify(summary)
 
+@app.route("/api/agent/doctor-summary/<int:user_id>/pdf", methods=["GET"])
+@token_required
+def agent_doctor_summary_pdf(user_id):
+    """Generates authentic clinical consultation PDF for physician review."""
+    try:
+        pdf_bytes = AirGuardTools.generate_doctor_summary_pdf(user_id)
+        return send_file(
+            io.BytesIO(pdf_bytes),
+            mimetype="application/pdf",
+            as_attachment=True,
+            download_name=f"AirGuard_Doctor_Summary_Patient_{user_id}.pdf"
+        )
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
 # ==================== GDPR / DPDP ACT DATA PRIVACY ROUTES ====================
 
 @app.route("/api/user/export-data/<int:user_id>", methods=["GET"])
+@app.route("/api/user/export/<int:user_id>", methods=["GET"])
+@app.route("/api/export-data/<int:user_id>", methods=["GET"])
+@token_required
 def export_user_data(user_id):
-    """Right to Data Portability: Downloads complete user data in JSON format."""
+    """Right to Data Portability: Downloads complete user data across all 10 tables in JSON format."""
     try:
         user = User.query.get(user_id)
         if not user:
@@ -1365,20 +1620,41 @@ def export_user_data(user_id):
         actions = [a.to_dict() for a in AgentAction.query.filter_by(user_id=user_id).all()]
         logs = [l.to_dict() for l in AgentLog.query.filter_by(user_id=user_id).all()]
         alerts = [al.to_dict() for al in Alert.query.filter_by(user_id=user_id).all()]
+        plans = [p.to_dict() for p in DailyPlan.query.filter_by(user_id=user_id).all()]
+        quizzes = [q.to_dict() for q in QuizResponse.query.filter_by(user_id=user_id).all()]
+
+        # Query raw SQLite tables (predictions and inhaler_usage)
+        preds = []
+        inhalers = []
+        with get_db_connection() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM predictions WHERE user_id = ?", (user_id,))
+            preds = [dict(r) for r in cur.fetchall()]
+            cur.execute("SELECT * FROM inhaler_usage WHERE user_id = ?", (user_id,))
+            inhalers = [dict(r) for r in cur.fetchall()]
 
         payload = {
             "export_metadata": {
                 "generated_at": datetime.utcnow().isoformat(),
                 "service": "AirGuard Healthcare Agent",
                 "format": "JSON Portable Format",
-                "design_alignment": "GDPR Art. 20 / India DPDP Act 2023 portability principles"
+                "compliance_design": "GDPR Article 20 / India DPDP Act 2023 portability principles",
+                "tables_included": [
+                    "user", "sensor_data", "symptom_diary", "agent_action",
+                    "agent_log", "alert", "daily_plan", "quiz_response",
+                    "predictions", "inhaler_usage"
+                ]
             },
             "user_profile": user.to_dict(),
             "sensor_readings": sensors,
             "symptom_diary": diaries,
             "agent_actions": actions,
             "agent_audit_logs": logs,
-            "alerts": alerts
+            "alerts": alerts,
+            "daily_plans": plans,
+            "quiz_responses": quizzes,
+            "predictions": preds,
+            "inhaler_usage": inhalers
         }
         return jsonify({
             "success": True,
@@ -1388,15 +1664,18 @@ def export_user_data(user_id):
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
-@app.route("/api/user/delete-account/<int:user_id>", methods=["DELETE"])
+@app.route("/api/user/delete-account/<int:user_id>", methods=["POST", "DELETE"])
+@app.route("/api/user/delete/<int:user_id>", methods=["POST", "DELETE"])
+@app.route("/api/delete-account/<int:user_id>", methods=["POST", "DELETE"])
+@token_required
 def delete_user_account(user_id):
-    """Right to Erasure (Forget Me): Completely deletes user and all personal medical data."""
+    """Right to Erasure (Forget Me): Completely deletes user and all personal medical data across all 10 tables."""
     try:
         user = User.query.get(user_id)
         if not user:
             return jsonify({"success": False, "error": "User not found"}), 404
 
-        # Cascade deletes
+        # 1. Cascade deletes across ORM tables
         SensorData.query.filter_by(user_id=user_id).delete()
         SymptomDiary.query.filter_by(user_id=user_id).delete()
         AgentAction.query.filter_by(user_id=user_id).delete()
@@ -1404,16 +1683,22 @@ def delete_user_account(user_id):
         Alert.query.filter_by(user_id=user_id).delete()
         QuizResponse.query.filter_by(user_id=user_id).delete()
         DailyPlan.query.filter_by(user_id=user_id).delete()
-
         db.session.delete(user)
         db.session.commit()
 
+        # 2. Delete from raw SQLite tables
+        with get_db_connection() as conn:
+            conn.execute("DELETE FROM predictions WHERE user_id = ?", (user_id,))
+            conn.execute("DELETE FROM inhaler_usage WHERE user_id = ?", (user_id,))
+            conn.commit()
+
         return jsonify({
             "success": True,
-            "message": f"User account #{user_id} and all associated medical records permanently deleted."
+            "message": f"User account #{user_id} and all associated medical records permanently deleted across all tables."
         })
     except Exception as e:
         db.session.rollback()
+        return jsonify({"success": False, "error": str(e)}), 500
         return jsonify({"success": False, "error": str(e)}), 500
 
 # Initialize DB on load (ensures tables exist when running with Gunicorn or direct python)

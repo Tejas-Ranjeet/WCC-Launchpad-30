@@ -47,7 +47,7 @@ In accordance with responsible hackathon development standards, we disclose all 
 1. **Runtime Agentic & Reasoning Models**:
    - **Google Gemini 1.5 Pro / Flash**: Used for multi-step clinical reasoning, contextual day plan generation, and conversational patient interaction via API.
    - **Anthropic Claude 3.5 Sonnet**: Secondary runtime provider option in `agent/llm.py` for structured daily plan synthesis.
-   - **Deterministic Offline MOCK Engine**: Rule-governed clinical fall-back that generates reproducible GINA-compliant plans with zero API token latency and 100% offline uptime.
+   - **Deterministic Offline MOCK Engine**: Rule-governed clinical fall-back that generates reproducible GINA-compliant plans with zero API token latency and resilient offline operation.
 
 2. **Development & Code Generation Assistants**:
    - **Google Antigravity IDE (Gemini Advanced Agentic Assistant)**: Used as the primary pair programmer for repository auditing, test fixture generation, CSS architecture transformation, and pytest test suite construction.

@@ -79,4 +79,4 @@
 - [ ] Ensure `python app.py` is running on port 7860.
 - [ ] If resetting the demo state, run: `python scripts/seed_demo.py`.
 - [ ] Check microphone permission in Chrome for voice chat demonstration.
-- [ ] Verify test suite is passing: `python -m pytest tests/ -v` (29 passed).
+- [ ] Verify test suite is passing: `python -m pytest tests/ -v` (184 passed).

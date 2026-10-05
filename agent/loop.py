@@ -88,6 +88,7 @@ class AirGuardAgentLoop:
                     "emergency": True,
                     "risk_tier": "Emergency",
                     "response": red_flag["instructions"],
+                    "agent_response": red_flag["instructions"],
                     "actions_proposed": [],
                     "guardrail_tripped": True,
                     "reasoning": red_flag["reason"]

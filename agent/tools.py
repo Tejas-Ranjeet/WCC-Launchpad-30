@@ -524,7 +524,10 @@ class AirGuardTools:
             "success": dispatch_success,
             "action_id": action.id,
             "status": action.status,
-            "result": dispatch_result
+            "result": dispatch_result,
+            "delivery": "dispatched" if webhook_url else "simulated",
+            "message": dispatch_result,
+            "error": None if dispatch_success else dispatch_result
         }
 
     @staticmethod
@@ -610,3 +613,196 @@ class AirGuardTools:
             "formatted_report": report_text,
             "doctor_summary": report_text
         }
+
+    @staticmethod
+    def generate_doctor_summary_pdf(user_id: int) -> bytes:
+        """
+        Renders an authentic, clinical-grade 30-day physician summary PDF using ReportLab.
+        Includes patient clinical baseline, 30-day symptom and inhaler dynamics,
+        PEF measurements, alerts, and non-diagnostic regulatory disclaimers.
+        Handles zero-data users gracefully.
+        """
+        import io
+        from reportlab.lib.pagesizes import letter
+        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+        from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+        from reportlab.lib import colors
+
+        summary_data = AirGuardTools.generate_doctor_summary(user_id)
+        user = db.session.get(User, user_id) if hasattr(db.session, "get") else User.query.get(user_id)
+
+        buf = io.BytesIO()
+        doc = SimpleDocTemplate(
+            buf,
+            pagesize=letter,
+            leftMargin=40,
+            rightMargin=40,
+            topMargin=40,
+            bottomMargin=40
+        )
+
+        styles = getSampleStyleSheet()
+        title_style = ParagraphStyle(
+            'ReportTitle',
+            parent=styles['Heading1'],
+            fontName='Helvetica-Bold',
+            fontSize=18,
+            leading=22,
+            textColor=colors.HexColor('#0F172A'),
+            spaceAfter=6
+        )
+        subtitle_style = ParagraphStyle(
+            'ReportSubtitle',
+            parent=styles['Normal'],
+            fontName='Helvetica',
+            fontSize=10,
+            leading=14,
+            textColor=colors.HexColor('#475569'),
+            spaceAfter=14
+        )
+        section_heading = ParagraphStyle(
+            'SectionHead',
+            parent=styles['Heading2'],
+            fontName='Helvetica-Bold',
+            fontSize=12,
+            leading=16,
+            textColor=colors.HexColor('#1E293B'),
+            spaceBefore=12,
+            spaceAfter=6
+        )
+        body_style = ParagraphStyle(
+            'Body',
+            parent=styles['Normal'],
+            fontName='Helvetica',
+            fontSize=9,
+            leading=13,
+            textColor=colors.HexColor('#334155')
+        )
+        disclaimer_style = ParagraphStyle(
+            'Disclaimer',
+            parent=styles['Italic'],
+            fontName='Helvetica-Oblique',
+            fontSize=8,
+            leading=11,
+            textColor=colors.HexColor('#64748B'),
+            alignment=1
+        )
+
+        story = []
+
+        # Title & Header
+        story.append(Paragraph("AirGuard Clinical Respiratory Summary", title_style))
+        story.append(Paragraph(
+            f"30-Day Observational Consultation Record • Generated {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}",
+            subtitle_style
+        ))
+        story.append(Spacer(1, 4))
+
+        # Demographic & Baseline Card
+        p_name = user.name if user else f"User #{user_id}"
+        p_age = str(user.age) if user else "N/A"
+        p_gender = user.gender if user else "N/A"
+        p_phone = user.phone_no if user else "N/A"
+        p_inhaler = user.inhaler_prescribed if user else "N/A"
+        p_triggers = user.triggers if user else "N/A"
+        p_severity = user.baseline_severity if user else "N/A"
+
+        patient_info_data = [
+            [Paragraph("<b>Patient Name:</b>", body_style), Paragraph(p_name, body_style),
+             Paragraph("<b>Age / Gender:</b>", body_style), Paragraph(f"{p_age} / {p_gender}", body_style)],
+            [Paragraph("<b>Phone / ID:</b>", body_style), Paragraph(f"{p_phone} (ID: #{user_id})", body_style),
+             Paragraph("<b>Baseline Severity:</b>", body_style), Paragraph(p_severity, body_style)],
+            [Paragraph("<b>Prescribed Regimen:</b>", body_style), Paragraph(p_inhaler, body_style),
+             Paragraph("<b>Known Triggers:</b>", body_style), Paragraph(p_triggers, body_style)]
+        ]
+        t_patient = Table(patient_info_data, colWidths=[110, 160, 110, 150])
+        t_patient.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#F8FAFC')),
+            ('BOX', (0, 0), (-1, -1), 0.5, colors.HexColor('#CBD5E1')),
+            ('INNERGRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#E2E8F0')),
+            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+            ('PADDING', (0, 0), (-1, -1), 5),
+        ]))
+        story.append(t_patient)
+        story.append(Spacer(1, 10))
+
+        # 1. Symptom Diary Metrics
+        story.append(Paragraph("1. Longitudinal Symptom Activity (Last 30 Days)", section_heading))
+        episodes = summary_data.get("total_episodes", 0)
+        breakdown = summary_data.get("severity_breakdown", {})
+        if episodes == 0:
+            story.append(Paragraph("No symptom episodes logged by patient during this 30-day reporting window.", body_style))
+        else:
+            symptom_table_data = [
+                ["Metric", "Count / Value", "Clinical Interpretation"],
+                ["Total Logged Episodes", str(episodes), "Observational log count"],
+                ["Mild Symptoms", str(breakdown.get("mild", 0)), "Transient cough or slight wheeze"],
+                ["Moderate Symptoms", str(breakdown.get("moderate", 0)), "Activity-limiting shortness of breath"],
+                ["Severe Symptoms", str(breakdown.get("severe", 0)), "Acute dyspnea requiring reliever intervention"]
+            ]
+            t_symptoms = Table(symptom_table_data, colWidths=[150, 100, 280])
+            t_symptoms.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#E2E8F0')),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.HexColor('#0F172A')),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, 0), 9),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 5),
+                ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#CBD5E1')),
+                ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                ('PADDING', (0, 0), (-1, -1), 4),
+            ]))
+            story.append(t_symptoms)
+        story.append(Spacer(1, 10))
+
+        # 2. Inhaler Utilization & GINA Assessment
+        story.append(Paragraph("2. Reliever Inhaler Utilization & GINA Evaluation", section_heading))
+        puffs = summary_data.get("total_puffs", 0)
+        avg_puffs = summary_data.get("avg_daily_puffs", 0.0)
+        gina_eval = "Frequent reliever use (>2/week) suggests sub-optimal asthma control (GINA review indicated)." if puffs > 8 else "Reliever use within acceptable control boundaries (<2 puffs/week average)."
+        inhaler_data = [
+            ["Parameter", "Observed Value", "GINA Clinical Guidelines Threshold"],
+            ["Total 30-Day Puffs", str(puffs), "Target: <8 puffs/month for well-controlled asthma"],
+            ["Daily Average", f"{avg_puffs} puffs/day", "Target: <0.28 puffs/day"],
+            ["Control Stratification", "Review Indicated" if puffs > 8 else "Controlled", gina_eval]
+        ]
+        t_inhaler = Table(inhaler_data, colWidths=[150, 100, 280])
+        t_inhaler.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#E2E8F0')),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#CBD5E1')),
+            ('PADDING', (0, 0), (-1, -1), 4),
+        ]))
+        story.append(t_inhaler)
+        story.append(Spacer(1, 10))
+
+        # 3. Peak Flow & Alerts
+        story.append(Paragraph("3. Peak Expiratory Flow (PEF) & Alert History", section_heading))
+        pef_stats = summary_data.get("pef_stats", {})
+        alert_cnt = summary_data.get("emergency_alert_count", 0)
+        pef_data = [
+            ["Lowest Recorded PEF", f"{pef_stats.get('min', 'N/A')} L/min"],
+            ["Highest Recorded PEF", f"{pef_stats.get('max', 'N/A')} L/min"],
+            ["Critical Safety Alerts Tripped", str(alert_cnt)]
+        ]
+        t_pef = Table(pef_data, colWidths=[200, 330])
+        t_pef.setStyle(TableStyle([
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#CBD5E1')),
+            ('PADDING', (0, 0), (-1, -1), 4),
+            ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+        ]))
+        story.append(t_pef)
+        story.append(Spacer(1, 14))
+
+        # Regulatory & Medical Disclaimer
+        story.append(Spacer(1, 8))
+        disclaimer_text = (
+            "NOTICE TO CLINICIAN: This summary is prepared by AirGuard, an assistive digital tracking and decision-support prototype. "
+            "It is NOT a certified medical device and does NOT provide autonomous clinical diagnoses or prescription alterations. "
+            "All recorded telemetry and symptom counts rely on patient self-reporting and ambient air monitoring feeds. "
+            "Please apply standard clinical judgment and individualized patient assessment before modifying treatment protocols."
+        )
+        story.append(Paragraph(disclaimer_text, disclaimer_style))
+
+        doc.build(story)
+        return buf.getvalue()
+
