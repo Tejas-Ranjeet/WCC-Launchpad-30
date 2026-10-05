@@ -1,15 +1,34 @@
 {
   "version": 2,
-  "builds": [
+  "cleanUrls": true,
+  "rewrites": [
     {
-      "src": "api/index.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
+      "source": "/api/:path*",
+      "destination": "https://wcc-launchpad-30.onrender.com/api/:path*"
+    },
     {
-      "src": "/(.*)",
-      "dest": "api/index.py"
+      "source": "/predict",
+      "destination": "https://wcc-launchpad-30.onrender.com/predict"
+    },
+    {
+      "source": "/save-profile",
+      "destination": "https://wcc-launchpad-30.onrender.com/save-profile"
+    },
+    {
+      "source": "/upload-sensor-data",
+      "destination": "https://wcc-launchpad-30.onrender.com/upload-sensor-data"
+    },
+    {
+      "source": "/figures/:path*",
+      "destination": "https://wcc-launchpad-30.onrender.com/figures/:path*"
+    },
+    {
+      "source": "/web_ui/:path*",
+      "destination": "/web_ui/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
